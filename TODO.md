@@ -76,34 +76,6 @@
 
 > api/pizza_toppings/:pizzaToppingId
 
-### pizza_crust
-
-- [ ] post
-
-> api/pizza_crusts
-
-- [ ] delete
-
-> api/pizza_crusts/:pizzaCrustsId
-
-- [ ] patch
-
-> api/pizza_crusts/:pizzaCrustsId
-
-### pizza_size
-
-- [ ] post
-
-> api/pizza_sizes
-
-- [ ] delete
-
-> api/pizza_sizes/:pizzaSizeId
-
-- [ ] patch
-
-> api/pizza_sizes/:pizzaSizeId
-
 ### Pizza
 
 - [ ] get
@@ -242,42 +214,6 @@
 
 > deletePizzaTopping(id) -> { topping }
 
-### pizza_crust
-
-- [ ] Get
-
-> getPizzaCrust(id) -> { crust }
-
-- [ ] Create
-
-> addCrustToPizza({ pizzaCrust }) -> { pizzaCrust }
-
-- [ ] Delete
-
-> deletePizzaCrust(id) -> { pizzaCrust }
-
-- [ ] Update
-
-> updatePizzaCrust({id, ...fields}) -> { pizzaCrust }
-
-### pizza_size
-
-- [ ] Get
-
-> getPizzaSize(id) -> { crust }
-
-- [ ] Create
-
-> addSizeToPizza({ pizzaSize }) -> { pizzaSize }
-
-- [ ] Delete
-
-> deletePizzaSize(id) -> { pizzaSize }
-
-- [ ] Update
-
-> updatePizzaSize({id, ...fields}) -> { pizzaSize }
-
 ### pizza
 
 - [ ] Get
@@ -342,7 +278,7 @@
 
 - [ ] Create
 
-> creatReview({ review }) -> { review }
+> createReview({ review }) -> { review }
 
 - [ ] Delete
 
