@@ -59,7 +59,6 @@ const createTables = async () => {
     CREATE TABLE toppings(
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      amount INTEGER NOT NULL,
       price FLOAT NOT NULL,
       quantity INTEGER,
       category VARCHAR(255) NOT NULL,
@@ -178,6 +177,151 @@ const createInitialToppings = async () => {
   try {
     console.log("Starting to create toppings...");
 
+    await createTopping({
+      name: "Sausage",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Pepperoni",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+    await createTopping({
+      name: "Salami",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+    await createTopping({
+      name: "Bacon",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Grilled Chicken",
+      price: 1,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Canadian Ham",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Meatballs",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Extra Cheese",
+      price: 0.5,
+      quantity: "1000",
+      category: "cheese",
+    });
+
+    await createTopping({
+      name: "Cheese",
+      price: 0.5,
+      quantity: "1000",
+      category: "cheese",
+    });
+
+    await createTopping({
+      name: "Light Cheese",
+      price: 0.5,
+      quantity: "1000",
+      category: "cheese",
+    });
+
+    await createTopping({
+      name: "No Cheese",
+      price: 0.5,
+      quantity: "1000",
+      category: "meat",
+    });
+
+    await createTopping({
+      name: "Parmesan",
+      price: 0.5,
+      quantity: "1000",
+      category: "cheese",
+    });
+
+    await createTopping({
+      name: "3-Cheese Blend",
+      price: 0.5,
+      quantity: "1000",
+      category: "cheese",
+    });
+
+    await createTopping({
+      name: "Black Olives",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Banana Peppers",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Green Peppers",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Fresh Spinach",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Jalapeño Peppers",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Pineapple",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Mushrooms",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Onions",
+      price: 0.5,
+      quantity: "1000",
+      category: "vegetable",
+    });
+
     console.log("Finished creating toppings!");
   } catch (error) {
     console.log("Error creating toppings!");
@@ -206,6 +350,11 @@ const createInitialCrusts = async () => {
       name: "Gluten-Free Crust",
       price: "12.99",
       quantity: "200",
+    });
+    createCrust({
+      name: "NY Style Crust",
+      price: "12.99",
+      quantity: "300",
     });
   } catch (error) {
     console.log("Error creating crusts!");
