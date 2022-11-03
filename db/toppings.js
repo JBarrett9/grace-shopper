@@ -14,6 +14,7 @@ const createTopping = async ({ name, price, quantity, category, amount }) => {
   );
   return user;
 };
+
 console.log("User not created, invalid e-mail address provided.");
 
 module.exports = {

@@ -8,9 +8,15 @@ const dropTables = async () => {
   try {
     console.log("Starting to drop tables...");
     await client.query(`
+    DROP TABLE IF EXISTS reviews;
+    DROP TABLE IF EXISTS pizza_order;
+    DROP TABLE IF EXISTS orders;
+    DROP TABLE IF EXISTS pizza_toppings;
+    DROP TABLE IF EXISTS pizza;
     DROP TABLE IF EXISTS sizes;
     DROP TABLE IF EXISTS crusts;
     DROP TABLE IF EXISTS toppings;
+    DROP TABLE IF EXISTS locations;
     DROP TABLE IF EXISTS users;
     `);
     console.log("Finished dropping tables!");
@@ -32,7 +38,20 @@ const createTables = async () => {
       name VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL,
       active BOOLEAN DEFAULT true,
-      admin BOOLEAN DEFAULT false
+      admin BOOLEAN DEFAULT false,
+      birthday DATE
+    );`);
+
+    console.log("Creating locations table...");
+    await client.query(`
+    CREATE TABLE locations(
+      id SERIAL PRIMARY KEY,
+      "userId" INTEGER REFERENCES users(id) NOT NULL,
+      city VARCHAR(255) NOT NULL,
+      state VARCHAR(255) NOT NULL,
+      address VARCHAR(255) NOT NULL,
+      apartment BOOLEAN DEFAULT false,
+      main BOOLEAN DEFAULT false
     );`);
 
     console.log("Creating toppings table...");
@@ -62,6 +81,60 @@ const createTables = async () => {
       CREATE TABLE sizes(
         id SERIAL PRIMARY KEY,
         size VARCHAR(255)
+      );
+    `);
+
+    console.log("Creating pizza table...");
+    await client.query(`
+      CREATE TABLE pizza(
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255),
+        "crustId" INTEGER REFERENCES crusts(id) NOT NULL,
+        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        featured BOOLEAN DEFAULT false
+      );
+    `);
+
+    console.log("Creating pizza_toppings table...");
+    await client.query(`
+      CREATE TABLE pizza_toppings(
+        id SERIAL PRIMARY KEY,
+        "pizzaId" INTEGER REFERENCES pizza(id) NOT NULL,
+        "toppingId" INTEGER REFERENCES toppings(id) NOT NULL,
+        amount VARCHAR(255) NOT NULL,
+        double BOOLEAN DEFAULT false
+      );
+    `);
+
+    console.log("Creating orders table...");
+    await client.query(`
+      CREATE TABLE orders(
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        active BOOLEAN DEFAULT true,
+        price FLOAT,
+        delivery BOOLEAN DEFAULT false
+      );
+    `);
+
+    console.log("Creating pizza_order table...");
+    await client.query(`
+      CREATE TABLE pizza_order(
+        id SERIAL PRIMARY KEY,
+        "pizzaId" INTEGER REFERENCES pizza(id) NOT NULL,
+        "orderId" INTEGER REFERENCES orders(id) NOT NULL,
+        amount INTEGER NOT NULL
+      );
+    `);
+
+    console.log("Creating reviews table...");
+    await client.query(`
+      CREATE TABLE reviews(
+        id SERIAL PRIMARY KEY,
+        "pizzaId" INTEGER REFERENCES pizza(id) NOT NULL,
+        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        content VARCHAR(255),
+        stars INTEGER NOT NULL
       );
     `);
 
