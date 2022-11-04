@@ -24,37 +24,37 @@
 
 ### crust
 
-- [ ] get
+- [x] get
 
 > api/crusts
 
-- [ ] post (admin only)
+- [x] post (admin only)
 
 > api/crusts
 
-- [ ] delete (admin only)
+- [x] delete (admin only)
 
 > api/crusts/:crustId
 
-- [ ] patch (admin only)
+- [x] patch (admin only)
 
 > api/crusts/:crustId
 
 ### size
 
-- [ ] get
+- [x] get
 
 > api/sizes
 
-- [ ] post (admin only)
+- [x] post (admin only)
 
 > api/sizes
 
-- [ ] delete (admin only)
+- [x] delete (admin only)
 
 > api/sizes/:sizeId
 
-- [ ] patch (admin only)
+- [x] patch (admin only)
 
 > api/sizes/:sizeId
 
@@ -142,51 +142,51 @@
 
 ### toppings
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
-- [ ] Delete
+- [x] Delete
 
-- [ ] Update
+- [x] Update
 
 ### crust
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
-- [ ] Delete
+- [x] Delete
 
-- [ ] update
+- [x] update
 
 ### size
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
-- [ ] Delete
+- [x] Delete
 
-- [ ] update
+- [x] update
 
 ### pizza_toppings
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
-- [ ] Delete
+- [x] Delete
 
 ### pizza
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
-- [ ] Delete
+- [x] Delete
 
-- [ ] Update
+- [x] Update
 
 ### cartPizza
 
@@ -208,9 +208,9 @@
 
 ### Users
 
-- [ ] Get
+- [x] Get
 
-- [ ] Create
+- [x] Create
 
 ### Carts
 

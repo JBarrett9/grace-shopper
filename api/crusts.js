@@ -10,6 +10,7 @@ const {
   getCrustByName,
   updateCrust,
   getCrustById,
+  deleteCrust,
 } = require("../db/crusts");
 const { JWT_SECRET } = process.env;
 
@@ -43,8 +44,12 @@ router.post("/", requireAdmin, async (req, res, next) => {
       message: `Please provide a name, price, and quantity.`,
     });
   } else {
-    const crust = await createCrust({ name, price, quantity });
-    res.send(crust);
+    try {
+      const crust = await createCrust({ name, price, quantity });
+      res.send(crust);
+    } catch (error) {
+      next(error);
+    }
   }
 });
 
@@ -90,6 +95,30 @@ router.patch("/:crustId", requireAdmin, async (req, res, next) => {
     } catch (error) {
       next(error);
     }
+  }
+});
+
+router.delete("/:crustId", requireAdmin, async (req, res, next) => {
+  const { crustId } = req.params;
+
+  const crust = await getCrustById(crustId);
+
+  if (!crust) {
+    next({
+      error: "CrustNotFound",
+      message: `A crust with the ID ${crustId} does not exist.`,
+      name: "Crust Not Found",
+    });
+  }
+
+  try {
+    const response = await deleteCrust(crustId);
+    res.send({
+      success: true,
+      message: `${crust.name} has successfully been deleted.`,
+    });
+  } catch (error) {
+    next(error);
   }
 });
 

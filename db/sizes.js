@@ -1,5 +1,17 @@
 const client = require("./client");
 
+async function getAllSizes() {
+  const { rows } = await client.query(
+    `SELECT *
+    FROM sizes;`
+  );
+
+  if (!rows) {
+    return null;
+  }
+  return rows;
+}
+
 const createSize = async ({ size }) => {
   const {
     rows: [row],
@@ -7,7 +19,7 @@ const createSize = async ({ size }) => {
     `
                   INSERT INTO sizes(size)
                   VALUES ($1)
-                  RETURNING size;
+                  RETURNING *;
               `,
     [size]
   );
@@ -19,6 +31,17 @@ const getSizeById = async (id) => {
     const {
       rows: [size],
     } = await client.query(`SELECT * FROM crusts WHERE id=($1)`, [id]);
+    return size;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getSizeByName = async (name) => {
+  try {
+    const {
+      rows: [size],
+    } = await client.query(`SELECT * FROM sizes WHERE size=($1)`, [name]);
     return size;
   } catch (error) {
     throw error;
@@ -49,12 +72,12 @@ const updateSize = async ({ id, ...fields }) => {
 
   try {
     const {
-      rows: [size],
+      rows: [updatedSize],
     } = await client.query(
-      `UPDATE sizes SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE sizes SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
-    return size;
+    return updatedSize;
   } catch (error) {
     throw error;
   }
@@ -65,4 +88,6 @@ module.exports = {
   getSizeById,
   deleteSize,
   updateSize,
+  getAllSizes,
+  getSizeByName,
 };

@@ -49,8 +49,10 @@ const toppingsRouter = require("./toppings");
 router.use("/toppings", toppingsRouter);
 
 const crustsRouter = require("./crusts");
-const { getUser } = require("../db/users");
 router.use("/crusts", crustsRouter);
+
+const sizesRouter = require("./sizes");
+router.use("/sizes", sizesRouter);
 
 router.use("*", (req, res) => {
   res.status(404);
