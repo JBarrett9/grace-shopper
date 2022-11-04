@@ -25,6 +25,7 @@ const getOrderById = async (id) => {
   }
 };
 
+
 const updateOrder = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)

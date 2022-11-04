@@ -1,4 +1,5 @@
 const client = require("./client");
+const { getPizzaById } = require("./pizzas");
 
 async function getAllToppings() {
   const { rows } = await client.query(
@@ -28,7 +29,7 @@ async function getToppingByName(name) {
     rows: [topping],
   } = await client.query(
     `
-  SELECT * FROM activities
+  SELECT * FROM toppings
   WHERE name=$1
     `,
     [name]
@@ -36,8 +37,21 @@ async function getToppingByName(name) {
   return topping;
 }
 
+async function getToppingsByCategory(category) {
+  const { rows: toppings } = await client.query(
+    `
+  SELECT * FROM toppings
+  WHERE category=$1
+    `,
+    [category]
+  );
+
+  return toppings;
+}
+
 async function attachToppingsToPizzas(pizzas) {
   const { id } = pizzas;
+
   const { rows: toppings } = await client.query(
     `
     SELECT *
@@ -78,9 +92,23 @@ const updateToppings = async ({ id, ...fields }) => {
     const {
       rows: [topping],
     } = await client.query(
-      `UPDATE toppings SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE toppings SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
+
+    return topping;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteTopping = async (id) => {
+  try {
+    const {
+      rows: [topping],
+    } = await client.query(`DELETE FROM toppings WHERE id=($1) RETURNING *;`, [
+      id,
+    ]);
     return topping;
   } catch (error) {
     throw error;
@@ -94,4 +122,6 @@ module.exports = {
   getToppingByName,
   attachToppingsToPizzas,
   updateToppings,
+  getToppingsByCategory,
+  deleteTopping,
 };

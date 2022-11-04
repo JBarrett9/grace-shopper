@@ -1,5 +1,17 @@
 const client = require("./client");
 
+async function getAllSizes() {
+  const { rows } = await client.query(
+    `SELECT *
+    FROM sizes;`
+  );
+
+  if (!rows) {
+    return null;
+  }
+  return rows;
+}
+
 const createSize = async ({ size }) => {
   try {
     const {
@@ -26,11 +38,22 @@ const getSizeById = async (id) => {
   }
 };
 
+const getSizeByName = async (name) => {
+  try {
+    const {
+      rows: [size],
+    } = await client.query(`SELECT * FROM sizes WHERE size=($1)`, [name]);
+    return size;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteSize = async (id) => {
   try {
     const {
       rows: [size],
-    } = await client.query(`DELETE FROM routines WHERE id=($1) RETURNING *;`, [
+    } = await client.query(`DELETE FROM sizes WHERE id=($1) RETURNING *;`, [
       id,
     ]);
     return size;
@@ -50,12 +73,12 @@ const updateSize = async ({ id, ...fields }) => {
 
   try {
     const {
-      rows: [size],
+      rows: [updatedSize],
     } = await client.query(
-      `UPDATE sizes SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE sizes SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
-    return size;
+    return updatedSize;
   } catch (error) {
     throw error;
   }
@@ -66,4 +89,6 @@ module.exports = {
   getSizeById,
   deleteSize,
   updateSize,
+  getAllSizes,
+  getSizeByName,
 };

@@ -3,8 +3,8 @@ const { createCrust } = require("./crusts");
 const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addToppingtoPizza } = require("./pizza_toppings");
 const { createSize } = require("./sizes");
-const { createTopping, attachToppingsToPizzas } = require("./toppings");
-const { createUser, getUserById } = require("./users");
+const { createTopping } = require("./toppings");
+const { createUser, getUserByEmail } = require("./users");
 
 const dropTables = async () => {
   try {
@@ -153,22 +153,26 @@ const createInitialUsers = async () => {
       name: "james01",
       password: "james01",
       email: "generalzhenwu@gmail.com",
+      admin: true,
     });
     await createUser({
       name: "joseph01",
       password: "joseph01",
       email: "belicjel@gmail.com",
+      admin: true,
     });
     await createUser({
       name: "brian01",
       password: "brian01",
       email: "jimmys14205@gmail.com",
+      admin: false,
     });
 
     await createUser({
       name: "mike01",
       password: "mike01",
       email: "belicmichael@gmail.com",
+      admin: true,
     });
   } catch (error) {
     console.error("Error creating users!");
@@ -413,9 +417,10 @@ const createInitialPizzaToppings = async () => {
       double: false,
     });
 
-    // const pizzas = await getAllFeaturedPizzas();
-    // console.log(pizzas[0]);
-    // return pizzas;
+    const pizzas = await getAllFeaturedPizzas();
+    console.log(pizzas[0]);
+
+    return pizzas;
   } catch (error) {
     console.log("Error attaching toppings to pizzas!");
   }
