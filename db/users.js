@@ -46,6 +46,7 @@ async function getUser({ email, password }) {
 }
 
 async function getUserById(userId) {
+  console.log("Getting user information for: ", userId);
   const {
     rows: [user],
   } = await client.query(
@@ -73,9 +74,32 @@ async function getUserByEmail(email) {
   return user;
 }
 
+const updateUser = async ({ id, ...fields }) => {
+  const setStr = Object.keys(fields)
+    .map((key, idx) => `"${key}"=$${idx + 1}`)
+    .join(", ");
+
+  if (setStr.length === 0) {
+    return;
+  }
+
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `UPDATE users SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      Object.values(fields)
+    );
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createUser,
   getUser,
   getUserById,
   getUserByEmail,
+  updateUser,
 };

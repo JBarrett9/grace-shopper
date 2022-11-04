@@ -1,20 +1,18 @@
 const client = require("./client");
 
-const createTopping = async ({ name, price, quantity, category, active }) => {
-  const {
-    rows: [topping],
-  } = await client.query(
-    `
-                  INSERT INTO toppings(name, price, quantity, category, active)
-                  VALUES ($1, $2, $3, $4, $5)
-                  RETURNING *;
-              `,
-    [name, price, quantity, category, active]
+async function getAllToppings() {
+  const { rows } = await client.query(
+    `SELECT *
+    FROM toppings;`
   );
-  return topping;
-};
 
-const getTopping = async (id) => {
+  if (!rows) {
+    return null;
+  }
+  return rows;
+}
+
+const getToppingById = async (id) => {
   try {
     const {
       rows: [topping],
@@ -23,6 +21,48 @@ const getTopping = async (id) => {
   } catch (error) {
     throw error;
   }
+};
+
+async function getToppingByName(name) {
+  const {
+    rows: [topping],
+  } = await client.query(
+    `
+  SELECT * FROM activities
+  WHERE name=$1
+    `,
+    [name]
+  );
+  return topping;
+}
+
+async function attachToppingsToPizzas(pizzas) {
+  const { id } = pizzas;
+  const { rows: toppings } = await client.query(
+    `
+    SELECT *
+    FROM toppings
+    JOIN pizza_toppings ON pizza_toppings."toppingId"=toppings.id
+    WHERE pizza_toppings."pizzaId"=$1
+  `,
+    [id]
+  );
+
+  return toppings;
+}
+
+const createTopping = async ({ name, price, quantity, category }) => {
+  const {
+    rows: [topping],
+  } = await client.query(
+    `
+                  INSERT INTO toppings(name, price, quantity, category)
+                  VALUES ($1, $2, $3, $4)
+                  RETURNING *;
+              `,
+    [name, price, quantity, category]
+  );
+  return topping;
 };
 
 const updateToppings = async ({ id, ...fields }) => {
@@ -47,17 +87,11 @@ const updateToppings = async ({ id, ...fields }) => {
   }
 };
 
-const getToppingById = async (id) => {
-  try {
-    const {
-      rows: [topping],
-    } = await client.query(`SELECT * FROM toppings WHERE id=($1)`, [id]);
-    return topping;
-  } catch (error) {
-    throw error;
-  }
-};
-
 module.exports = {
   createTopping,
+  updateToppings,
+  getToppingById,
+  attachToppingsToPizzas,
+  getToppingByName,
+  getAllToppings,
 };

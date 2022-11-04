@@ -14,7 +14,7 @@ const createSize = async ({ size }) => {
   return row;
 };
 
-const getSize = async (id) => {
+const getSizeById = async (id) => {
   try {
     const {
       rows: [size],
@@ -38,8 +38,31 @@ const deleteSize = async (id) => {
   }
 };
 
+const updateSize = async ({ id, ...fields }) => {
+  const setStr = Object.keys(fields)
+    .map((key, idx) => `"${key}"=$${idx + 1}`)
+    .join(", ");
+
+  if (setStr.length === 0) {
+    return;
+  }
+
+  try {
+    const {
+      rows: [size],
+    } = await client.query(
+      `UPDATE sizes SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      Object.values(fields)
+    );
+    return size;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createSize,
-  getSize,
+  getSizeById,
   deleteSize,
+  updateSize,
 };

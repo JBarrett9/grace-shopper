@@ -1,8 +1,9 @@
 const client = require("./client");
 const { createCrust } = require("./crusts");
-const { createPizza } = require("./pizzas");
+const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
+const { addToppingtoPizza } = require("./pizza_toppings");
 const { createSize } = require("./sizes");
-const { createTopping } = require("./toppings");
+const { createTopping, attachToppingsToPizzas } = require("./toppings");
 const { createUser, getUserById } = require("./users");
 
 const dropTables = async () => {
@@ -383,8 +384,40 @@ const createInitialPizzas = async () => {
       sizeId: 3,
       featured: true,
     });
+
+    await createPizza({
+      name: "Sasuage Pizza",
+      crustId: 1,
+      userId: 1,
+      sizeId: 3,
+      featured: true,
+    });
   } catch (error) {
     console.log("Error creating pizzas!");
+  }
+};
+
+const createInitialPizzaToppings = async () => {
+  try {
+    console.log("Creating initial attachment of pizza toppings...");
+    await addToppingtoPizza({
+      pizzaId: 1,
+      toppingId: 2,
+      amount: "full",
+      double: false,
+    });
+    await addToppingtoPizza({
+      pizzaId: 1,
+      toppingId: 3,
+      amount: "left",
+      double: false,
+    });
+
+    // const pizzas = await getAllFeaturedPizzas();
+    // console.log(pizzas[0]);
+    // return pizzas;
+  } catch (error) {
+    console.log("Error attaching toppings to pizzas!");
   }
 };
 
@@ -397,6 +430,7 @@ async function rebuildDB() {
     await createInitialCrusts();
     await createInitialSizes();
     await createInitialPizzas();
+    await createInitialPizzaToppings();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
