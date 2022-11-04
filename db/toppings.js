@@ -49,4 +49,6 @@ const getToppingById = async (id) => {
 
 module.exports = {
   createTopping,
+  getToppingById,
+  updateToppings,
 };
