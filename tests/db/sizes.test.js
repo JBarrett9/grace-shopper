@@ -1,14 +1,74 @@
 require("dotenv").config();
 const client = require("../../db/client");
-const { createSize } = require("../../db/sizes");
+const {
+  createSize,
+  getAllSizes,
+  deleteSize,
+  getSizeById,
+  getSizeByName,
+  updateSize,
+} = require("../../db/sizes");
 
 describe("DB Sizes", () => {
+  describe("getAllSizes", () => {
+    it("Returns an array of sizes", async () => {
+      const testSize = { size: "extra-ordinarily large" };
+      await createSize(testSize);
+
+      const sizes = await getAllSizes();
+
+      const size = sizes.find((size) => size.name === testSize.name);
+
+      expect(sizes).toEqual(expect.any(Array));
+      expect(size.name).toEqual(testSize.name);
+      expect(size.id).toEqual(expect.any(Number));
+      await deleteSize(size.id);
+    });
+  });
+
   describe("createSize", () => {
-    it("Creates a size", async () => {
+    it("Creates a size and returns a size object", async () => {
       const testSize = "extremely large";
-      const { size } = await createSize({ size: testSize });
+      const { id, size } = await createSize({ size: testSize });
 
       expect(testSize).toEqual(size);
+      expect(id).toEqual(expect.any(Number));
+      await deleteSize(id);
+    });
+  });
+
+  describe("getSizeById", () => {
+    it("Gets the correct size by its id", async () => {
+      const testSize = await createSize({ size: "ginormous" });
+
+      const size = await getSizeById(testSize.id);
+
+      expect(size.size).toEqual(testSize.size);
+      await deleteSize(testSize.id);
+    });
+  });
+
+  describe("getSizeByName", () => {
+    it("Gets a size by name", async () => {
+      const param = "ginormous";
+      const testSize = await createSize({ size: param });
+
+      const size = await getSizeByName(param);
+      expect(size.size).toEqual(param);
+      expect(size.id).toEqual(testSize.id);
+      await deleteSize(testSize.id);
+    });
+  });
+
+  describe("updateSize", () => {
+    it("Updates a size without changing the id, and returns the updated size", async () => {
+      const testSize = await createSize("extremely large");
+      const param = "ginormous";
+
+      const size = await updateSize({ id: testSize.id, size: param });
+
+      expect(size.size).toEqual(param);
+      expect(size.id).toEqual(testSize.id);
     });
   });
 });
