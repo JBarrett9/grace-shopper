@@ -25,8 +25,18 @@ const createTopping = async ({ name, price, quantity, category }) => {
   }
 };
 
-console.log("User not created, invalid e-mail address provided.");
+const getToppingById = async (id) => {
+  try {
+    const {
+      rows: [topping],
+    } = await client.query(`SELECT * FROM toppings WHERE id=($1)`, [id]);
+    return topping;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   createTopping,
+  getToppingById,
 };

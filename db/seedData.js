@@ -1,8 +1,9 @@
 const client = require("./client");
 const { createCrust } = require("./crusts");
+const { createPizza } = require("./pizzas");
 const { createSize } = require("./sizes");
 const { createTopping } = require("./toppings");
-const { createUser } = require("./users");
+const { createUser, getUserById } = require("./users");
 
 const dropTables = async () => {
   try {
@@ -89,7 +90,8 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         name VARCHAR(255),
         "crustId" INTEGER REFERENCES crusts(id) NOT NULL,
-        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        "userId" INTEGER REFERENCES users(id),
+        "sizeId" INTEGER REFERENCES sizes(id),
         featured BOOLEAN DEFAULT false
       );
     `);
@@ -109,7 +111,7 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id) NOT NULL,
+        "userId" INTEGER REFERENCES users(id),
         active BOOLEAN DEFAULT true,
         price FLOAT,
         delivery BOOLEAN DEFAULT false
@@ -175,8 +177,6 @@ const createInitialUsers = async () => {
 
 const createInitialToppings = async () => {
   try {
-    console.log("Starting to create toppings...");
-
     await createTopping({
       name: "Sausage",
       price: 0.5,
@@ -321,8 +321,6 @@ const createInitialToppings = async () => {
       quantity: "1000",
       category: "vegetable",
     });
-
-    console.log("Finished creating toppings!");
   } catch (error) {
     console.log("Error creating toppings!");
     throw error;
@@ -364,12 +362,29 @@ const createInitialCrusts = async () => {
 
 const createInitialSizes = async () => {
   try {
+    console.log("Creating initial sizes...");
     await createSize({ size: "small" });
     await createSize({ size: "medium" });
     await createSize({ size: "large" });
     await createSize({ size: "extra large" });
   } catch (error) {
     console.log("Error creating sizes!");
+  }
+};
+
+const createInitialPizzas = async () => {
+  try {
+    console.log("Creating initial pizzas...");
+
+    await createPizza({
+      name: "Pepperoni Pizza",
+      crustId: 1,
+      userId: 1,
+      sizeId: 3,
+      featured: true,
+    });
+  } catch (error) {
+    console.log("Error creating pizzas!");
   }
 };
 
@@ -381,7 +396,7 @@ async function rebuildDB() {
     await createInitialToppings();
     await createInitialCrusts();
     await createInitialSizes();
-    // await createInitialRoutineActivities();
+    await createInitialPizzas();
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;
@@ -392,3 +407,4 @@ module.exports = {
   dropTables,
   createTables,
 };
+getUserById;
