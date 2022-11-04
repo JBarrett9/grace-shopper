@@ -4,21 +4,21 @@
 
 ### toppings
 
-- [ ] get
+- [x] get
 
 > api/toppings
 
 > api/toppings/:type
 
-- [ ] post (admin only)
+- [x] post (admin only)
 
 > api/toppings
 
-- [ ] delete (admin only)
+- [x] delete (admin only)
 
 > api/toppings/:toppingId
 
-- [ ] patch (admin only)
+- [x] patch (admin only)
 
 > api/toppings/:toppingId
 

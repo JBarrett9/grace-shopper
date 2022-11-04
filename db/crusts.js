@@ -42,6 +42,17 @@ const getCrustById = async (id) => {
   }
 };
 
+const getCrustByName = async (name) => {
+  try {
+    const {
+      rows: [crust],
+    } = await client.query(`SELECT * FROM crusts WHERE name=($1)`, [name]);
+    return crust;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteCrust = async (id) => {
   try {
     const {
@@ -68,9 +79,10 @@ const updateCrust = async ({ id, ...fields }) => {
     const {
       rows: [crust],
     } = await client.query(
-      `UPDATE crusts SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE crusts SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
+
     return crust;
   } catch (error) {
     throw error;
@@ -83,4 +95,5 @@ module.exports = {
   deleteCrust,
   updateCrust,
   getAllCrusts,
+  getCrustByName,
 };

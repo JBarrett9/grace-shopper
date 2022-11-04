@@ -28,7 +28,7 @@ async function getToppingByName(name) {
     rows: [topping],
   } = await client.query(
     `
-  SELECT * FROM activities
+  SELECT * FROM toppings
   WHERE name=$1
     `,
     [name]
@@ -90,9 +90,10 @@ const updateToppings = async ({ id, ...fields }) => {
     const {
       rows: [topping],
     } = await client.query(
-      `UPDATE toppings SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE toppings SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
+
     return topping;
   } catch (error) {
     throw error;
@@ -120,4 +121,5 @@ module.exports = {
   attachToppingsToPizzas,
   updateToppings,
   getToppingsByCategory,
+  deleteTopping,
 };
