@@ -1,4 +1,5 @@
 const client = require("./client");
+const { getPizzaById } = require("./pizzas");
 
 async function getAllToppings() {
   const { rows } = await client.query(
@@ -50,6 +51,7 @@ async function getToppingsByCategory(category) {
 
 async function attachToppingsToPizzas(pizzas) {
   const { id } = pizzas;
+
   const { rows: toppings } = await client.query(
     `
     SELECT *

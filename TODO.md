@@ -78,15 +78,15 @@
 
 ### Pizza
 
-- [ ] get
+- [x] get
 
 > api/pizzas/:pizzaId
 
-- [ ] post
+- [x] post
 
 > api/pizzas
 
-- [ ] delete
+- [x] delete
 
 > api/pizzas/:pizzaId
 

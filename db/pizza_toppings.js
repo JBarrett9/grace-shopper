@@ -63,6 +63,17 @@ async function updatePizzaToppings({ id, ...fields }) {
   }
 }
 
+async function removePizzaToppings(id) {
+  const { rows: removed } = await client.query(
+    `DELETE FROM pizza_toppings
+      WHERE "pizzaId"=$1
+      RETURNING *;`,
+    [id]
+  );
+
+  return removed;
+}
+
 async function destroyPizzaTopping(id) {
   const {
     rows: [removed],
@@ -83,4 +94,5 @@ module.exports = {
   updatePizzaToppings,
   getPizzaToppingById,
   getPizzaToppingsByPizza,
+  removePizzaToppings,
 };

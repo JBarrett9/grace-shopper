@@ -40,18 +40,15 @@ router.get("/health", async (req, res, next) => {
 });
 
 const pizzasRouter = require("./pizzas");
-router.use("/pizzas", pizzasRouter);
-
 const usersRouter = require("./users");
-router.use("/users", usersRouter);
-
 const toppingsRouter = require("./toppings");
-router.use("/toppings", toppingsRouter);
-
 const crustsRouter = require("./crusts");
-router.use("/crusts", crustsRouter);
-
 const sizesRouter = require("./sizes");
+
+router.use("/pizzas", pizzasRouter);
+router.use("/users", usersRouter);
+router.use("/toppings", toppingsRouter);
+router.use("/crusts", crustsRouter);
 router.use("/sizes", sizesRouter);
 
 router.use("*", (req, res) => {

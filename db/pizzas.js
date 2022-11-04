@@ -7,6 +7,30 @@ const getPizzaById = async (id) => {
     const {
       rows: [pizza],
     } = await client.query(`SELECT * FROM pizza WHERE id=($1)`, [id]);
+
+    if (pizza) {
+      const toppings = await attachToppingsToPizzas(pizza);
+      pizza.toppings = toppings;
+    }
+
+    return pizza;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const getPizzaByName = async (name) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(`SELECT * FROM pizza WHERE name=($1)`, [name]);
+
+    if (pizza) {
+      const toppings = await attachToppingsToPizzas(pizza);
+      pizza.toppings = toppings;
+    }
+
     return pizza;
   } catch (error) {
     console.log(error);
@@ -37,6 +61,21 @@ async function getAllFeaturedPizzas() {
     `SELECT *
     FROM pizza
     WHERE "featured"=true;`
+  );
+
+  for (let pizza of pizzas) {
+    const toppings = await attachToppingsToPizzas(pizza);
+    pizza.toppings = toppings;
+  }
+
+  return pizzas;
+}
+
+async function getAllNonFeaturedPizzas() {
+  const { rows: pizzas } = await client.query(
+    `SELECT *
+    FROM pizza
+    WHERE "featured"=false;`
   );
 
   for (let pizza of pizzas) {
@@ -80,6 +119,7 @@ const destroyPizza = async (id) => {
 };
 
 const updatePizza = async ({ id, ...fields }) => {
+  console.log("Updating pizza...", id);
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
     .join(", ");
@@ -92,9 +132,10 @@ const updatePizza = async ({ id, ...fields }) => {
     const {
       rows: [pizza],
     } = await client.query(
-      `UPDATE pizza SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE pizza SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
+    console.log(pizza);
     return pizza;
   } catch (error) {
     throw error;
@@ -108,4 +149,6 @@ module.exports = {
   getAllPizzasByUser,
   destroyPizza,
   updatePizza,
+  getPizzaByName,
+  getAllNonFeaturedPizzas,
 };
