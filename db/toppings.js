@@ -14,17 +14,6 @@ const createTopping = async ({ name, price, quantity, category, active }) => {
   return topping;
 };
 
-const getTopping = async (id) => {
-  try {
-    const {
-      rows: [topping],
-    } = await client.query(`SELECT * FROM toppings WHERE id=($1)`, [id]);
-    return topping;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const updateToppings = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
