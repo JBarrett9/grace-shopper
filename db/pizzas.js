@@ -38,8 +38,6 @@ async function getAllFeaturedPizzas() {
     FROM pizza
     WHERE "featured"=true;`
   );
-  console.log("Getting all featured pizzas");
-  console.log(pizzas);
 
   for (let pizza of pizzas) {
     const toppings = await attachToppingsToPizzas(pizza);

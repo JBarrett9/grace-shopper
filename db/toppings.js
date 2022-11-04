@@ -6,7 +6,6 @@ async function getAllToppings() {
     FROM toppings;`
   );
 
-<<<<<<< HEAD
   if (!rows) {
     return null;
   }
@@ -35,6 +34,18 @@ async function getToppingByName(name) {
     [name]
   );
   return topping;
+}
+
+async function getToppingsByCategory(category) {
+  const { rows: toppings } = await client.query(
+    `
+  SELECT * FROM toppings
+  WHERE category=$1
+    `,
+    [category]
+  );
+
+  return toppings;
 }
 
 async function attachToppingsToPizzas(pizzas) {
@@ -66,8 +77,6 @@ const createTopping = async ({ name, price, quantity, category }) => {
   return topping;
 };
 
-=======
->>>>>>> 3fd0f9345fc40d9f9554e81af3a45360c55640f1
 const updateToppings = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
@@ -90,6 +99,19 @@ const updateToppings = async ({ id, ...fields }) => {
   }
 };
 
+const deleteTopping = async (id) => {
+  try {
+    const {
+      rows: [topping],
+    } = await client.query(`DELETE FROM toppings WHERE id=($1) RETURNING *;`, [
+      id,
+    ]);
+    return topping;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createTopping,
   updateToppings,
@@ -97,4 +119,5 @@ module.exports = {
   attachToppingsToPizzas,
   getToppingByName,
   getAllToppings,
+  getToppingsByCategory,
 };

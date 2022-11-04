@@ -12,7 +12,7 @@
 
 - [ ] post (admin only)
 
-> api/toppings - DB DONE
+> api/toppings
 
 - [ ] delete (admin only)
 
@@ -144,13 +144,9 @@
 
 - [ ] Get
 
-> getToppingByType(type) -> [{ topping }]
-
 - [ ] Create
 
 - [ ] Delete
-
-> deleteTopping(id) -> { topping }
 
 - [ ] Update
 
@@ -214,11 +210,7 @@
 
 - [ ] Get
 
-> getUser(id) -> { user }
-
 - [ ] Create
-
-> createUser({ user }) -> { user }
 
 ### Carts
 

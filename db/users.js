@@ -1,7 +1,7 @@
 const client = require("./client");
 const bcrypt = require("bcrypt");
 
-const createUser = async ({ email, name, password }) => {
+const createUser = async ({ email, name, password, admin }) => {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
@@ -14,12 +14,12 @@ const createUser = async ({ email, name, password }) => {
       rows: [user],
     } = await client.query(
       `
-                  INSERT INTO users(email, name, password)
-                  VALUES ($1, $2, $3)
+                  INSERT INTO users(email, name, password, admin)
+                  VALUES ($1, $2, $3, $4)
                   ON CONFLICT (email) DO NOTHING
                   RETURNING id, email;
               `,
-      [email, name, hashedPassword]
+      [email, name, hashedPassword, admin]
     );
     return user;
   } else {
@@ -60,19 +60,19 @@ async function getUserById(userId) {
   return user;
 }
 
-async function getUserByEmail(email) {
+const getUserByEmail = async (email) => {
   const {
     rows: [user],
   } = await client.query(
     `
     SELECT * FROM USERS
     WHERE email=$1
-    `,
+    ;`,
     [email]
   );
 
   return user;
-}
+};
 
 const updateUser = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)

@@ -1,7 +1,14 @@
-module.exports = {
-  // ...require('./client'), // adds key/values from users.js
-  // ...require('./users'), // adds key/values from users.js
-  // ...require('./activities'), // adds key/values from activites.js
-  // ...require('./routines'), // etc
-  // ...require('./routine_activities') // etc
-};
+// module.exports = {
+//   ...require("./crusts"),
+//   ...require("./locations"),
+//   ...require("./orders"),
+//   ...require("./pizza_order"),
+//   ...require("./pizza_toppings"),
+//   ...require("./pizzas"),
+//   ...require("./reviews"),
+//   ...require("./seed"),
+//   ...require("./seedData"),
+//   ...require("./sizes"),
+//   ...require("./toppings"),
+//   ...require("./users"),
+// };

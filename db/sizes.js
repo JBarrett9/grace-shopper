@@ -29,7 +29,7 @@ const deleteSize = async (id) => {
   try {
     const {
       rows: [size],
-    } = await client.query(`DELETE FROM routines WHERE id=($1) RETURNING *;`, [
+    } = await client.query(`DELETE FROM sizes WHERE id=($1) RETURNING *;`, [
       id,
     ]);
     return size;

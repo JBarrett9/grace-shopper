@@ -1,5 +1,17 @@
 const client = require("./client");
 
+async function getAllCrusts() {
+  const { rows } = await client.query(
+    `SELECT *
+    FROM crusts;`
+  );
+
+  if (!rows) {
+    return null;
+  }
+  return rows;
+}
+
 const createCrust = async ({ name, price, quantity }) => {
   try {
     const {
@@ -70,4 +82,5 @@ module.exports = {
   getCrustById,
   deleteCrust,
   updateCrust,
+  getAllCrusts,
 };
