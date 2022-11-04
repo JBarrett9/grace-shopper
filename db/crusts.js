@@ -6,13 +6,13 @@ const createCrust = async ({ name, price, quantity }) => {
       rows: [crust],
     } = await client.query(
       `
-                    INSERT INTO crusts(name, price, quantity)
+                    INSERT INTO crusts (name, price, quantity)
                     VALUES ($1, $2, $3)
-                    ON CONFLICT (name) DO NOTHING
                     RETURNING *;
                 `,
       [name, price, quantity]
     );
+
     return crust;
   } catch (error) {
     throw error;
