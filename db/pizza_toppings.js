@@ -75,4 +75,8 @@ async function destroyPizzaTopping(id) {
 module.exports = {
   getPizzaToppingById,
   addToppingtoPizza,
+  destroyPizzaTopping,
+  updatePizzaToppings,
+  getPizzaToppingById,
+  getPizzaToppingsByPizza,
 };

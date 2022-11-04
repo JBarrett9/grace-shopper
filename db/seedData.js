@@ -407,4 +407,3 @@ module.exports = {
   dropTables,
   createTables,
 };
-getUserById;
