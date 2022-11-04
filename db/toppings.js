@@ -114,10 +114,10 @@ const deleteTopping = async (id) => {
 
 module.exports = {
   createTopping,
-  updateToppings,
-  getToppingById,
-  attachToppingsToPizzas,
-  getToppingByName,
   getAllToppings,
+  getToppingById,
+  getToppingByName,
+  attachToppingsToPizzas,
+  updateToppings,
   getToppingsByCategory,
 };
