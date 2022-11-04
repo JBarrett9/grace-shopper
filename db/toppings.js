@@ -1,18 +1,17 @@
 const client = require("./client");
 
-const createTopping = async ({ name, price, quantity, category, amount }) => {
+const createTopping = async ({ name, price, quantity, category, active }) => {
   const {
-    rows: [user],
+    rows: [topping],
   } = await client.query(
     `
-                  INSERT INTO users(email, name, password)
-                  VALUES ($1, $2, $3)
-                  ON CONFLICT (email) DO NOTHING
-                  RETURNING id, email;
+                  INSERT INTO toppings(name, price, quantity, category, active)
+                  VALUES ($1, $2, $3, $4, $5)
+                  RETURNING *;
               `,
-    [email, name, hashedPassword]
+    [name, price, quantity, category, active]
   );
-  return user;
+  return topping;
 };
 
 const getTopping = async (id) => {
