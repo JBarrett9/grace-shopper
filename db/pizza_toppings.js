@@ -1,6 +1,4 @@
 const client = require("./client");
-const { getPizzaById } = require("./pizzas");
-const { getToppingById } = require("./toppings");
 
 async function getPizzaToppingById(id) {
   const {
@@ -15,16 +13,22 @@ async function getPizzaToppingById(id) {
 }
 
 async function addToppingtoPizza({ pizzaId, toppingId, amount, double }) {
-  const {
-    rows: [topping],
-  } = await client.query(
-    `INSERT INTO pizza_toppings("pizzaId", "toppingId", amount, double)
+  if (amount !== "left" && amount !== "right" && amount !== "full") {
+    return Error(
+      "Invalid amount entered. Valid values: 'left', 'right', 'full"
+    );
+  } else {
+    const {
+      rows: [topping],
+    } = await client.query(
+      `INSERT INTO pizza_toppings("pizzaId", "toppingId", amount, double)
       VALUES ($1, $2, $3, $4)
       RETURNING *;
       `,
-    [pizzaId, toppingId, amount, double]
-  );
-  return topping;
+      [pizzaId, toppingId, amount, double]
+    );
+    return topping;
+  }
 }
 
 async function getPizzaToppingsByPizza({ id }) {
@@ -34,7 +38,7 @@ async function getPizzaToppingsByPizza({ id }) {
       WHERE "pizzaId"=$1;`,
     [id]
   );
-  console.log("TOPPINGS", toppings);
+
   return toppings;
 }
 

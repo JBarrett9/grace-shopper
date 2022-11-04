@@ -19,7 +19,7 @@ const createCrust = async ({ name, price, quantity }) => {
   }
 };
 
-const getCrust = async (id) => {
+const getCrustById = async (id) => {
   try {
     const {
       rows: [crust],
@@ -67,7 +67,7 @@ const updateCrust = async ({ id, ...fields }) => {
 
 module.exports = {
   createCrust,
-  getCrust,
+  getCrustById,
   deleteCrust,
   updateCrust,
 };

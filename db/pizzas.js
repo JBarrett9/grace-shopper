@@ -1,23 +1,6 @@
 const client = require("./client");
-
-const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
-  try {
-    const {
-      rows: [pizza],
-    } = await client.query(
-      `
-                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured)
-                    VALUES ($1, $2, $3, $4, $5)
-                    RETURNING *;
-                `,
-      [name, crustId, userId, sizeId, featured]
-    );
-    console.log(pizza);
-    return pizza;
-  } catch (error) {
-    throw error;
-  }
-};
+const { attachToppingsToPizzas } = require("./toppings");
+const { getUserByEmail } = require("./users");
 
 const getPizzaById = async (id) => {
   try {
@@ -31,23 +14,100 @@ const getPizzaById = async (id) => {
   }
 };
 
-// async function getAllFeaturedPizzas() {
-//     const { rows: pizzas } = await client.query(
-//       `SELECT *
-//     FROM pizzas
-//     WHERE "featured"=true;`
-//     );
+const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(
+      `
+                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured)
+                    VALUES ($1, $2, $3, $4, $5)
+                    RETURNING *;
+                `,
+      [name, crustId, userId, sizeId, featured]
+    );
+    return pizza;
+  } catch (error) {
+    throw error;
+  }
+};
 
-//     for (let pizza of pizzas) {
+async function getAllFeaturedPizzas() {
+  const { rows: pizzas } = await client.query(
+    `SELECT *
+    FROM pizza
+    WHERE "featured"=true;`
+  );
+  console.log("Getting all featured pizzas");
+  console.log(pizzas);
 
-//       const toppings = await attachActivitiesToRoutines(routine);
-//       routine.activities = activities;
-//     }
+  for (let pizza of pizzas) {
+    const toppings = await attachToppingsToPizzas(pizza);
+    pizza.toppings = toppings;
+  }
 
-//     return routines;
-//   }
+  return pizzas;
+}
+
+async function getAllPizzasByUser({ email }) {
+  const user = await getUserByEmail(email);
+
+  const { rows: pizzas } = await client.query(
+    `
+        SELECT * FROM pizzas
+        WHERE "pizzaId"=$1;
+      `,
+    [user.id]
+  );
+
+  for (let pizza of pizzas) {
+    const toppings = await attachToppingsToPizzas(pizza);
+    pizza.toppings = toppings;
+  }
+
+  return pizzas;
+}
+
+const destroyPizza = async (id) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(`DELETE FROM pizza WHERE id=($1) RETURNING *;`, [
+      id,
+    ]);
+    return pizza;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updatePizza = async ({ id, ...fields }) => {
+  const setStr = Object.keys(fields)
+    .map((key, idx) => `"${key}"=$${idx + 1}`)
+    .join(", ");
+
+  if (setStr.length === 0) {
+    return;
+  }
+
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(
+      `UPDATE pizza SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      Object.values(fields)
+    );
+    return pizza;
+  } catch (error) {
+    throw error;
+  }
+};
 
 module.exports = {
   createPizza,
   getPizzaById,
+  getAllFeaturedPizzas,
+  getAllPizzasByUser,
+  destroyPizza,
+  updatePizza,
 };

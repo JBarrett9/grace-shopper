@@ -12,7 +12,7 @@
 
 - [ ] post (admin only)
 
-> api/toppings
+> api/toppings - DB DONE
 
 - [ ] delete (admin only)
 
@@ -140,19 +140,13 @@
 
 ## DB
 
-- [ ] Create/Drop tables tables (crust, topping, pizzabuild, user, cart)
-
 ### toppings
 
 - [ ] Get
 
-> getAllToppings() -> [{ topping }]
-
 > getToppingByType(type) -> [{ topping }]
 
 - [ ] Create
-
-> createTopping({topping}) -> { topping }
 
 - [ ] Delete
 
@@ -160,79 +154,43 @@
 
 - [ ] Update
 
-> updateTopping({ id, ...fields }) -> { topping }
-
 ### crust
 
 - [ ] Get
 
-> getCrusts() -> [{ crust }]
-
 - [ ] Create
-
-> createCrust({ crust }) -> { crust }
 
 - [ ] Delete
 
-> deleteCrust(id) -> { crust }
-
 - [ ] update
-
-> updateCrust({id, ...fields}) -> { crust }
 
 ### size
 
 - [ ] Get
 
-> getSizes() -> [{ size }]
-
 - [ ] Create
-
-> createSize({ size }) -> { size }
 
 - [ ] Delete
 
-> deleteSize(id) -> { size }
-
 - [ ] update
-
-> updateSize({id, ...fields}) -> { size }
 
 ### pizza_toppings
 
 - [ ] Get
 
-> getFeaturedPizzas() -> [{ topping }]
-
-> getToppingsByPizza(pizzaId) -> [{ topping }]
-
 - [ ] Create
 
-> addToppingToPizza({ pizza }) -> { pizza }
-
 - [ ] Delete
-
-> deletePizzaTopping(id) -> { topping }
 
 ### pizza
 
 - [ ] Get
 
-> getPizzaById(id) -> { pizza, [{ topping }], { crust }, { size } }
-
-> getPizzasByUser(userId) -> [{ pizza, [{ topping }], { crust }, { size } }]
-
 - [ ] Create
-
-> createPizza({pizza}) -> { pizza, [{ topping }], { crust }, { size } }
 
 - [ ] Delete
 
-> deletePizza(id) -> { pizza }
-
 - [ ] Update
-
-> updatePizza({id, ...fields}) -> { pizza }
 
 ### cartPizza
 
