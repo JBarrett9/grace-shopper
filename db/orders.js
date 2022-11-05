@@ -67,7 +67,6 @@ const getOrderById = async (id) => {
 };
 
 const updateOrder = async ({ id, ...fields }) => {
-  console.log(id, fields);
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
     .join(", ");
@@ -75,13 +74,13 @@ const updateOrder = async ({ id, ...fields }) => {
   if (setStr.length === 0) {
     return;
   }
-  console.log(setStr);
 
   try {
     const {
       rows: [order],
     } = await client.query(
-      `UPDATE orders SET ${setStr} WHERE id=$${id} RETURNING *;`,
+      `UPDATE orders SET ${setStr} WHERE id=${id} RETURNING *;`,
+
       Object.values(fields)
     );
 

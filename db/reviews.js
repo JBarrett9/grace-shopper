@@ -38,6 +38,18 @@ const getReviewsByPizza = async (id) => {
   }
 };
 
+const getReviewsByUser = async (id) => {
+  try {
+    const { rows: reviews } = await client.query(
+      `SELECT * FROM REVIEWS WHERE "userId"=$1`,
+      [id]
+    );
+    return reviews;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateReview = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
@@ -60,9 +72,22 @@ const updateReview = async ({ id, ...fields }) => {
   }
 };
 
+const deleteReview = async (id) => {
+  try {
+    const {
+      rows: [review],
+    } = await client.query(`DELETE FROM reviews WHERE id=$1 RETURNING *`, [id]);
+    return review;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReviews,
   createReview,
   getReviewsByPizza,
   updateReview,
+  getReviewsByUser,
+  deleteReview,
 };

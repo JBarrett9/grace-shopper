@@ -220,21 +220,21 @@
 
 ### Reviews
 
-- [ ] Get
+- [x] Get
 
 > getReviewsByPizza(pizzaId) -> [{ review }]
 
 > getReviewsByUser(userId) -> [{ review }]
 
-- [ ] Create
+- [x] Create
 
 > createReview({ review }) -> { review }
 
-- [ ] Delete
+- [x] Delete
 
 > deleteReview(id) -> { review }
 
-- [ ] Update
+- [x] Update
 
 > updateReview({id, ...fields })
 

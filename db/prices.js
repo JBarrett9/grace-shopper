@@ -1,6 +1,6 @@
 const client = require("./client");
 const { getCrustById } = require("./crusts");
-const { getOrderById, updateOrderPrice } = require("./orders");
+const { getOrderById, updateOrderPrice, updateOrder } = require("./orders");
 const { getPizzaById } = require("./pizzas");
 const { getSizeById } = require("./sizes");
 
@@ -31,11 +31,9 @@ const getPrice = async (pizzaId) => {
 const getOrderPrice = async (orderId) => {
   const order = await getOrderById(orderId);
   let price = 0;
-  console.log(order);
   for (let pizza of order.pizzas) {
     price += (await getPrice(pizza.id)) * pizza.amount;
   }
-  console.log(price);
   await updateOrderPrice({ id: orderId, price });
   return price;
 };

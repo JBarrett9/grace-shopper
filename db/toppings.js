@@ -1,5 +1,4 @@
 const client = require("./client");
-const { getPizzaById } = require("./pizzas");
 
 async function getAllToppings() {
   const { rows } = await client.query(
@@ -109,7 +108,7 @@ const deleteTopping = async (id) => {
   try {
     const {
       rows: [topping],
-    } = await client.query(`DELETE FROM toppings WHERE id=($1) RETURNING *;`, [
+    } = await client.query(`DELETE FROM toppings WHERE id=$1 RETURNING *;`, [
       id,
     ]);
     return topping;

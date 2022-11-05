@@ -1,10 +1,17 @@
 const client = require("./client");
 const { createCrust, getCrustById } = require("./crusts");
+const {
+  createLocation,
+  getLocations,
+  getUserLocations,
+  updateLocation,
+  deleteLocation,
+} = require("./locations");
 const { createOrder, getAllOrders } = require("./orders");
 const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addPizzaToOrder } = require("./pizza_order");
 const { addToppingToPizza } = require("./pizza_toppings");
-const { getCrustPrice, getPrice, getOrderPrice } = require("./prices");
+const { getPrice, getOrderPrice } = require("./prices");
 const {
   createReview,
   getAllReviews,
@@ -19,6 +26,7 @@ const dropTables = async () => {
   try {
     console.log("=== DROPPING TABLES === ");
     await client.query(`
+    DROP TABLE IF EXISTS order_location;
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS pizza_order;
     DROP TABLE IF EXISTS orders;
@@ -148,6 +156,16 @@ const createTables = async () => {
         content VARCHAR(255),
         stars INTEGER NOT NULL
       );
+    `);
+
+    console.log("Creating order_location table...");
+    await client.query(`
+    CREATE TABLE order_location(
+
+      id SERIAL PRIMARY KEY,
+      "orderId" INTEGER REFERENCES orders(id) NOT NULL,
+      "locationId" INTEGER REFERENCES locations(id) NOT NULL
+    );
     `);
 
     console.log("=== TABLES CREATED === ");
@@ -432,9 +450,8 @@ const createInitialPizzaToppings = async () => {
       double: false,
     });
 
-    const pizzas = await getAllFeaturedPizzas();
-
-    return pizzas;
+    // const pizzas = await getAllFeaturedPizzas();
+    // console.log(pizzas);
   } catch (error) {
     console.log("Error attaching toppings to pizzas!");
     throw error;
@@ -459,10 +476,13 @@ const createIntitialPizzaOrders = async () => {
     await addPizzaToOrder({ pizzaId: 1, orderId: 1, amount: 2 });
     await addPizzaToOrder({ pizzaId: 2, orderId: 1, amount: 4 });
     const orders = await getAllOrders();
-    console.log("ORDERS: ", orders);
-    console.log("ORDERS[0]: ", orders[0]);
-    console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
-    return orders;
+    for (let order of orders) {
+      order.price = await getOrderPrice(order.id);
+    }
+
+    // console.log("ORDERS: ", orders);
+    // console.log("ORDERS[0]: ", orders[0]);
+    // console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
     throw error;
@@ -490,19 +510,46 @@ const createInitialReviews = async () => {
       stars: 5,
     });
 
-    const reviews = await getAllReviews();
-
-    return reviews;
+    // const reviews = await getAllReviews();
+    // console.log(reviews);
   } catch (error) {
     console.log("Error creating initial reviews!");
     throw error;
   }
 };
 
+const createInitialLocations = async () => {
+  console.log("Creating initial locations...");
+  try {
+    await createLocation({
+      userId: 1,
+      city: "Richmond",
+      state: "Virginia",
+      address: "123 Main St.",
+      apartment: false,
+      main: true,
+    });
+    await createLocation({
+      userId: 1,
+      city: "Pittsburgh",
+      state: "Pennslyvania",
+      address: "434 Broad St.",
+      apartment: false,
+      main: false,
+    });
+
+    await updateLocation({ id: 1, apartment: true });
+    await deleteLocation(2);
+
+    // const locations = await getLocations();
+    // console.log(locations);
+  } catch (error) {}
+};
 async function rebuildDB() {
   try {
     await dropTables();
     await createTables();
+
     console.log("=== CREATING DATA === ");
     await createInitialUsers();
     await createInitialToppings();
@@ -513,6 +560,7 @@ async function rebuildDB() {
     await createInitialOrders();
     await createIntitialPizzaOrders();
     await createInitialReviews();
+    await createInitialLocations();
     console.log("=== DATA CREATED === ");
   } catch (error) {
     console.log("Error during rebuildDB");

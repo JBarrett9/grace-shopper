@@ -1,5 +1,4 @@
 const client = require("./client");
-const { attachToppingsToPizzas } = require("./toppings");
 
 async function getPizzaOrderById(id) {
   const {
@@ -65,7 +64,7 @@ async function updatePizzaOrder({ id, ...fields }) {
   }
 }
 
-async function removePizzaOrder(id) {
+async function removePizzaFromOrder(id) {
   const { rows: removed } = await client.query(
     `DELETE FROM pizza_order
         WHERE "pizzaId"=$1
@@ -93,7 +92,7 @@ module.exports = {
   getPizzaOrderById,
   addPizzaToOrder,
   getPizzasByOrder,
-  removePizzaOrder,
+  removePizzaFromOrder,
   destroyPizzaOrder,
   updatePizzaOrder,
 };
