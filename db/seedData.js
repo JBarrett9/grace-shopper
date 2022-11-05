@@ -3,7 +3,7 @@ const { createCrust, getCrustById } = require("./crusts");
 const { createOrder, getAllOrders } = require("./orders");
 const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addPizzaToOrder } = require("./pizza_order");
-const { addToppingtoPizza } = require("./pizza_toppings");
+const { addToppingToPizza } = require("./pizza_toppings");
 const { getCrustPrice, getPrice, getOrderPrice } = require("./prices");
 const {
   createReview,
@@ -419,13 +419,13 @@ const createInitialPizzas = async () => {
 const createInitialPizzaToppings = async () => {
   console.log("Creating initial attachment of pizza toppings...");
   try {
-    await addToppingtoPizza({
+    await addToppingToPizza({
       pizzaId: 1,
       toppingId: 2,
       amount: "full",
       double: false,
     });
-    await addToppingtoPizza({
+    await addToppingToPizza({
       pizzaId: 1,
       toppingId: 3,
       amount: "left",
@@ -459,6 +459,9 @@ const createIntitialPizzaOrders = async () => {
     await addPizzaToOrder({ pizzaId: 1, orderId: 1, amount: 2 });
     await addPizzaToOrder({ pizzaId: 2, orderId: 1, amount: 4 });
     const orders = await getAllOrders();
+    console.log("ORDERS: ", orders);
+    console.log("ORDERS[0]: ", orders[0]);
+    console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
     return orders;
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
@@ -489,7 +492,6 @@ const createInitialReviews = async () => {
 
     const reviews = await getAllReviews();
 
-    console.log(reviews);
     return reviews;
   } catch (error) {
     console.log("Error creating initial reviews!");
