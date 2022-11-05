@@ -35,7 +35,8 @@ const getCrustById = async (id) => {
   try {
     const {
       rows: [crust],
-    } = await client.query(`SELECT * FROM crusts WHERE id=($1)`, [id]);
+    } = await client.query(`SELECT * FROM crusts WHERE id=$1`, [id]);
+
     return crust;
   } catch (error) {
     throw error;

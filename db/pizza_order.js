@@ -19,8 +19,6 @@ async function addPizzaToOrder({ pizzaId, orderId, amount }) {
       "Invalid amount entered. Please enter an integer that's greater than 0."
     );
   } else {
-    console.log("Adding pizza to order...");
-
     const {
       rows: [pizzaOrder],
     } = await client.query(

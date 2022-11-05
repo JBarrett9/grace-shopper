@@ -12,13 +12,13 @@ async function getAllSizes() {
   return rows;
 }
 
-const createSize = async ({ size }) => {
+const createSize = async ({ size, pricemod }) => {
   try {
     const {
       rows: [row],
     } = await client.query(
-      `INSERT INTO sizes (size) VALUES ($1) RETURNING *;`,
-      [size]
+      `INSERT INTO sizes (size, pricemod) VALUES ($1, $2) RETURNING *;`,
+      [size, pricemod]
     );
 
     return row;

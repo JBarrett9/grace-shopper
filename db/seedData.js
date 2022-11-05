@@ -1,16 +1,17 @@
 const client = require("./client");
-const { createCrust } = require("./crusts");
+const { createCrust, getCrustById } = require("./crusts");
 const { createOrder, getAllOrders } = require("./orders");
 const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addPizzaToOrder } = require("./pizza_order");
 const { addToppingtoPizza } = require("./pizza_toppings");
+const { getCrustPrice, getPrice, getOrderPrice } = require("./prices");
 const { createSize } = require("./sizes");
 const { createTopping } = require("./toppings");
 const { createUser, getUserByEmail } = require("./users");
 
 const dropTables = async () => {
   try {
-    console.log("Starting to drop tables...");
+    console.log("=== DROPPING TABLES === ");
     await client.query(`
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS pizza_order;
@@ -23,7 +24,7 @@ const dropTables = async () => {
     DROP TABLE IF EXISTS locations;
     DROP TABLE IF EXISTS users;
     `);
-    console.log("Finished dropping tables!");
+    console.log("=== TABLES DROPPED === ");
   } catch (error) {
     console.log("Error dropping tables!");
     throw error;
@@ -32,7 +33,7 @@ const dropTables = async () => {
 
 const createTables = async () => {
   try {
-    console.log("Starting to create tables...");
+    console.log("=== CREATING TABLES === ");
 
     console.log("Creating users table...");
     await client.query(`
@@ -83,7 +84,8 @@ const createTables = async () => {
     await client.query(`
       CREATE TABLE sizes(
         id SERIAL PRIMARY KEY,
-        size VARCHAR(255)
+        size VARCHAR(255) UNIQUE NOT NULL,
+        pricemod FLOAT NOT NULL
       );
     `);
 
@@ -116,7 +118,7 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         active BOOLEAN DEFAULT true,
-        price FLOAT,
+        price DECIMAL,
         delivery BOOLEAN DEFAULT false
       );
     `);
@@ -142,7 +144,7 @@ const createTables = async () => {
       );
     `);
 
-    console.log("Finished creating tables!");
+    console.log("=== TABLES CREATED === ");
   } catch (error) {
     console.log("Error creating tables...");
     throw error;
@@ -150,6 +152,7 @@ const createTables = async () => {
 };
 
 const createInitialUsers = async () => {
+  console.log("Creating initial users...");
   try {
     await createUser({
       name: "james01",
@@ -183,6 +186,7 @@ const createInitialUsers = async () => {
 };
 
 const createInitialToppings = async () => {
+  console.log("Creating initial toppings...");
   try {
     await createTopping({
       name: "Sausage",
@@ -335,6 +339,7 @@ const createInitialToppings = async () => {
 };
 
 const createInitialCrusts = async () => {
+  console.log("Creating initial crusts...");
   try {
     createCrust({
       name: "Original Crust",
@@ -370,12 +375,13 @@ const createInitialCrusts = async () => {
 const createInitialSizes = async () => {
   try {
     console.log("Creating initial sizes...");
-    await createSize({ size: "small" });
-    await createSize({ size: "medium" });
-    await createSize({ size: "large" });
-    await createSize({ size: "extra large" });
+    await createSize({ size: "small", pricemod: 1 });
+    await createSize({ size: "medium", pricemod: 2 });
+    await createSize({ size: "large", pricemod: 3 });
+    await createSize({ size: "extra large", pricemod: 4 });
   } catch (error) {
     console.log("Error creating sizes!");
+    throw error;
   }
 };
 
@@ -400,12 +406,13 @@ const createInitialPizzas = async () => {
     });
   } catch (error) {
     console.log("Error creating pizzas!");
+    throw error;
   }
 };
 
 const createInitialPizzaToppings = async () => {
+  console.log("Creating initial attachment of pizza toppings...");
   try {
-    console.log("Creating initial attachment of pizza toppings...");
     await addToppingtoPizza({
       pizzaId: 1,
       toppingId: 2,
@@ -424,39 +431,43 @@ const createInitialPizzaToppings = async () => {
     return pizzas;
   } catch (error) {
     console.log("Error attaching toppings to pizzas!");
+    throw error;
   }
 };
 
 const createInitialOrders = async () => {
+  console.log("Creating initial orders...");
   try {
-    console.log("Creating initial orders...");
-
     await createOrder({ userId: 1, active: true, price: 0, delivery: true });
     await createOrder({ delivery: true });
     await createOrder({});
   } catch (error) {
     console.log("Error creating orders!");
+    throw error;
   }
 };
 
 const createIntitialPizzaOrders = async () => {
+  console.log("Creating initial pizza_orders...");
   try {
-    console.log("Creating initial pizza_orders...");
-
     await addPizzaToOrder({ pizzaId: 1, orderId: 1, amount: 2 });
-
     await addPizzaToOrder({ pizzaId: 2, orderId: 1, amount: 4 });
     const orders = await getAllOrders();
+    await getOrderPrice(1);
     console.log(orders[0].pizzas[0]);
+
     return orders;
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error creating initial pizza_orders!");
+    throw error;
+  }
 };
 
 async function rebuildDB() {
   try {
     await dropTables();
     await createTables();
-    console.log("Creating initial data...");
+    console.log("=== CREATING DATA === ");
     await createInitialUsers();
     await createInitialToppings();
     await createInitialCrusts();
@@ -465,7 +476,7 @@ async function rebuildDB() {
     await createInitialPizzaToppings();
     await createInitialOrders();
     await createIntitialPizzaOrders();
-    console.log("Finished creating initial data!");
+    console.log("=== DATA CREATED === ");
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

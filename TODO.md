@@ -190,19 +190,19 @@
 
 ### Orders
 
-- [ ] Get
+- [x] Get
 
 > getPizzasByCart(cartId) -> [{ pizza }]
 
-- [ ] Create
+- [x] Create
 
 > addPizzaToCart({ Orders }) -> { Orders }
 
-- [ ] Delete
+- [x] Delete
 
 > deleteOrders(id) -> { Orders }
 
-- [ ] Update
+- [x] Update
 
 > updateOrders({ id, qty }) -> { Orders }
 
@@ -214,7 +214,7 @@
 
 ### Carts
 
-- [ ] Get
+- [x] Get
 
 > getCart(userId) -> { cart }
 
