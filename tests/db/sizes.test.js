@@ -68,7 +68,7 @@ describe("DB Sizes", () => {
   describe("updateSize", () => {
     it("Updates a size without changing the id, and returns the updated size", async () => {
       const testSize = await createSize({
-        size: "extremely large",
+        size: "so very extremely large",
         pricemod: 30,
       });
       const param = "ginormous";
