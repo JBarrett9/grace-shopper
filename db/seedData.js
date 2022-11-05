@@ -5,6 +5,12 @@ const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addPizzaToOrder } = require("./pizza_order");
 const { addToppingtoPizza } = require("./pizza_toppings");
 const { getCrustPrice, getPrice, getOrderPrice } = require("./prices");
+const {
+  createReview,
+  getAllReviews,
+  getReviewsByPizza,
+  updateReview,
+} = require("./reviews");
 const { createSize } = require("./sizes");
 const { createTopping } = require("./toppings");
 const { createUser, getUserByEmail } = require("./users");
@@ -453,12 +459,40 @@ const createIntitialPizzaOrders = async () => {
     await addPizzaToOrder({ pizzaId: 1, orderId: 1, amount: 2 });
     await addPizzaToOrder({ pizzaId: 2, orderId: 1, amount: 4 });
     const orders = await getAllOrders();
-    await getOrderPrice(1);
-    console.log(orders[0].pizzas[0]);
-
     return orders;
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
+    throw error;
+  }
+};
+
+const createInitialReviews = async () => {
+  console.log("Creating initial reviews...");
+  try {
+    await createReview({
+      pizzaId: 1,
+      userId: 1,
+      content: "This a good pizza, man.",
+      stars: 4,
+    });
+    await createReview({
+      pizzaId: 2,
+      userId: 1,
+      content: "This a bad pizza, man.",
+      stars: 2,
+    });
+
+    await updateReview({
+      id: 1,
+      stars: 5,
+    });
+
+    const reviews = await getAllReviews();
+
+    console.log(reviews);
+    return reviews;
+  } catch (error) {
+    console.log("Error creating initial reviews!");
     throw error;
   }
 };
@@ -476,6 +510,7 @@ async function rebuildDB() {
     await createInitialPizzaToppings();
     await createInitialOrders();
     await createIntitialPizzaOrders();
+    await createInitialReviews();
     console.log("=== DATA CREATED === ");
   } catch (error) {
     console.log("Error during rebuildDB");

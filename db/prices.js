@@ -1,11 +1,6 @@
 const client = require("./client");
 const { getCrustById } = require("./crusts");
-const {
-  getAllOrders,
-  getOrderById,
-  updateOrder,
-  updateOrderPrice,
-} = require("./orders");
+const { getOrderById, updateOrderPrice } = require("./orders");
 const { getPizzaById } = require("./pizzas");
 const { getSizeById } = require("./sizes");
 
