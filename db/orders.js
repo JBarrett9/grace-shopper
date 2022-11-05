@@ -42,7 +42,7 @@ const getOrderById = async (id) => {
   try {
     const {
       rows: [order],
-    } = await client.query(`SELECT * FROM orders WHERE id=($1)`, [id]);
+    } = await client.query(`SELECT * FROM orders WHERE id=($1);`, [id]);
     return order;
   } catch (error) {
     throw error;

@@ -82,7 +82,7 @@ const createTopping = async ({ name, price, quantity, category }) => {
   return topping;
 };
 
-const updateToppings = async ({ id, ...fields }) => {
+const updateTopping = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
     .map((key, idx) => `"${key}"=$${idx + 1}`)
     .join(", ");
@@ -124,7 +124,7 @@ module.exports = {
   getToppingById,
   getToppingByName,
   attachToppingsToPizzas,
-  updateToppings,
+  updateTopping,
   getToppingsByCategory,
   deleteTopping,
 };

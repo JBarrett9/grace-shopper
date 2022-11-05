@@ -1,5 +1,3 @@
-require("dotenv").config();
-const client = require("../../db/client");
 const {
   createCrust,
   getCrustById,
@@ -75,12 +73,12 @@ describe("DB Crusts", () => {
 
       await updateCrust({ id, name });
 
-      const crust = getCrustById(id);
+      const crust = await getCrustById(id);
 
       expect(crust.name).toEqual(name);
     });
 
-    it("Returns the updated activity", async () => {
+    it("Returns the updated crust", async () => {
       const testCrust = await createCrust({
         name: "Jalapeno cheese stuffed",
         price: 200,

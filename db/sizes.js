@@ -13,24 +13,25 @@ async function getAllSizes() {
 }
 
 const createSize = async ({ size }) => {
-  const {
-    rows: [row],
-  } = await client.query(
-    `
-                  INSERT INTO sizes(size)
-                  VALUES ($1)
-                  RETURNING *;
-              `,
-    [size]
-  );
-  return row;
+  try {
+    const {
+      rows: [row],
+    } = await client.query(
+      `INSERT INTO sizes (size) VALUES ($1) RETURNING *;`,
+      [size]
+    );
+
+    return row;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const getSizeById = async (id) => {
   try {
     const {
       rows: [size],
-    } = await client.query(`SELECT * FROM crusts WHERE id=($1)`, [id]);
+    } = await client.query(`SELECT * FROM sizes WHERE id=($1)`, [id]);
     return size;
   } catch (error) {
     throw error;
