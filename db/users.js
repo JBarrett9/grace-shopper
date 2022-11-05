@@ -28,7 +28,7 @@ const createUser = async ({ email, name, password, admin }) => {
 };
 
 async function getUser({ email, password }) {
-  const user = await getUserByUsername(email);
+  const user = await getUserByEmail(email);
   const hashedPassword = user.password;
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
   if (passwordsMatch) {

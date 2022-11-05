@@ -5,7 +5,7 @@ const createOrder = async ({ userId, active, price, delivery }) => {
     const {
       rows: [order],
     } = await client.query(
-      `INSERT INTO orders ("userId", active, price, delivery)`,
+      `INSERT INTO orders ("userId", active, price, delivery) VALUES ($1, $2, $3, $4) returning *;`,
       [userId, active, price, delivery]
     );
     return order;
@@ -18,13 +18,12 @@ const getOrderById = async (id) => {
   try {
     const {
       rows: [order],
-    } = await client.query(`SELECT * FROM orders WHERE id=($1)`, [id]);
+    } = await client.query(`SELECT * FROM orders WHERE id=($1);`, [id]);
     return order;
   } catch (error) {
     throw error;
   }
 };
-
 
 const updateOrder = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)

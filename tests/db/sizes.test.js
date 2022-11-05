@@ -1,5 +1,3 @@
-require("dotenv").config();
-const client = require("../../db/client");
 const {
   createSize,
   getAllSizes,
@@ -57,6 +55,13 @@ describe("DB Sizes", () => {
       expect(size.size).toEqual(param);
       expect(size.id).toEqual(testSize.id);
       await deleteSize(testSize.id);
+    });
+  });
+
+  describe("deleteSize", () => {
+    it("Removes size from database and returns deleted size", async () => {
+      const testSize = "extremely large";
+      const { id, size } = await createSize({ size: testSize });
     });
   });
 
