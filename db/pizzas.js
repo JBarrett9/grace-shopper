@@ -91,8 +91,8 @@ async function getAllPizzasByUser({ email }) {
 
   const { rows: pizzas } = await client.query(
     `
-        SELECT * FROM pizzas
-        WHERE "pizzaId"=$1;
+        SELECT * FROM pizza
+        WHERE "userId"=$1;
       `,
     [user.id]
   );

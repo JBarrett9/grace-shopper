@@ -12,7 +12,7 @@ async function getPizzaToppingById(id) {
   return pizzaTopping;
 }
 
-async function addToppingtoPizza({ pizzaId, toppingId, amount, double }) {
+async function addToppingToPizza({ pizzaId, toppingId, amount, double }) {
   if (amount !== "left" && amount !== "right" && amount !== "full") {
     return Error(
       "Invalid amount entered. Valid values: 'left', 'right', 'full"
@@ -89,7 +89,7 @@ async function destroyPizzaTopping(id) {
 
 module.exports = {
   getPizzaToppingById,
-  addToppingtoPizza,
+  addToppingToPizza,
   destroyPizzaTopping,
   updatePizzaToppings,
   getPizzaToppingById,

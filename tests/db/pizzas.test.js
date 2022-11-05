@@ -1,149 +1,189 @@
+const client = require("../../db/client");
+const faker = require("@faker-js/faker");
+const { getCrustByName, createCrust } = require("../../db/crusts");
 const {
-  getToppingById,
-  createTopping,
-  deleteTopping,
-  updateTopping,
-  getAllToppings,
-  getToppingByName,
-  getToppingsByCategory,
-} = require("../../db/toppings");
+  createPizza,
+  getAllFeaturedPizzas,
+  getPizzaById,
+  getPizzaByName,
+  getAllNonFeaturedPizzas,
+  getAllPizzasByUser,
+  destroyPizza,
+} = require("../../db/pizzas");
+const { createUser, getUserByEmail } = require("../../db/users");
+const { createSize } = require("../../db/sizes");
 
 describe("DB Pizzas", () => {
-  describe("getAllToppings", () => {
-    it("Returns an array of pizzas", async () => {
-      const testTopping = {
-        name: "kale",
-        price: 32,
-        quantity: 5,
-        category: "vegetable",
-      };
+  let crustId, userId, sizeId, aTestPizza;
+  const name = "The Meats!!";
+  const featured = true;
+  const email = "testuser9@gmail.com";
+  const password = "MyAwes0m3Password!";
 
-      await createTopping(testTopping);
+  beforeAll(async () => {
+    await createUser({
+      email,
+      name: "Jane Smith",
+      password,
+      admin: true,
+    });
 
-      const toppings = await getAllToppings();
+    const userAdmin = await getUserByEmail(email);
 
-      const topping = toppings.find(
-        (topping) => topping.name === testTopping.name
-      );
+    userId = userAdmin.id;
 
-      expect(toppings).toEqual(expect.any(Array));
-      expect(topping.price).toEqual(testTopping.price);
-      expect(topping.quantity).toEqual(testTopping.quantity);
-      expect(topping.category).toEqual(testTopping.category);
-      await deleteTopping(topping.id);
+    const crust = await createCrust({
+      name: "Gluten free Cauliflower",
+      price: 2,
+      quantity: 42,
+    });
+    crustId = crust.id;
+
+    const { id } = await createSize({ size: "Yuuuuge" });
+    sizeId = id;
+
+    const pizza = await createPizza({
+      name: "Supremely Supreme",
+      crustId,
+      userId,
+      sizeId,
+      featured,
+    });
+
+    aTestPizza = pizza;
+  });
+
+  describe("getPizzaById", () => {
+    it("Returns a pizza by its id", async () => {
+      const pizza = await getPizzaById(aTestPizza.id);
+
+      expect(pizza.name).toEqual(aTestPizza.name);
+      expect(pizza.crustId).toEqual(aTestPizza.crustId);
+      expect(pizza.userId).toEqual(aTestPizza.userId);
+      expect(pizza.sizeId).toEqual(aTestPizza.sizeId);
+      expect(pizza.featured).toEqual(aTestPizza.featured);
     });
   });
 
-  describe("getToppingById", () => {
-    it("Returns topping", async () => {
-      const testTopping = {
-        name: "beans",
-        price: 32,
-        quantity: 5,
-        category: "vegetable",
-      };
-      const { id } = await createTopping(testTopping);
+  describe("getPizzaByName", () => {
+    it("Returns correct pizza by name", async () => {
+      const pizza = await getPizzaByName(aTestPizza.name);
 
-      const topping = await getToppingById(id);
-
-      expect(topping.name).toEqual(testTopping.name);
-      expect(topping.price).toEqual(testTopping.price);
-      expect(topping.quantity).toEqual(testTopping.quantity);
-      expect(topping.category).toEqual(testTopping.category);
-      await deleteTopping(id);
+      expect(pizza.crustId).toEqual(aTestPizza.crustId);
+      expect(pizza.userId).toEqual(aTestPizza.userId);
+      expect(pizza.sizeId).toEqual(aTestPizza.sizeId);
+      expect(pizza.featured).toEqual(aTestPizza.featured);
     });
   });
 
-  describe("getToppingByName", () => {
-    it("Returns topping", async () => {
-      const testTopping = {
-        name: "G. Beef",
-        price: 32,
-        quantity: 5,
-        category: "meat",
-      };
+  describe("createPizza", () => {
+    it("Adds a pizza", async () => {
+      const testPizza = await createPizza({
+        name,
+        crustId,
+        userId,
+        sizeId,
+        featured,
+      });
+      const { rows } = await client.query(`SELECT * FROM pizza;`);
 
-      await createTopping(testTopping);
+      const pizza = rows.find((pizza) => pizza.name === name);
 
-      const topping = await getToppingByName(testTopping.name);
-
-      expect(topping.name).toEqual(testTopping.name);
-      expect(topping.price).toEqual(testTopping.price);
-      expect(topping.quantity).toEqual(testTopping.quantity);
-      expect(topping.category).toEqual(testTopping.category);
-      await deleteTopping(topping.id);
+      expect(pizza.crustId).toEqual(crustId);
+      expect(pizza.userId).toEqual(userId);
+      expect(pizza.sizeId).toEqual(sizeId);
+      expect(pizza.featured).toEqual(featured);
+      await client.query(`DELETE FROM pizza WHERE id=${testPizza.id}`);
     });
-  });
 
-  describe("getToppingsByCategory", () => {
-    it("Returns an array of toppings by category", async () => {
-      const testTopping = {
-        name: "Rabbit",
-        price: 32,
-        quantity: 5,
-        category: "meat",
-      };
-
-      await createTopping(testTopping);
-
-      const toppings = await getToppingsByCategory(testTopping.category);
-
-      const topping = toppings.find(
-        (topping) => topping.name === testTopping.name
-      );
-
-      expect(toppings).toEqual(expect.any(Array));
-      expect(topping.price).toEqual(testTopping.price);
-      expect(topping.quantity).toEqual(testTopping.quantity);
-      expect(topping.category).toEqual(testTopping.category);
-      await deleteTopping(topping.id);
-    });
-  });
-
-  describe("updateTopping", () => {
-    it("Updates topping without changing id", async () => {
-      const { id } = await createTopping({
-        name: "kale",
-        price: 32,
-        quantity: 5,
-        category: "vegetable",
+    it("Returns the new pizza", async () => {
+      const pizza = await createPizza({
+        name,
+        crustId,
+        userId,
+        sizeId,
+        featured,
       });
 
-      const name = "collard greens";
-      const quantity = 42;
-
-      const topping = await updateTopping({ id, name, quantity });
-      const testTopping = await getToppingById(id);
-
-      expect(topping.id).toEqual(id);
-      expect(testTopping.name).toEqual(name);
-      expect(testTopping.price).toEqual(32);
-      expect(testTopping.quantity).toEqual(quantity);
-      expect(testTopping.category).toEqual("vegetable");
-      await deleteTopping(id);
+      expect(pizza.id).toEqual(expect.any(Number));
+      expect(pizza.name).toEqual(name);
+      expect(pizza.crustId).toEqual(crustId);
+      expect(pizza.userId).toEqual(userId);
+      expect(pizza.sizeId).toEqual(sizeId);
+      expect(pizza.featured).toEqual(featured);
     });
 
-    it("Returns updated topping", async () => {
-      const testTopping = {
-        name: "kale",
-        price: 32,
-        quantity: 5,
-        category: "vegetable",
-      };
+    it("Can create a non featured pizza/ pizza without a name", async () => {
+      const pizza = await createPizza({
+        crustId,
+        userId,
+        sizeId,
+        featured: false,
+      });
 
-      const { id } = await createTopping(testTopping);
-
-      const name = "collard greens";
-      const quantity = 42;
-
-      const topping = await updateTopping({ id, name, quantity });
-
-      expect(topping.id).toEqual(id);
-      expect(topping.name).toEqual(name);
-      expect(topping.price).toEqual(testTopping.price);
-      expect(topping.quantity).toEqual(quantity);
-      expect(topping.category).toEqual(testTopping.category);
-      await deleteTopping(id);
+      expect(pizza.id).toEqual(expect.any(Number));
+      expect(pizza.crustId).toEqual(crustId);
+      expect(pizza.userId).toEqual(userId);
+      expect(pizza.sizeId).toEqual(sizeId);
+      expect(pizza.featured).toEqual(false);
     });
+  });
+
+  describe("getAllFeaturedPizzas", () => {
+    it("Returns an array of all featured pizzas and excludes non-featured pizzas", async () => {
+      const pizzas = await getAllFeaturedPizzas();
+
+      const nonFeatured = pizzas.find((pizza) => pizza.featured !== true);
+      const pizza = pizzas.find((pizza) => pizza.id === aTestPizza.id);
+
+      expect(pizza.name).toEqual(aTestPizza.name);
+      expect(pizzas).toEqual(expect.any(Array));
+      expect(nonFeatured).toBeFalsy();
+    });
+  });
+
+  describe("getAllNonFeaturedPizzas", () => {
+    it("Returns an array of all non-featured pizzas and excludes featured pizzas", async () => {
+      const pizzas = await getAllNonFeaturedPizzas();
+
+      const featuredPizza = pizzas.find((pizza) => pizza.id === aTestPizza.id);
+
+      expect(pizzas).toEqual(expect.any(Array));
+      expect(featuredPizza).toBeFalsy();
+    });
+  });
+
+  describe("getAllPizzasByUser", () => {
+    it("Gets all pizzas for the user by email", async () => {
+      const pizzas = await getAllPizzasByUser({ email });
+
+      const pizza = pizzas.find((pizza) => pizza.id === aTestPizza.id);
+
+      expect(pizzas).toEqual(expect.any(Array));
+      expect(pizza.crustId).toEqual(aTestPizza.crustId);
+      expect(pizza.userId).toEqual(userId);
+    });
+  });
+
+  describe("destroyPizza", () => {
+    const testParams = {
+      name: "extreeeeme",
+      crustId,
+      userId,
+      sizeId,
+      featured: true,
+    };
+
+    it("Removes a pizza from table", async () => {
+      const pizza = await createPizza(testParams);
+
+      await destroyPizza(pizza.id);
+
+      const { rows } = await client.query(`SELECT * FROM pizza;`);
+      const testPizza = rows.find((pizza) => pizza.name === name);
+
+      expect(testPizza).toBeFalsy;
+    });
+    it("Returns the destroyed pizza", () => {});
   });
 });
