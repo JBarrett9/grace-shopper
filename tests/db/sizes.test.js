@@ -10,7 +10,7 @@ const {
 describe("DB Sizes", () => {
   describe("getAllSizes", () => {
     it("Returns an array of sizes", async () => {
-      const testSize = { size: "extra-ordinarily large" };
+      const testSize = { size: "extra-ordinarily large", pricemod: 2 };
       await createSize(testSize);
 
       const sizes = await getAllSizes();
@@ -27,7 +27,7 @@ describe("DB Sizes", () => {
   describe("createSize", () => {
     it("Creates a size and returns a size object", async () => {
       const testSize = "extremely large";
-      const { id, size } = await createSize({ size: testSize });
+      const { id, size } = await createSize({ size: testSize, pricemod: 5 });
 
       expect(testSize).toEqual(size);
       expect(id).toEqual(expect.any(Number));
@@ -37,7 +37,7 @@ describe("DB Sizes", () => {
 
   describe("getSizeById", () => {
     it("Gets the correct size by its id", async () => {
-      const testSize = await createSize({ size: "ginormous" });
+      const testSize = await createSize({ size: "ginormous", pricemod: 3 });
 
       const size = await getSizeById(testSize.id);
 
@@ -49,7 +49,7 @@ describe("DB Sizes", () => {
   describe("getSizeByName", () => {
     it("Gets a size by name", async () => {
       const param = "ginormous";
-      const testSize = await createSize({ size: param });
+      const testSize = await createSize({ size: param, pricemod: 6 });
 
       const size = await getSizeByName(param);
       expect(size.size).toEqual(param);
@@ -61,13 +61,16 @@ describe("DB Sizes", () => {
   describe("deleteSize", () => {
     it("Removes size from database and returns deleted size", async () => {
       const testSize = "extremely large";
-      const { id, size } = await createSize({ size: testSize });
+      const { id, size } = await createSize({ size: testSize, pricemod: 30 });
     });
   });
 
   describe("updateSize", () => {
     it("Updates a size without changing the id, and returns the updated size", async () => {
-      const testSize = await createSize("extremely large");
+      const testSize = await createSize({
+        size: "extremely large",
+        pricemod: 30,
+      });
       const param = "ginormous";
 
       const size = await updateSize({ id: testSize.id, size: param });
