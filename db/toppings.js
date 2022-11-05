@@ -61,7 +61,10 @@ async function attachToppingsToPizzas(pizzas) {
   `,
     [id]
   );
-
+  for (let topping of toppings) {
+    delete topping.pizzaId;
+    delete topping.toppingId;
+  }
   return toppings;
 }
 

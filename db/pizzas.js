@@ -2,60 +2,6 @@ const client = require("./client");
 const { attachToppingsToPizzas } = require("./toppings");
 const { getUserByEmail } = require("./users");
 
-const getPizzaById = async (id) => {
-  try {
-    const {
-      rows: [pizza],
-    } = await client.query(`SELECT * FROM pizza WHERE id=($1)`, [id]);
-
-    if (pizza) {
-      const toppings = await attachToppingsToPizzas(pizza);
-      pizza.toppings = toppings;
-    }
-
-    return pizza;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-const getPizzaByName = async (name) => {
-  try {
-    const {
-      rows: [pizza],
-    } = await client.query(`SELECT * FROM pizza WHERE name=($1)`, [name]);
-
-    if (pizza) {
-      const toppings = await attachToppingsToPizzas(pizza);
-      pizza.toppings = toppings;
-    }
-
-    return pizza;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
-  try {
-    const {
-      rows: [pizza],
-    } = await client.query(
-      `
-                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured)
-                    VALUES ($1, $2, $3, $4, $5)
-                    RETURNING *;
-                `,
-      [name, crustId, userId, sizeId, featured]
-    );
-    return pizza;
-  } catch (error) {
-    throw error;
-  }
-};
-
 async function getAllFeaturedPizzas() {
   const { rows: pizzas } = await client.query(
     `SELECT *
@@ -105,6 +51,81 @@ async function getAllPizzasByUser({ email }) {
   return pizzas;
 }
 
+const getPizzaById = async (id) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(`SELECT * FROM pizza WHERE id=($1)`, [id]);
+
+    if (pizza) {
+      const toppings = await attachToppingsToPizzas(pizza);
+      pizza.toppings = toppings;
+    }
+
+    return pizza;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const getPizzaByName = async (name) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(`SELECT * FROM pizza WHERE name=($1)`, [name]);
+
+    if (pizza) {
+      const toppings = await attachToppingsToPizzas(pizza);
+      pizza.toppings = toppings;
+    }
+
+    return pizza;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+async function attachPizzaToOrder(order) {
+  const { id } = order;
+
+  const { rows: orders } = await client.query(
+    `
+    SELECT *
+    FROM pizza
+    JOIN pizza_order ON pizza_order."pizzaId"=pizza.id
+    WHERE pizza_order."orderId"=$1
+  `,
+    [id]
+  );
+  for (let order of orders) {
+    const toppings = await attachToppingsToPizzas({ id: order.pizzaId });
+    order.toppings = toppings;
+    delete order.pizzaId;
+    delete order.orderId;
+  }
+  return orders;
+}
+
+const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
+  try {
+    const {
+      rows: [pizza],
+    } = await client.query(
+      `
+                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured)
+                    VALUES ($1, $2, $3, $4, $5)
+                    RETURNING *;
+                `,
+      [name, crustId, userId, sizeId, featured]
+    );
+    return pizza;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const destroyPizza = async (id) => {
   try {
     const {
@@ -151,4 +172,5 @@ module.exports = {
   updatePizza,
   getPizzaByName,
   getAllNonFeaturedPizzas,
+  attachPizzaToOrder,
 };

@@ -1,11 +1,35 @@
 const client = require("./client");
+const { attachPizzaToOrder } = require("./pizzas");
+
+async function getAllOrders() {
+  const { rows: orders } = await client.query(
+    `SELECT *
+    FROM orders`
+  );
+
+  for (let order of orders) {
+    console.log(order);
+    const pizzas = await attachPizzaToOrder(order);
+    order.pizzas = pizzas;
+  }
+
+  return orders;
+}
 
 const createOrder = async ({ userId, active, price, delivery }) => {
+  if (delivery === undefined) {
+    delivery = false;
+  }
+  if (active === undefined) {
+    active = true;
+  }
   try {
     const {
       rows: [order],
     } = await client.query(
-      `INSERT INTO orders ("userId", active, price, delivery)`,
+      `INSERT INTO orders ("userId", active, price, delivery)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *`,
       [userId, active, price, delivery]
     );
     return order;
@@ -24,7 +48,6 @@ const getOrderById = async (id) => {
     throw error;
   }
 };
-
 
 const updateOrder = async ({ id, ...fields }) => {
   const setStr = Object.keys(fields)
@@ -52,4 +75,5 @@ module.exports = {
   createOrder,
   getOrderById,
   updateOrder,
+  getAllOrders,
 };
