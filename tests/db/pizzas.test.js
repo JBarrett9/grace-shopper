@@ -39,7 +39,7 @@ describe("DB Pizzas", () => {
     });
     crustId = crust.id;
 
-    const { id } = await createSize({ size: "Yuuuuge" });
+    const { id } = await createSize({ size: "Yuuuuge", pricemod: 5 });
     sizeId = id;
 
     const pizza = await createPizza({
@@ -180,7 +180,7 @@ describe("DB Pizzas", () => {
       await destroyPizza(pizza.id);
 
       const { rows } = await client.query(`SELECT * FROM pizza;`);
-      const testPizza = rows.find((pizza) => pizza.name === name);
+      const testPizza = rows.find((pizza) => pizza.name === testParams.name);
 
       expect(testPizza).toBeFalsy;
     });
