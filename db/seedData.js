@@ -8,6 +8,10 @@ const {
   deleteLocation,
 } = require("./locations");
 const { createOrder, getAllOrders } = require("./orders");
+const {
+  addLocationToOrder,
+  removeLocationFromOrder,
+} = require("./order_location");
 const { createPizza, getAllFeaturedPizzas } = require("./pizzas");
 const { addPizzaToOrder } = require("./pizza_order");
 const { addToppingToPizza } = require("./pizza_toppings");
@@ -539,12 +543,30 @@ const createInitialLocations = async () => {
     });
 
     await updateLocation({ id: 1, apartment: true });
-    await deleteLocation(2);
 
     // const locations = await getLocations();
     // console.log(locations);
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 };
+const createInitialOrderLocations = async () => {
+  console.log("Creating initial order locations...");
+  try {
+    await addLocationToOrder({ orderId: 1, locationId: 1 });
+    await removeLocationFromOrder({ orderId: 1, locationId: 1 });
+    await addLocationToOrder({ orderId: 1, locationId: 2 });
+
+    const orders = await getAllOrders();
+
+    console.log(orders[0]);
+    // const locations = await getLocations();
+    // console.log(locations);
+  } catch (error) {
+    throw error;
+  }
+};
+
 async function rebuildDB() {
   try {
     await dropTables();
@@ -561,6 +583,7 @@ async function rebuildDB() {
     await createIntitialPizzaOrders();
     await createInitialReviews();
     await createInitialLocations();
+    await createInitialOrderLocations();
     console.log("=== DATA CREATED === ");
   } catch (error) {
     console.log("Error during rebuildDB");

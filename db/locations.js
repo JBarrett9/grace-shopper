@@ -39,6 +39,29 @@ const getLocationById = async (id) => {
   }
 };
 
+async function attachLocationToOrder(order) {
+  const { id } = order;
+  if (order.delivery) {
+    const {
+      rows: [orders],
+    } = await client.query(
+      `
+          SELECT *
+          FROM locations
+          JOIN order_location ON order_location."locationId"=locations.id
+          WHERE order_location."orderId"=$1
+        `,
+      [id]
+    );
+    if (orders) {
+      delete orders.userId;
+      delete orders.orderId;
+    }
+    return orders;
+  }
+  return;
+}
+
 const createLocation = async ({
   userId,
   city,
@@ -109,4 +132,5 @@ module.exports = {
   getLocationById,
   updateLocation,
   deleteLocation,
+  attachLocationToOrder,
 };

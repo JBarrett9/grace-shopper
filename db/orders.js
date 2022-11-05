@@ -1,4 +1,5 @@
 const client = require("./client");
+const { attachLocationToOrder } = require("./locations");
 const { attachPizzaToOrder } = require("./pizzas");
 
 async function getAllOrders() {
@@ -10,6 +11,8 @@ async function getAllOrders() {
   for (let order of orders) {
     const pizzas = await attachPizzaToOrder(order);
     order.pizzas = pizzas;
+    const location = await attachLocationToOrder(order);
+    order.location = location;
   }
 
   return orders;
