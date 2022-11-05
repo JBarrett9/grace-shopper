@@ -27,6 +27,7 @@ async function addToppingToPizza({ pizzaId, toppingId, amount, double }) {
       `,
       [pizzaId, toppingId, amount, double]
     );
+
     return topping;
   }
 }

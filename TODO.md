@@ -90,17 +90,17 @@
 
 > api/pizzas/:pizzaId
 
-- [ ] patch
+- [x] patch
 
 > api/pizzas/:pizzaId
 
 ### User
 
-- [ ] get
+- [x] get
 
 > api/users/me
 
-- [ ] post
+- [x] post
 
 > api/users/login
 
@@ -134,9 +134,9 @@
 
 ### Errors
 
-- [ ] 404
+- [x] 404
 
-- [ ] 500
+- [x] 500
 
 ## DB
 
@@ -188,23 +188,23 @@
 
 - [x] Update
 
-### cartPizza
+### Orders
 
-- [ ] Get
+- [x] Get
 
 > getPizzasByCart(cartId) -> [{ pizza }]
 
-- [ ] Create
+- [x] Create
 
-> addPizzaToCart({ cartPizza }) -> { cartPizza }
+> addPizzaToCart({ Orders }) -> { Orders }
 
-- [ ] Delete
+- [x] Delete
 
-> deleteCartPizza(id) -> { cartPizza }
+> deleteOrders(id) -> { Orders }
 
-- [ ] Update
+- [x] Update
 
-> updateCartPizza({ id, qty }) -> { cartPizza }
+> updateOrders({ id, qty }) -> { Orders }
 
 ### Users
 
@@ -214,7 +214,7 @@
 
 ### Carts
 
-- [ ] Get
+- [x] Get
 
 > getCart(userId) -> { cart }
 
