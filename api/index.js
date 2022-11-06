@@ -44,12 +44,14 @@ const usersRouter = require("./users");
 const toppingsRouter = require("./toppings");
 const crustsRouter = require("./crusts");
 const sizesRouter = require("./sizes");
+const reviewsRouter = require("./reviews");
 
 router.use("/pizzas", pizzasRouter);
 router.use("/users", usersRouter);
 router.use("/toppings", toppingsRouter);
 router.use("/crusts", crustsRouter);
 router.use("/sizes", sizesRouter);
+router.use("/reviews", reviewsRouter);
 
 router.use("*", (req, res) => {
   res.status(404);
@@ -61,6 +63,13 @@ router.use("*", (req, res) => {
 
 router.use((error, req, res, next) => {
   res.status(500).send({
+    name: error.name,
+    message: error.message,
+  });
+});
+
+router.use((error, req, res, next) => {
+  res.send({
     name: error.name,
     message: error.message,
   });
