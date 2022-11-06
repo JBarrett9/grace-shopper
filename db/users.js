@@ -1,7 +1,7 @@
 const client = require("./client");
 const bcrypt = require("bcrypt");
 
-const createUser = async ({ email, name, password, admin }) => {
+const createUser = async ({ email, name, password, admin, birthday }) => {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
@@ -14,16 +14,16 @@ const createUser = async ({ email, name, password, admin }) => {
       rows: [user],
     } = await client.query(
       `
-                  INSERT INTO users(email, name, password, admin)
-                  VALUES ($1, $2, $3, $4)
+                  INSERT INTO users(email, name, password, admin, birthday)
+                  VALUES ($1, $2, $3, $4, $5)
                   ON CONFLICT (email) DO NOTHING
                   RETURNING id, email;
               `,
-      [email, name, hashedPassword, admin]
+      [email, name, hashedPassword, admin, birthday]
     );
     return user;
   } else {
-    console.log("User not created, invalid e-mail address provided.");
+    throw error;
   }
 };
 
@@ -90,6 +90,9 @@ const updateUser = async ({ id, ...fields }) => {
       `UPDATE users SET ${setStr} WHERE id=${id} RETURNING *;`,
       Object.values(fields)
     );
+
+    delete user.password;
+
     return user;
   } catch (error) {
     throw error;

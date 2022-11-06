@@ -146,7 +146,6 @@ router.patch("/:userId/edit/", requireUser, async (req, res, next) => {
   }
 });
 
-// GET /api/users/me
 router.get("/me", requireUser, async (req, res) => {
   const user = req.user;
   res.send(user);

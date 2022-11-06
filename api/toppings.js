@@ -8,7 +8,7 @@ const {
   getAllToppings,
   getToppingByName,
   createTopping,
-  updateToppings,
+  updateTopping,
   getToppingById,
   deleteTopping,
 } = require("../db/toppings");
@@ -111,7 +111,7 @@ router.patch("/:toppingId", requireAdmin, async (req, res, next) => {
       updateFields.category = category;
     }
     try {
-      const updatedTopping = await updateToppings({
+      const updatedTopping = await updateTopping({
         id: toppingId,
         ...updateFields,
       });
@@ -136,7 +136,7 @@ router.delete("/:toppingId", requireAdmin, async (req, res, next) => {
   }
 
   try {
-    const response = await deleteTopping(toppingId);
+    await deleteTopping(toppingId);
     res.send({
       success: true,
       message: `${topping.name} has successfully been deleted.`,
