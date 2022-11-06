@@ -69,8 +69,14 @@ router.post("/", requireAdmin, async (req, res) => {
 router.patch("/:toppingId", requireAdmin, async (req, res, next) => {
   const { toppingId } = req.params;
   const { name, price, quantity, category, active } = req.body;
+  const updateFields = { name, price, quantity, category, active };
+  Object.keys(updateFields).forEach(function (key, idx) {
+    if (updateFields[key] === undefined) {
+      delete updateFields[key];
+    }
+  });
+
   const topping = await getToppingById(toppingId);
-  const updateFields = {};
 
   if (!topping) {
     next({
@@ -90,12 +96,6 @@ router.patch("/:toppingId", requireAdmin, async (req, res, next) => {
       }
       updateFields.name = name;
     }
-    if (price) {
-      updateFields.price = price;
-    }
-    if (quantity) {
-      updateFields.quantity = quantity;
-    }
     if (category) {
       if (
         category !== "meat" &&
@@ -109,9 +109,6 @@ router.patch("/:toppingId", requireAdmin, async (req, res, next) => {
         });
       }
       updateFields.category = category;
-    }
-    if (active) {
-      updateFields.active = active;
     }
     try {
       const updatedTopping = await updateToppings({

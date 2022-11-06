@@ -5,8 +5,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
-const { requireUser } = require("./utils");
-const { getUserByEmail, createUser } = require("../db/users");
+const { requireUser, requireAdmin } = require("./utils");
+const {
+  getUserByEmail,
+  createUser,
+  getUserById,
+  updateUser,
+} = require("../db/users");
 
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
@@ -73,6 +78,69 @@ router.post("/register", async (req, res, next) => {
       message: "you're logged in!",
       token,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:userId/admin/", requireAdmin, async (req, res, next) => {
+  const { userId } = req.params;
+  const { name, password, admin, birthday, active } = req.body;
+  let updateFields = { name, password, admin, birthday, active };
+  Object.keys(updateFields).forEach(function (key, idx) {
+    if (updateFields[key] === undefined) {
+      delete updateFields[key];
+    }
+  });
+
+  const user = getUserById(userId);
+
+  if (!user) {
+    next({
+      error: "UserNotFound",
+      name: "User Not Found",
+      message: "Unable to find a user associated to that ID.",
+    });
+  }
+
+  try {
+    const updatedUser = await updateUser({ id: userId, ...updateFields });
+    res.send(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:userId/edit/", requireUser, async (req, res, next) => {
+  const { userId } = req.params;
+  const { name, password, birthday, active } = req.body;
+  let updateFields = { name, password, birthday, active };
+  Object.keys(updateFields).forEach(function (key, idx) {
+    if (updateFields[key] === undefined) {
+      delete updateFields[key];
+    }
+  });
+
+  const user = getUserById(userId);
+
+  if (!user) {
+    next({
+      error: "UserNotFound",
+      name: "User Not Found",
+      message: "Unable to find a user associated to that ID.",
+    });
+  }
+  if (userId !== user.id && req.user.admin === false) {
+    next({
+      error: "UnauthorizedError",
+      name: "UnauthorizedError",
+      message: "You can only edit your own profile.",
+    });
+  }
+
+  try {
+    const updatedUser = await updateUser({ id: userId, ...updateFields });
+    res.send(updatedUser);
   } catch (error) {
     next(error);
   }
