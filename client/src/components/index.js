@@ -1,1 +1,4 @@
-export { default as Books } from "./Books";
+import Books from "./Books";
+import Checkout from "./checkout/checkout";
+
+export { Books, Checkout };

@@ -7,6 +7,7 @@ const {
   getReviewsByPizza,
 } = require("../db/reviews");
 const { getUserByEmail } = require("../db/users");
+const { requireUser } = require("./utils");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -14,17 +15,9 @@ router.get("/", async (req, res, next) => {
   res.send(reviews);
 });
 
-router.post("/:pizzaId", async (req, res, next) => {
+router.post("/:pizzaId", requireUser, async (req, res, next) => {
   const { pizzaId } = req.params;
   const { content, stars } = req.body;
-
-  if (!req.user.email) {
-    res.status(401).send({
-      error: "You must be logged in to perform this action",
-      message: "You must be logged in to perform this action",
-      name: "InvalidCredentialsError",
-    });
-  }
 
   try {
     const { id } = await getUserByEmail(req.user.email);
