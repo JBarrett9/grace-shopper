@@ -22,7 +22,7 @@ router.get("/:userId", requireUser, (req, res, next) => {
   }
 });
 
-router.create("/:userId", requireUser, (req, res, next) => {
+router.post("/:userId", requireUser, (req, res, next) => {
   const { userId } = req.params;
   const { delivery } = req.body;
 
