@@ -4,7 +4,7 @@ const { getOrderPrice } = require("../db/prices");
 const router = express.Router();
 const { requireUser } = require("./utils");
 
-router.get("/:userId", requireUser, (req, res, next) => {
+router.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
 
   if (userId !== req.user.id) {
@@ -15,14 +15,14 @@ router.get("/:userId", requireUser, (req, res, next) => {
     });
   }
   try {
-    const order = getUserOrders(userId);
+    const order = await getUserOrders(userId);
     res.json(order);
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
 
-router.post("/:userId", requireUser, (req, res, next) => {
+router.post("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
   const { delivery } = req.body;
 
@@ -35,7 +35,12 @@ router.post("/:userId", requireUser, (req, res, next) => {
   }
 
   try {
-    const order = createOrder({ userId, active: true, price: 0, delivery });
+    const order = await createOrder({
+      userId,
+      active: true,
+      price: 0,
+      delivery,
+    });
     res.json(order);
   } catch ({ name, message }) {
     next({ name, message });
@@ -65,7 +70,7 @@ router.patch("/:orderId", requireUser, async (req, res, next) => {
       });
     }
 
-    const price = getOrderPrice(orderId);
+    const price = await getOrderPrice(orderId);
 
     const order = await updateOrder({ id: orderId, active, price, delivery });
     res.json(order);
