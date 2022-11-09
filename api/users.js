@@ -55,7 +55,7 @@ router.post("/register", async (req, res, next) => {
     next({
       error: "CannotRegisterUser",
       name: "UserAlreadyExists",
-      message: `User ${username} is already taken.`,
+      message: `User ${email} is already taken.`,
     });
     return;
   }
@@ -87,6 +87,7 @@ router.patch("/:userId/admin/", requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
   const { name, password, admin, birthday, active } = req.body;
   let updateFields = { name, password, admin, birthday, active };
+
   Object.keys(updateFields).forEach(function (key, idx) {
     if (updateFields[key] === undefined) {
       delete updateFields[key];

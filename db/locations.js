@@ -6,7 +6,6 @@ const getLocations = async () => {
     FROM locations
      ;`
   );
-
   if (!rows) {
     return null;
   }
@@ -69,17 +68,18 @@ const createLocation = async ({
   address,
   apartment,
   main,
+  zipcode,
 }) => {
   try {
     const {
       rows: [location],
     } = await client.query(
       `
-                      INSERT INTO locations ("userId", city, state, address, apartment, main )
-                      VALUES ($1, $2, $3, $4, $5, $6)
+                      INSERT INTO locations ("userId", city, state, address, apartment, main, zipcode )
+                      VALUES ($1, $2, $3, $4, $5, $6, $7)
                       RETURNING *;
                   `,
-      [userId, city, state, address, apartment, main]
+      [userId, city, state, address, apartment, main, zipcode]
     );
 
     return location;
