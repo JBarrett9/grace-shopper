@@ -17,9 +17,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:userId", async (req, res) => {
-  // TAKE A LOOK
   const { userId } = req.params;
-  const locations = getUserLocations(userId);
+  const locations = await getUserLocations(userId);
   res.send(locations);
 });
 

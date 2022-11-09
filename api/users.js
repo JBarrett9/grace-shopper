@@ -15,7 +15,6 @@ const {
 
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
-  const SALT_COUNT = 10;
   if (!email || !password) {
     next({
       error: "MissingCredentials",
@@ -26,7 +25,7 @@ router.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUserByEmail(email);
-    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+    const hashedPassword = user.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPassword);
     if (passwordsMatch) {
       let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });

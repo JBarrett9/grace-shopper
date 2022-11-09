@@ -36,10 +36,10 @@ router.post("/", requireAdmin, async (req, res, next) => {
 
 router.patch("/:sizeId", requireAdmin, async (req, res, next) => {
   const { sizeId } = req.params;
-  const { size } = req.body;
+  const { size, pricemod } = req.body;
   const getSize = await getSizeById(sizeId);
   const updateFields = {};
-
+  console.log(getSize);
   if (!getSize) {
     next({
       error: "SizeNotFound",
@@ -49,7 +49,6 @@ router.patch("/:sizeId", requireAdmin, async (req, res, next) => {
   } else {
     if (getSize) {
       const _size = await getSizeByName(size);
-
       if (_size) {
         next({
           error: "SizeAlreadyExists",
@@ -58,16 +57,21 @@ router.patch("/:sizeId", requireAdmin, async (req, res, next) => {
         });
       }
     }
-    updateFields.size = size;
-    try {
-      const updatedSize = await updateSize({
-        id: sizeId,
-        ...updateFields,
-      });
-      res.send(updatedSize);
-    } catch (error) {
-      next(error);
+    if (size) {
+      updateFields.size = size;
     }
+  }
+  if (pricemod) {
+    updateFields.pricemod = pricemod;
+  }
+  try {
+    const updatedSize = await updateSize({
+      id: sizeId,
+      ...updateFields,
+    });
+    res.send(updatedSize);
+  } catch (error) {
+    next(error);
   }
 });
 

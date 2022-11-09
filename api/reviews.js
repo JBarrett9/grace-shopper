@@ -23,14 +23,25 @@ router.post("/:pizzaId", requireUser, async (req, res, next) => {
     const { id } = await getUserByEmail(req.user.email);
     const userReviews = await getReviewsByUser(id);
 
-    const _review = userReviews.find((review) => review.pizzaId === pizzaId);
+    for (let review of userReviews) {
+      if (review.pizzaId === Number(pizzaId)) {
+        next({
+          error: "AlreadyReviewed",
+          name: "Already Reviewed",
+          message: "You have already left a review for that pizza.",
+        });
+      }
+    }
+    // const _review = await userReviews.find(
+    //   (review) => review.pizzaId === pizzaId
+    // );
 
-    if (_review)
-      res.status(403).send({
-        error: "User has already created a review for this pizza",
-        message: "User has already created a review for this pizza",
-        name: "ReviewAlreadyExistsError",
-      });
+    // if (_review)
+    //   res.status(403).send({
+    //     error: "User has already created a review for this pizza",
+    //     message: "User has already created a review for this pizza",
+    //     name: "ReviewAlreadyExistsError",
+    //   });
     const review = await createReview({ pizzaId, userId: id, content, stars });
     res.send({ message: "success", data: review });
   } catch (error) {

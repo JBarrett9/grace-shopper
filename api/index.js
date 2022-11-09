@@ -56,6 +56,7 @@ router.use("/crusts", crustsRouter);
 router.use("/sizes", sizesRouter);
 router.use("/reviews", reviewsRouter);
 router.use("/pizza_toppings", pizzaToppingsRouter);
+router.use("/locations", locationsRouter);
 router.use("/orders", ordersRouter);
 
 router.use("*", (req, res) => {

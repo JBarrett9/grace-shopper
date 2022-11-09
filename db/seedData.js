@@ -485,9 +485,9 @@ const createIntitialPizzaOrders = async () => {
       order.price = await getOrderPrice(order.id);
     }
 
-    // console.log("ORDERS: ", orders);
-    // console.log("ORDERS[0]: ", orders[0]);
-    // console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
+    console.log("ORDERS: ", orders);
+    console.log("ORDERS[0]: ", orders[0]);
+    console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
     throw error;
