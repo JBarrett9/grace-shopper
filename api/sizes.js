@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAdmin, async (req, res, next) => {
-  const { size } = req.body;
+  const { size, pricemod } = req.body;
   const _size = await getSizeByName(size);
   if (_size) {
     next({
@@ -29,7 +29,7 @@ router.post("/", requireAdmin, async (req, res, next) => {
       message: `A size with the name ${size} already exists.`,
     });
   } else {
-    const newSize = await createSize({ size });
+    const newSize = await createSize({ size, pricemod });
     res.send(newSize);
   }
 });

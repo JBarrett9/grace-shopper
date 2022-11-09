@@ -7,6 +7,7 @@ const {
   getLocationById,
   deleteLocation,
 } = require("../db/locations");
+const { getUser, getUserByEmail } = require("../db/users");
 const router = express.Router();
 const { requireUser } = require("./utils");
 
@@ -16,16 +17,17 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:userId", async (req, res) => {
+  // TAKE A LOOK
   const { userId } = req.params;
   const locations = getUserLocations(userId);
   res.send(locations);
 });
 
 router.post("/", requireUser, async (req, res, next) => {
-  const { id } = req.user;
   const { city, state, address, apartment, main, zipcode } = req.body;
+  const user = await getUserByEmail(req.user.email);
 
-  const userLocations = await getUserLocations(id);
+  const userLocations = await getUserLocations(user.id);
 
   for (let location of userLocations) {
     if (location.address.toLowerCase() === address.toLowerCase()) {
@@ -39,7 +41,7 @@ router.post("/", requireUser, async (req, res, next) => {
 
   try {
     const location = await createLocation({
-      userId,
+      userId: user.id,
       city,
       state,
       address,
@@ -55,9 +57,10 @@ router.post("/", requireUser, async (req, res, next) => {
 
 router.patch("/:locationId", requireUser, async (req, res, next) => {
   const { locationId } = req.params;
-  const { id } = req.user;
+  const { id, email } = req.user;
   const { city, state, address, apartment, main, zipcode } = req.body;
   const updateFields = { city, state, address, apartment, main, zipcode };
+  const user = await getUserByEmail(email);
   Object.keys(updateFields).forEach(function (key, idx) {
     if (updateFields[key] === undefined) {
       delete updateFields[key];
@@ -95,7 +98,10 @@ router.patch("/:locationId", requireUser, async (req, res, next) => {
     }
   }
   try {
-    const response = updateLocation({ id: _location.id, ...updateFields });
+    const response = await updateLocation({
+      id: _location.id,
+      ...updateFields,
+    });
     res.send(response);
   } catch (error) {
     next(error);
@@ -104,9 +110,8 @@ router.patch("/:locationId", requireUser, async (req, res, next) => {
 
 router.delete("/:locationId", requireUser, async (req, res, next) => {
   const { locationId } = req.params;
-  const { email } = req.user;
   const location = await getLocationById(locationId);
-  const user = await getUserByEmail(email);
+  const user = await getUserByEmail(req.user.email);
 
   if (!location) {
     next({
@@ -115,7 +120,8 @@ router.delete("/:locationId", requireUser, async (req, res, next) => {
       message: `Unable to find size associated with ID: ${locationId}`,
     });
   }
-  if (!user.admin && location.userId !== id) {
+
+  if (!user.admin && location.userId !== user.id) {
     next({
       error: "NotYourLocation",
       message: `A location with the ID ${locationId} does not belong to you.`,
@@ -124,7 +130,7 @@ router.delete("/:locationId", requireUser, async (req, res, next) => {
   }
 
   try {
-    const removed = deleteLocation(locationId);
+    const removed = await deleteLocation(locationId);
     res.send({
       success: true,
       message: `${location.address} has successfully been deleted.`,

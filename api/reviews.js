@@ -33,8 +33,8 @@ router.post("/:pizzaId", requireUser, async (req, res, next) => {
       });
     const review = await createReview({ pizzaId, userId: id, content, stars });
     res.send({ message: "success", data: review });
-  } catch ({ name, message }) {
-    next({ name, message });
+  } catch (error) {
+    next(error);
   }
 });
 
