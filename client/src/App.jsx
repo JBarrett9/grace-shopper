@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Books, Checkout } from "./components";
-import Cart from "./components/pages/Cart";
-import Home from "./components/pages/Home";
+import Checkout from "./components/checkout/checkout";
+import Cart from "./components/Cart";
+import Home from "./Home";
 import styled from "styled-components";
-import Header from "./components/pages/Header";
-import Menu from "./components/pages/Menu";
-import Featured from "./components/pages/Featured";
-import Login from "./components/pages/Login";
-import Signup from "./components/pages/Signup";
+import Header from "./components/Header";
+import Menu from "./components/Menu";
+import Featured from "./components/Featured";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   return (
@@ -16,7 +16,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/books" element={<Books></Books>}></Route>
         <Route path="/" element={<Home />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/featured" element={<Featured />}></Route>

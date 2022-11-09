@@ -9,11 +9,8 @@ const Menu = () => {
     getAllFeaturedPizzas();
   }, []);
 
-  const getAllFeaturedPizzas = () => {
-    async function getPizzas() {
-      await fetchFeaturedPizzas(setPizzas);
-    }
-    getPizzas();
+  const getAllFeaturedPizzas = async () => {
+    await fetchFeaturedPizzas(setPizzas);
   };
 
   return (
