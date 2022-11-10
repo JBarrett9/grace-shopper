@@ -13,7 +13,7 @@ const client = new Pool(
       }
     : {
         user: "postgres",
-        password: DB_SECRET,
+        password: "bryan1991",
         database: "grace-shopper",
       }
 );

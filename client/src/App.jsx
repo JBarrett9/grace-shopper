@@ -5,7 +5,6 @@ import Home from "./components/pages/Home";
 import styled from "styled-components";
 import Header from "./components/pages/Header";
 import Menu from "./components/pages/Menu";
-import Featured from "./components/pages/Featured";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
 
@@ -17,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/featured" element={<Featured />}></Route>
+
         <Route path="/menu" element={<Menu />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>

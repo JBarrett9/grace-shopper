@@ -14,7 +14,7 @@ const Header = () => {
             <nav>
             
                 <NavLink to={"/menu"}>Menu</NavLink>
-                <NavLink to={"/featured"}>Featured</NavLink>
+                
                  
             </nav>
         </StyledComponent>
