@@ -1,9 +1,5 @@
-require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
 
 const { requireUser, requireAdmin } = require("./utils");
 const {
@@ -15,7 +11,11 @@ const {
   updatePizza,
 } = require("../db/pizzas");
 const { getUserByEmail } = require("../db/users");
-const { removePizzaToppings } = require("../db/pizza_toppings");
+const {
+  removePizzaToppings,
+  getPizzaToppingsByPizza,
+  addToppingToPizza,
+} = require("../db/pizza_toppings");
 const { getCrustById } = require("../db/crusts");
 const { getSizeById } = require("../db/sizes");
 
@@ -84,6 +84,36 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.post("/:pizzaId/toppings", async (req, res, next) => {
+  const { pizzaId } = req.params;
+  const { toppingId, amount, double } = req.body;
+
+  const toppings = await getPizzaToppingsByPizza({ id: pizzaId });
+
+  if (toppings) {
+    for (let topping of toppings) {
+      if (topping.toppingId === pizzaId) {
+        next({
+          error: "ToppingAlreadyExists",
+          name: "Topping Already Exists",
+          message: `A topping with the Topping ID: ${toppingId} already exists on Pizza ID: ${pizzaId}.`,
+        });
+      }
+    }
+  }
+  try {
+    const response = await addToppingToPizza({
+      pizzaId,
+      toppingId,
+      amount,
+      double,
+    });
+    res.send(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch("/:pizzaId", async (req, res, next) => {
   const { pizzaId } = req.params;
   const { name, crustId, userId, sizeId, featured } = req.body;
@@ -134,6 +164,16 @@ router.patch("/:pizzaId", async (req, res, next) => {
       updateFields.featured = pizza.featured;
     } else {
       updateFields.featured = featured;
+    }
+
+    if (pizza.featured && !user.admin) {
+      {
+        next({
+          error: "NotYourPizza",
+          message: `A pizza with the ID ${pizzaId} does not belong to you (ADMIN).`,
+          name: "Not Your Pizza",
+        });
+      }
     }
 
     try {

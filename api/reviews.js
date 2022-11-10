@@ -7,6 +7,7 @@ const {
   getReviewsByPizza,
 } = require("../db/reviews");
 const { getUserByEmail } = require("../db/users");
+const { requireUser } = require("./utils");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
@@ -14,34 +15,37 @@ router.get("/", async (req, res, next) => {
   res.send(reviews);
 });
 
-router.post("/:pizzaId", async (req, res, next) => {
+router.post("/:pizzaId", requireUser, async (req, res, next) => {
   const { pizzaId } = req.params;
   const { content, stars } = req.body;
-
-  if (!req.user.email) {
-    res.status(401).send({
-      error: "You must be logged in to perform this action",
-      message: "You must be logged in to perform this action",
-      name: "InvalidCredentialsError",
-    });
-  }
 
   try {
     const { id } = await getUserByEmail(req.user.email);
     const userReviews = await getReviewsByUser(id);
 
-    const _review = userReviews.find((review) => review.pizzaId === pizzaId);
+    for (let review of userReviews) {
+      if (review.pizzaId === Number(pizzaId)) {
+        next({
+          error: "AlreadyReviewed",
+          name: "Already Reviewed",
+          message: "You have already left a review for that pizza.",
+        });
+      }
+    }
+    // const _review = await userReviews.find(
+    //   (review) => review.pizzaId === pizzaId
+    // );
 
-    if (_review)
-      res.status(403).send({
-        error: "User has already created a review for this pizza",
-        message: "User has already created a review for this pizza",
-        name: "ReviewAlreadyExistsError",
-      });
+    // if (_review)
+    //   res.status(403).send({
+    //     error: "User has already created a review for this pizza",
+    //     message: "User has already created a review for this pizza",
+    //     name: "ReviewAlreadyExistsError",
+    //   });
     const review = await createReview({ pizzaId, userId: id, content, stars });
     res.send({ message: "success", data: review });
-  } catch ({ name, message }) {
-    next({ name, message });
+  } catch (error) {
+    next(error);
   }
 });
 

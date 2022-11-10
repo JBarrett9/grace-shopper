@@ -15,7 +15,6 @@ const {
 
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
-  const SALT_COUNT = 10;
   if (!email || !password) {
     next({
       error: "MissingCredentials",
@@ -26,7 +25,7 @@ router.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUserByEmail(email);
-    const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+    const hashedPassword = user.password;
     const passwordsMatch = await bcrypt.compare(password, hashedPassword);
     if (passwordsMatch) {
       let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });
@@ -55,7 +54,7 @@ router.post("/register", async (req, res, next) => {
     next({
       error: "CannotRegisterUser",
       name: "UserAlreadyExists",
-      message: `User ${username} is already taken.`,
+      message: `User ${email} is already taken.`,
     });
     return;
   }
@@ -87,6 +86,7 @@ router.patch("/:userId/admin/", requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
   const { name, password, admin, birthday, active } = req.body;
   let updateFields = { name, password, admin, birthday, active };
+
   Object.keys(updateFields).forEach(function (key, idx) {
     if (updateFields[key] === undefined) {
       delete updateFields[key];

@@ -45,6 +45,9 @@ const toppingsRouter = require("./toppings");
 const crustsRouter = require("./crusts");
 const sizesRouter = require("./sizes");
 const reviewsRouter = require("./reviews");
+const pizzaToppingsRouter = require("./pizzaToppings");
+const locationsRouter = require("./locations");
+const ordersRouter = require("./orders");
 
 router.use("/pizzas", pizzasRouter);
 router.use("/users", usersRouter);
@@ -52,6 +55,9 @@ router.use("/toppings", toppingsRouter);
 router.use("/crusts", crustsRouter);
 router.use("/sizes", sizesRouter);
 router.use("/reviews", reviewsRouter);
+router.use("/pizza_toppings", pizzaToppingsRouter);
+router.use("/locations", locationsRouter);
+router.use("/orders", ordersRouter);
 
 router.use("*", (req, res) => {
   res.status(404);

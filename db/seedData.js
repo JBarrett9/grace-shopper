@@ -74,7 +74,8 @@ const createTables = async () => {
       state VARCHAR(255) NOT NULL,
       address VARCHAR(255) NOT NULL,
       apartment BOOLEAN DEFAULT false,
-      main BOOLEAN DEFAULT false
+      main BOOLEAN DEFAULT false,
+      zipcode INTEGER NOT NULL
     );`);
 
     console.log("Creating toppings table...");
@@ -484,9 +485,9 @@ const createIntitialPizzaOrders = async () => {
       order.price = await getOrderPrice(order.id);
     }
 
-    // console.log("ORDERS: ", orders);
-    // console.log("ORDERS[0]: ", orders[0]);
-    // console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
+    console.log("ORDERS: ", orders);
+    console.log("ORDERS[0]: ", orders[0]);
+    console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
     throw error;
@@ -532,6 +533,7 @@ const createInitialLocations = async () => {
       address: "123 Main St.",
       apartment: false,
       main: true,
+      zipcode: 11231,
     });
     await createLocation({
       userId: 1,
@@ -540,6 +542,7 @@ const createInitialLocations = async () => {
       address: "434 Broad St.",
       apartment: false,
       main: false,
+      zipcode: 11231,
     });
 
     await updateLocation({ id: 1, apartment: true });
