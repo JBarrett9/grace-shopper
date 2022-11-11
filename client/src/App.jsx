@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Checkout from "./components/checkout/checkout";
 import Cart from "./components/Cart";
-import Home from "./Home";
+import Home from "./components/home/home";
 import styled from "styled-components";
-import Header from "./components/pages/Header";
-import Menu from "./components/pages/Menu";
-import Login from "./components/pages/Login";
-import Signup from "./components/pages/Signup";
+import Header from "./components/header/Header";
+import Menu from "./components/Menu";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Size from "./components/size/size";
 
 function App() {
+  const [order, setOrder] = useState([]);
+
   return (
     <StyledComponent>
-      <Header />
+      <Header numItems={order.length} />
       <Routes>
-        <Route path="/checkout" element={<Checkout />} />
         <Route path="/" element={<Home />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
 
         <Route path="/menu" element={<Menu />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/:pizzaId/size" element={<Size />}></Route>
       </Routes>
     </StyledComponent>
   );
