@@ -6,6 +6,7 @@ import Header from "./components/header/Header";
 import Login from "./components/account/Login";
 import Size from "./components/size/size";
 import { fetchMe, registerUser } from "./api/users";
+import Register from "./components/account/Register";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -77,6 +78,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login setToken={setToken} />}></Route>
+        <Route
+          path="/register"
+          element={<Register setToken={setToken} registerUser={registerUser} />}
+        ></Route>
         <Route
           path="/:pizzaId/size"
           element={
