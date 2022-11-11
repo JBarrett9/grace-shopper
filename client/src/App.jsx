@@ -32,7 +32,6 @@ function App() {
     console.log("token:", localStorageToken);
 
     async function createGuest() {
-      console.log("creating guest");
       let randomEmail = randomString(20);
       randomEmail += "@saucebossguest.com";
       let randomPassword = randomString(20);
@@ -54,7 +53,7 @@ function App() {
       localStorage.setItem("token", result.token);
     }
 
-    if (localStorageToken == "undefined") {
+    if (!localStorageToken) {
       createGuest();
     }
   }, []);
@@ -65,6 +64,7 @@ function App() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
       setToken(localStorageToken);
+      console.log(result);
     }
     if (localStorageToken) {
       getMe();
@@ -76,7 +76,7 @@ function App() {
       <Header numItems={order.length} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
+        <Route path="/login" element={<Login setToken={setToken} />}></Route>
         <Route
           path="/:pizzaId/size"
           element={
