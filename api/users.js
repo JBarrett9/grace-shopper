@@ -14,27 +14,29 @@ const {
 } = require("../db/users");
 
 router.post("/login", async (req, res, next) => {
+  console.log("Trying to log in");
   const { email, password } = req.body;
   if (!email || !password) {
     next({
-      error: "MissingCredentials",
+      error: true,
       name: "MissingCredentialsError",
       message: "Please supply both an e-mail address and password.",
     });
-    return;
   }
   try {
     const user = await getUserByEmail(email);
-    const hashedPassword = user.password;
-    const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-    if (passwordsMatch) {
-      let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });
-      let userData = { id: user.id, email: user.email };
-      res.send({
-        user: userData,
-        message: "you're logged in!",
-        token,
-      });
+    if (user) {
+      const hashedPassword = user.password;
+      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+      if (passwordsMatch) {
+        let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });
+        let userData = { id: user.id, email: user.email };
+        res.send({
+          user: userData,
+          message: "you're logged in!",
+          token,
+        });
+      }
     } else {
       next({
         error: "IncorrectCredentialsError",

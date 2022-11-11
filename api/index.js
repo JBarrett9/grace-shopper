@@ -69,6 +69,7 @@ router.use("*", (req, res) => {
 
 router.use((error, req, res, next) => {
   res.status(500).send({
+    error: true,
     name: error.name,
     message: error.message,
   });
@@ -76,6 +77,7 @@ router.use((error, req, res, next) => {
 
 router.use((error, req, res, next) => {
   res.send({
+    error: true,
     name: error.name,
     message: error.message,
   });

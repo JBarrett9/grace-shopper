@@ -14,6 +14,8 @@ function App() {
   const [token, setToken] = useState("");
 
   useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+
     function randomString(length) {
       var result = "";
       var characters =
@@ -27,10 +29,10 @@ function App() {
       return result;
     }
 
-    const localStorageToken = localStorage.getItem("token");
     console.log("token:", localStorageToken);
 
     async function createGuest() {
+      console.log("creating guest");
       let randomEmail = randomString(20);
       randomEmail += "@saucebossguest.com";
       let randomPassword = randomString(20);
