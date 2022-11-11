@@ -9,7 +9,7 @@ import { fetchMe, registerUser } from "./api/users";
 
 function App() {
   const [orderId, setOrderId] = useState();
-  const [order, setOrder] = useState([]);
+  const [numItems, setNumItems] = useState(0);
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState("");
 
@@ -71,14 +71,21 @@ function App() {
 
   return (
     <>
-      <Header numItems={order.length} />
+      <Header numItems={numItems} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
 
         <Route
           path="/:pizzaId/size"
           element={
-            <Size token={token} orderId={orderId} setOrderId={setOrderId} />
+            <Size
+              token={token}
+              orderId={orderId}
+              setOrderId={setOrderId}
+              user={currentUser}
+              setNumItems={setNumItems}
+              numItems={numItems}
+            />
           }
         ></Route>
       </Routes>

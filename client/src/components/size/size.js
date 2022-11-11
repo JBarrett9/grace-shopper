@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { createOrder, fetchCrusts, fetchPizza, fetchSizes } from "../../api";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  addPizzaToOrder,
+  createOrder,
+  createPizza,
+  fetchCrusts,
+  fetchPizza,
+  fetchSizes,
+} from "../../api";
 import pizza_img from "../../images/pizza-ga5506419a_1280.jpg";
 import Button from "./button";
 import "./size.css";
@@ -14,6 +21,8 @@ const Size = (props) => {
   const [size, setSize] = useState(2);
   const [qty, setqty] = useState(1);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getStuff();
     if (!props.orderId) {
@@ -23,7 +32,7 @@ const Size = (props) => {
   }, []);
 
   const getStuff = async () => {
-    await fetchPizza(pizzaId, setPizza);
+    if (pizzaId > 0) await fetchPizza(pizzaId, setPizza);
     await fetchCrusts(setCrusts);
     await fetchSizes(setSizes);
   };
@@ -34,7 +43,17 @@ const Size = (props) => {
     );
   };
 
-  const addToOrder = async () => {};
+  const addToOrder = async () => {
+    console.log(props.user.id);
+    await createPizza(props.token, crust, props.user.id, size, setPizza);
+    await addPizzaToOrder(
+      props.token,
+      props.orderId,
+      pizza.id,
+      qty,
+      navigate
+    ).then(() => props.setNumItems(props.numItems + Number(qty)));
+  };
 
   return (
     <div className="size-card">
@@ -73,7 +92,11 @@ const Size = (props) => {
               ))}
           </select>
           <label>Qty:</label>
-          <input type="number" value={qty}></input>
+          <input
+            type="number"
+            value={qty}
+            onChange={(e) => setqty(e.target.value)}
+          ></input>
         </div>
         <span className="size-form-btns">
           <Button text="Add To Order" func={addToOrder} />

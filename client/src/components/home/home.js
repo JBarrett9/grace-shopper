@@ -15,7 +15,7 @@ const Home = () => {
     await fetchFeaturedPizzas(setPizzas);
   };
 
-  const pizza = { name: "Build Your Own" };
+  const pizza = { id: 0, name: "Build Your Own" };
   return (
     <div className="home-container">
       {pizzas.map((pizza) => (
