@@ -1,34 +1,80 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Cart from "./components/Cart";
+
 import Home from "./components/home/home";
-import styled from "styled-components";
 import Header from "./components/header/Header";
-import Menu from "./components/Menu";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+
 import Size from "./components/size/size";
+import { fetchMe, registerUser } from "./api/users";
 
 function App() {
   const [order, setOrder] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    function randomString(length) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    }
+
+    const localStorageToken = localStorage.getItem("token");
+    console.log("token:", localStorageToken);
+
+    async function createGuest() {
+      let randomEmail = randomString(20);
+      randomEmail += "@saucebossguest.com";
+      let randomPassword = randomString(20);
+
+      let guestUser = {
+        email: randomEmail,
+        password: randomPassword,
+        name: "Guest",
+      };
+
+      const result = await registerUser(
+        guestUser.email,
+        guestUser.password,
+        guestUser.name
+      );
+      setCurrentUser(result);
+      setToken(result.token);
+    }
+
+    if (!localStorageToken) {
+      createGuest();
+    }
+  }, []);
+
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+    async function getMe() {
+      const result = await fetchMe(localStorageToken);
+      setCurrentUser(result);
+      setToken(localStorageToken);
+    }
+    if (localStorageToken) {
+      getMe();
+    }
+  }, [token]);
 
   return (
-    <StyledComponent>
+    <>
       <Header numItems={order.length} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
 
-        <Route path="/menu" element={<Menu />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
         <Route path="/:pizzaId/size" element={<Size />}></Route>
       </Routes>
-    </StyledComponent>
+    </>
   );
 }
-const StyledComponent = styled.div`
-  width: 100vw;
-`;
 
 export default App;
