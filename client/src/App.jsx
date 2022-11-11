@@ -46,6 +46,7 @@ function App() {
       );
       setCurrentUser(result);
       setToken(result.token);
+      localStorage.setItem("token", result.token);
     }
 
     if (!localStorageToken) {
@@ -58,6 +59,7 @@ function App() {
     async function getMe() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
+      console.log(result);
       setToken(localStorageToken);
     }
     if (localStorageToken) {

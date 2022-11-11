@@ -52,6 +52,5 @@ export async function fetchMe(token) {
     },
   });
   const result = await response.json();
-  console.log("fetchMe result", result);
   return result;
 }

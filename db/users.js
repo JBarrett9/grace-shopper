@@ -11,6 +11,12 @@ const createUser = async ({
 }) => {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+  if (guest === null) {
+    guest = true;
+  }
+  if (admin === null) {
+    admin = false;
+  }
 
   function isValidEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
