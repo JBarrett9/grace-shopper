@@ -14,7 +14,7 @@
 .size-card-img {
   height: 24rem;
   border-radius: 2.1rem 0 0 2.1rem;
-  border-right: 0.3rem solid var(--color-green);
+  border-right: 0.2rem solid var(--color-green);
 }
 
 .size-form {
