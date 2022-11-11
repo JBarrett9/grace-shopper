@@ -14,6 +14,8 @@ function App() {
   const [token, setToken] = useState("");
 
   useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+
     function randomString(length) {
       var result = "";
       var characters =
@@ -27,7 +29,6 @@ function App() {
       return result;
     }
 
-    const localStorageToken = localStorage.getItem("token");
     console.log("token:", localStorageToken);
 
     async function createGuest() {
@@ -52,7 +53,7 @@ function App() {
       localStorage.setItem("token", result.token);
     }
 
-    if (localStorageToken == "undefined") {
+    if (!localStorageToken) {
       createGuest();
     }
   }, []);
@@ -63,6 +64,7 @@ function App() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
       setToken(localStorageToken);
+      console.log(result);
     }
     if (localStorageToken) {
       getMe();
@@ -74,7 +76,7 @@ function App() {
       <Header numItems={numItems} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
+        <Route path="/login" element={<Login setToken={setToken} />}></Route>
         <Route
           path="/:pizzaId/size"
           element={

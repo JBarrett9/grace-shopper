@@ -18,9 +18,31 @@ export default function Login(props) {
           <div className="login-header">
             <h2>Log In</h2>
           </div>
-          <form className="login-form">
+          <form
+            className="login-form"
+            onSubmit={async (e) => {
+              try {
+                e.preventDefault();
+
+                const result = await loginUser(email, password);
+                console.log(result);
+
+                if (result.error) {
+                  setError(result.message);
+                } else {
+                  setError("You're logged in!");
+                  localStorage.setItem("token", result.token);
+                  setToken(result.token);
+                  setPassword("");
+                  setEmail("");
+                }
+              } catch (error) {
+                throw error;
+              }
+            }}
+          >
             <div className="form-input">
-              <label>Username</label>
+              <label>E-mail</label>
               <input
                 type="text"
                 placeholder="Email *"
@@ -36,8 +58,8 @@ export default function Login(props) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
-              <small>{error}</small>
             </div>
+            <small>{error}</small>
             <button>LOG IN</button>
             <Link to="/register">Don't have an account? Sign up</Link>
           </form>
