@@ -48,12 +48,13 @@ function App() {
         guestUser.password,
         guestUser.name
       );
+
       setCurrentUser(result);
       setToken(result.token);
       localStorage.setItem("token", result.token);
     }
 
-    if (!localStorageToken) {
+    if (localStorageToken == "undefined") {
       createGuest();
     }
   }, []);
@@ -75,11 +76,13 @@ function App() {
       <Header numItems={order.length} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+
         <Route
-          path="/login"
-          element={<Login setToken={setToken}></Login>}
+          path="/:pizzaId/size"
+          element={
+            <Size token={token} orderId={orderId} setOrderId={setOrderId} />
+          }
         ></Route>
-        <Route path="/:pizzaId/size" element={<Size />}></Route>
       </Routes>
     </>
   );
