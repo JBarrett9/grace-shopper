@@ -11,6 +11,7 @@ import Size from "./components/size/size";
 
 function App() {
   const [order, setOrder] = useState([]);
+  const [orderId, setOrderId] = useState();
 
   return (
     <StyledComponent>
