@@ -61,7 +61,10 @@ const createTables = async () => {
       name VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL,
       active BOOLEAN DEFAULT true,
+      guest BOOLEAN DEFAULT true,
       admin BOOLEAN DEFAULT false,
+
+      createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       birthday DATE
     );`);
 
@@ -183,11 +186,12 @@ const createTables = async () => {
 const createInitialUsers = async () => {
   console.log("Creating initial users...");
   try {
-    await createUser({
+    const user01 = await createUser({
       name: "james01",
       password: "james01",
       email: "generalzhenwu@gmail.com",
       admin: true,
+      guest: false,
     });
     await createUser({
       name: "joseph01",
@@ -208,6 +212,8 @@ const createInitialUsers = async () => {
       email: "belicmichael@gmail.com",
       admin: true,
     });
+    const user001 = await getUserByEmail(user01.email);
+    console.log(user001);
   } catch (error) {
     console.error("Error creating users!");
     throw error;
@@ -484,10 +490,6 @@ const createIntitialPizzaOrders = async () => {
     for (let order of orders) {
       order.price = await getOrderPrice(order.id);
     }
-
-    console.log("ORDERS: ", orders);
-    console.log("ORDERS[0]: ", orders[0]);
-    console.log("ORDERS[0].PIZZAS[0]: ", orders[0].pizzas[0]);
   } catch (error) {
     console.log("Error creating initial pizza_orders!");
     throw error;
