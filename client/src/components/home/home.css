@@ -1,0 +1,44 @@
+.home-container {
+  margin-top: 14rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
+
+.pizza-card {
+  background-color: #fff;
+  height: 40rem;
+  width: 30rem;
+  border: 0.4rem solid var(--color-green);
+  border-radius: 2.5rem;
+  padding: 0;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+}
+
+.pizza-card button {
+  width: 12rem;
+  height: 4.8rem;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 2.5rem;
+  float: right;
+  margin-right: 2rem;
+  border: 0.1rem solid #fff;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.pizza-card h3 {
+  text-align: center;
+  font-size: 2.4rem;
+}
+
+.pizza-card-img {
+  width: 30rem;
+  border-radius: 2.2rem 2.2rem 0 0;
+  margin-top: 0;
+  border-bottom: 0.4rem solid var(--color-green);
+}

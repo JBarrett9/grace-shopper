@@ -1,22 +1,21 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Chilanka&family=Inter&display=swap");
+
+:root {
+  --color-red: #bc4749;
+  --color-green: #386641;
+  --color-bg: #f2e8cf;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+html {
+  font-size: 62.5%;
 }
-.App{
-  width: 100vw;
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: 1.6rem;
+  font-family: "Inter", sens-serif;
+  background-color: var(--color-bg);
 }
