@@ -8,9 +8,11 @@ import Size from "./components/size/size";
 import { fetchMe, registerUser } from "./api/users";
 
 function App() {
+  const [orderId, setOrderId] = useState();
   const [order, setOrder] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState("");
+
   useEffect(() => {
     function randomString(length) {
       var result = "";

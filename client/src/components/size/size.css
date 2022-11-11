@@ -1,0 +1,54 @@
+.size-card {
+  margin: auto;
+  margin-top: 8rem;
+  background-color: #fff;
+  width: 70rem;
+  height: 24rem;
+  border: 0.4rem solid var(--color-green);
+  border-radius: 2.5rem;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+
+  display: flex;
+}
+
+.size-card-img {
+  height: 24rem;
+  border-radius: 2.1rem 0 0 2.1rem;
+}
+
+.size-form {
+  padding-left: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.size-form button {
+  width: 12rem;
+  height: 4.8rem;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 2.5rem;
+  float: right;
+  margin-right: 2rem;
+  border: 0.1rem solid #fff;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.size-form-input-sec:last-child {
+  margin-top: 2rem;
+}
+
+.size-form-input-sec label {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.size-form-input-sec select {
+  border: 0.2rem solid var(--color-green);
+  font-size: 1.8rem;
+}
