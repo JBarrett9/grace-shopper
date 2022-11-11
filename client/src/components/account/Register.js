@@ -3,11 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/users";
 import "./account.css";
 
-export default function Login(props) {
+export default function Register(props) {
+  const { setToken, registerUser } = props;
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState(`${lastName}, ${firstName}`);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState();
+  const [birthday, setBirthday] = useState(Date);
   const [error, setError] = useState("");
-  const { setToken } = props;
 
   let navigate = useNavigate();
 
@@ -16,7 +21,7 @@ export default function Login(props) {
       <div className="login-page">
         <div className="login-container">
           <div className="login-header">
-            <h2>Log In</h2>
+            <h2>Create Your Account</h2>
           </div>
           <form
             className="login-form"
@@ -41,6 +46,22 @@ export default function Login(props) {
               }
             }}
           >
+            <div className="form-input">
+              <label>First Name * </label>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              ></input>
+            </div>
+            <div className="form-input">
+              <label>Last Name * </label>
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setEmail(e.target.value)}
+              ></input>
+            </div>
             <div className="form-input">
               <label>E-mail Address * </label>
               <input

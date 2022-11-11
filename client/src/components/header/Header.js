@@ -12,8 +12,8 @@ const Header = (props) => {
           <h1 className="brand">Sauce Boss</h1>
         </Link>
         <span className="head-links">
-          <Link to="/signup">Signup</Link>
-          <Link to="/login">Login</Link>
+          <Link to="/register">SIGN UP</Link>
+          <Link to="/login">LOG IN</Link>
           <Link
             to="/cart"
             data-num={props.numItems}

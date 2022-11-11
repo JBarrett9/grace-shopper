@@ -73,7 +73,8 @@ router.post("/register", async (req, res, next) => {
     await createUser({ email, name, password });
     const user = await getUserByEmail(email);
     let userData = { id: user.id, email: user.email };
-    let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });
+    let token = jwt.sign(user, JWT_SECRET);
+
     res.send({
       user: userData,
       message: "you're logged in!",
