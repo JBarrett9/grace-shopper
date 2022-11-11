@@ -4,7 +4,7 @@
   background: var(--color-green);
   height: 2.4rem;
   top: 1rem;
-  right: 1.5rem;
+
   width: 2.4rem;
   text-align: center;
   line-height: 2rem;
@@ -28,6 +28,7 @@
   background-color: var(--color-red);
   color: #fff;
   box-shadow: 0.1rem 0.1rem 0.3rem #444;
+  width: 100%;
 }
 
 .head-links {

@@ -63,7 +63,6 @@ const createTables = async () => {
       active BOOLEAN DEFAULT true,
       guest BOOLEAN DEFAULT true,
       admin BOOLEAN DEFAULT false,
-
       createddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       birthday DATE
     );`);

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./components/home/home";
 import Header from "./components/header/Header";
-
+import Login from "./components/account/Login";
 import Size from "./components/size/size";
 import { fetchMe, registerUser } from "./api/users";
 
@@ -61,7 +61,6 @@ function App() {
     async function getMe() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
-      console.log(result);
       setToken(localStorageToken);
     }
     if (localStorageToken) {
@@ -74,7 +73,10 @@ function App() {
       <Header numItems={order.length} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
+        <Route
+          path="/login"
+          element={<Login setToken={setToken}></Login>}
+        ></Route>
         <Route path="/:pizzaId/size" element={<Size />}></Route>
       </Routes>
     </>

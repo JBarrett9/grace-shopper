@@ -24,8 +24,9 @@ export async function registerUser(email, password, name) {
 }
 
 export async function loginUser(email, password) {
+  const url = `/api/users/login`;
   try {
-    const response = await fetch(`${BASE_URL}/api/users/login`, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,11 +36,11 @@ export async function loginUser(email, password) {
         password: password,
       }),
     });
-    const result = await response.json();
-    console.log(result);
 
+    const result = await response.json();
     return result;
   } catch (error) {
+    console.error("Error logging in user.");
     throw error;
   }
 }
