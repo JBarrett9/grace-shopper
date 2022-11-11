@@ -1,4 +1,18 @@
-const createOrder = async () => {};
+const createOrder = async (token, setOrderId) => {
+  await fetch("/api/orders", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({}),
+  })
+    .then((response) => response.json())
+    .then((result) => setOrderId(result.id))
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const fetchCrusts = async (setCrusts) => {
   await fetch("/api/crusts", {
@@ -46,4 +60,10 @@ const fetchSizes = async (setSizes) => {
     .catch(console.error);
 };
 
-export { fetchCrusts, fetchPizza, fetchFeaturedPizzas, fetchSizes };
+export {
+  createOrder,
+  fetchCrusts,
+  fetchPizza,
+  fetchFeaturedPizzas,
+  fetchSizes,
+};

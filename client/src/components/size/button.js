@@ -5,8 +5,9 @@ const Button = (props) => {
 
   return (
     <button
-      onClick={() => {
-        navigate(`/${props.pizza.id}/size`);
+      onClick={(e) => {
+        e.preventDefault();
+        props.func();
       }}
     >
       {props.text}

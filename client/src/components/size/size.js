@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchCrusts,
-  fetchFeaturedPizzas,
-  fetchPizza,
-  fetchSizes,
-} from "../../api";
+import { createOrder, fetchCrusts, fetchPizza, fetchSizes } from "../../api";
 import pizza_img from "../../images/pizza-ga5506419a_1280.jpg";
 import Button from "./button";
 import "./size.css";
 
-const Size = () => {
+const Size = (props) => {
   const { pizzaId } = useParams();
   const [sizes, setSizes] = useState([]);
   const [crusts, setCrusts] = useState([]);
   const [pizza, setPizza] = useState({});
   const [crust, setCrust] = useState(1);
   const [size, setSize] = useState(2);
+  const [qty, setqty] = useState(1);
 
   useEffect(() => {
     getStuff();
+    if (!props.orderId) {
+      startOrder();
+    }
+    console.log(props.orderId);
   }, []);
 
   const getStuff = async () => {
@@ -27,6 +27,14 @@ const Size = () => {
     await fetchCrusts(setCrusts);
     await fetchSizes(setSizes);
   };
+
+  const startOrder = async () => {
+    await createOrder(props.token, props.setOrderId).then(
+      console.log(props.orderId)
+    );
+  };
+
+  const addToOrder = async () => {};
 
   return (
     <div className="size-card">
@@ -64,9 +72,11 @@ const Size = () => {
                 </option>
               ))}
           </select>
+          <label>Qty:</label>
+          <input type="number" value={qty}></input>
         </div>
         <span className="size-form-btns">
-          <Button text="Add To Order" />
+          <Button text="Add To Order" func={addToOrder} />
           <Button text="Customize" />
         </span>
       </form>

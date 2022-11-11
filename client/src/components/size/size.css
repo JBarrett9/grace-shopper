@@ -14,6 +14,7 @@
 .size-card-img {
   height: 24rem;
   border-radius: 2.1rem 0 0 2.1rem;
+  border-right: 0.3rem solid var(--color-green);
 }
 
 .size-form {
@@ -38,6 +39,11 @@
   cursor: pointer;
 }
 
+.size-form-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
 .size-form-input-sec:last-child {
   margin-top: 2rem;
 }
@@ -46,9 +52,15 @@
   font-weight: bold;
   font-size: 2rem;
   margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .size-form-input-sec select {
   border: 0.2rem solid var(--color-green);
+  font-size: 1.8rem;
+}
+
+.size-form-input-sec input {
+  width: 4rem;
   font-size: 1.8rem;
 }
