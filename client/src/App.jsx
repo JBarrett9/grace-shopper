@@ -7,12 +7,14 @@ import Login from "./components/account/Login";
 import Size from "./components/size/size";
 import { fetchMe, registerUser } from "./api/users";
 import Register from "./components/account/Register";
+import { fetchLocations } from "./api/location";
 
 function App() {
   const [orderId, setOrderId] = useState();
   const [numItems, setNumItems] = useState(0);
   const [currentUser, setCurrentUser] = useState({});
   const [token, setToken] = useState("");
+  const [locations, setLocations] = useState([])
 
   useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
@@ -73,9 +75,17 @@ function App() {
     }
   }, [token]);
 
+  const getLocations = async () => {
+    await fetchLocations(setLocations)
+  }
+  useEffect(() => {
+    getLocations()
+  }, [])
+
   return (
     <>
       <Header numItems={numItems} />
+      {console.log(locations)}
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
@@ -105,7 +115,9 @@ function App() {
             />
           }
         ></Route>
+
       </Routes>
+
     </>
   );
 }
