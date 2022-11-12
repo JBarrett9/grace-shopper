@@ -30,7 +30,7 @@ router.post("/login", async (req, res, next) => {
       const passwordsMatch = await bcrypt.compare(password, hashedPassword);
       if (passwordsMatch) {
         let token = jwt.sign(user, JWT_SECRET, { expiresIn: "5h" });
-        let userData = { id: user.id, email: user.email };
+        let userData = { id: user.id, email: user.email, guest: user.guest };
         res.send({
           user: userData,
           message: "you're logged in!",
@@ -50,7 +50,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 router.post("/register", async (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, guest } = req.body;
   const validUser = await getUserByEmail(email);
   if (validUser) {
     next({
@@ -70,7 +70,7 @@ router.post("/register", async (req, res, next) => {
   }
 
   try {
-    await createUser({ email, name, password });
+    await createUser({ email, name, password, guest });
     const user = await getUserByEmail(email);
     let userData = { id: user.id, email: user.email };
     let token = jwt.sign(user, JWT_SECRET);
