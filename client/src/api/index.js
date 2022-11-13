@@ -40,14 +40,16 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
     });
 };
 
-const createOrder = async (token, setOrderId) => {
-  await fetch("/api/orders", {
+const createOrder = async (token, userId, setOrderId) => {
+  await fetch(`/api/orders/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({}),
+    body: JSON.stringify({
+      userId,
+    }),
   })
     .then((response) => response.json())
     .then((result) => {
@@ -59,24 +61,26 @@ const createOrder = async (token, setOrderId) => {
     });
 };
 
-const createPizza = async (token, crustId, userId, sizeId, setPizza) => {
-  await fetch("/api/pizzas", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      crustId,
-      userId,
-      sizeId,
-    }),
-  })
-    .then((response) => response.json())
-    .then((result) => setPizza(result))
-    .catch((error) => {
-      console.log(error);
+const createPizza = async (token, name, crustId, userId, sizeId) => {
+  try {
+    const response = await fetch("/api/pizzas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        crustId,
+        userId,
+        sizeId,
+      }),
     });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const fetchCrusts = async (setCrusts) => {
@@ -114,6 +118,22 @@ const fetchFeaturedPizzas = async (setPizzas) => {
     .catch(console.error);
 };
 
+const fetchOrder = async (token, orderId) => {
+  try {
+    const response = await fetch(`/api/orders/order/${orderId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const fetchSizes = async (setSizes) => {
   await fetch("/api/sizes", {
     headers: {
@@ -125,12 +145,26 @@ const fetchSizes = async (setSizes) => {
     .catch(console.error);
 };
 
+const fetchToppings = async (setToppings) => {
+  await fetch("/api/toppings", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => setToppings(result))
+    .catch(console.error);
+};
+
 export {
   addPizzaToOrder,
+  addToppingToPizza,
   createOrder,
   createPizza,
   fetchCrusts,
   fetchPizza,
   fetchFeaturedPizzas,
+  fetchOrder,
   fetchSizes,
+  fetchToppings,
 };

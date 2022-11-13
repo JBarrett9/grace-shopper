@@ -1,5 +1,10 @@
 const express = require("express");
-const { getUserOrders, getOrderById, createOrder } = require("../db/orders");
+const {
+  getUserOrders,
+  getOrderById,
+  createOrder,
+  getActiverUserOrders,
+} = require("../db/orders");
 const { getPizzasByOrder, addPizzaToOrder } = require("../db/pizza_order");
 const { getOrderPrice } = require("../db/prices");
 const { getToppingById } = require("../db/toppings");
@@ -19,6 +24,17 @@ router.get("/:userId", requireUser, async (req, res, next) => {
   try {
     const order = await getUserOrders(userId);
     res.json(order);
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+
+router.get("/:userId/active", requireUser, async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const order = await getActiverUserOrders(userId);
+    res.json(order[0]);
   } catch ({ name, message }) {
     next({ name, message });
   }
@@ -60,7 +76,7 @@ router.post("/:orderId/pizzas", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/:userId", async (req, res, next) => {
   const { userId } = req.params;
   const { delivery } = req.body;
 

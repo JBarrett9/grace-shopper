@@ -32,6 +32,18 @@ const getUserOrders = async (id) => {
   }
 };
 
+const getActiverUserOrders = async (id) => {
+  try {
+    const { rows: orders } = await client.query(
+      `SELECT * FROM orders WHERE "userId"=($1) AND active=true`,
+      [id]
+    );
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const createOrder = async ({ userId, active, price, delivery }) => {
   if (delivery === undefined) {
     delivery = false;
@@ -129,4 +141,5 @@ module.exports = {
   deleteOrder,
   getUserOrders,
   updateOrderPrice,
+  getActiverUserOrders,
 };

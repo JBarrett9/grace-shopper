@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addPizzaToOrder,
+  addToppingToPizza,
   createOrder,
   createPizza,
   fetchCrusts,
+  fetchOrder,
   fetchPizza,
   fetchSizes,
 } from "../../api";
@@ -13,9 +15,8 @@ import Button from "./button";
 import "./size.css";
 
 const Size = (props) => {
+  const { crusts, sizes } = props;
   const { pizzaId } = useParams();
-  const [sizes, setSizes] = useState([]);
-  const [crusts, setCrusts] = useState([]);
   const [pizza, setPizza] = useState({});
   const [crust, setCrust] = useState(1);
   const [size, setSize] = useState(2);
@@ -24,35 +25,80 @@ const Size = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getStuff();
+    const getPizza = async () => {
+      await fetchPizza(pizzaId, setPizza);
+    };
+    if (pizzaId > 0) getPizza();
     if (!props.orderId) {
       startOrder();
     }
-    console.log(props.orderId);
   }, []);
 
-  const getStuff = async () => {
-    if (pizzaId > 0) await fetchPizza(pizzaId, setPizza);
-    await fetchCrusts(setCrusts);
-    await fetchSizes(setSizes);
-  };
-
   const startOrder = async () => {
-    await createOrder(props.token, props.setOrderId).then(
+    console.log(props.user.id);
+    await createOrder(props.token, props.user.id, props.setOrderId).then(
       console.log(props.orderId)
     );
   };
 
   const addToOrder = async () => {
-    console.log(props.user.id);
-    await createPizza(props.token, crust, props.user.id, size, setPizza);
+    let name = "custom";
+    if (pizza.name) name = pizza.name;
+    const newPizza = await createPizza(
+      props.token,
+      name,
+      crust,
+      props.user.id,
+      size
+    );
+
+    if (pizza.toppings) {
+      for (let topping of pizza.toppings) {
+        await addToppingToPizza(
+          props.token,
+          newPizza.id,
+          topping.id,
+          "full",
+          false
+        );
+      }
+    }
+
     await addPizzaToOrder(
       props.token,
       props.orderId,
-      pizza.id,
+      newPizza.id,
       qty,
       navigate
-    ).then(() => props.setNumItems(props.numItems + Number(qty)));
+    );
+
+    const order = await fetchOrder(props.token, props.orderId);
+    props.setOrder(order);
+  };
+
+  const customize = async () => {
+    let name = "custom";
+    if (pizza.name) name = pizza.name;
+    const newPizza = await createPizza(
+      props.token,
+      name,
+      crust,
+      props.user.id,
+      size
+    );
+
+    await addPizzaToOrder(
+      props.token,
+      props.orderId,
+      newPizza.id,
+      qty,
+      navigate
+    );
+
+    const order = await fetchOrder(props.token, props.orderId);
+    props.setOrder(order);
+
+    navigate(`/${newPizza.id}/toppings`);
   };
 
   return (
@@ -95,12 +141,19 @@ const Size = (props) => {
           <input
             type="number"
             value={qty}
+            min={0}
             onChange={(e) => setqty(e.target.value)}
           ></input>
         </div>
         <span className="size-form-btns">
-          <Button text="Add To Order" func={addToOrder} />
-          <Button text="Customize" />
+          {pizzaId > 0 ? (
+            <>
+              <Button text="Add To Order" func={addToOrder} />
+              <Button text="Customize" func={customize} />
+            </>
+          ) : (
+            <Button text="Toppings" func={customize} />
+          )}
         </span>
       </form>
     </div>

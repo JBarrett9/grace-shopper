@@ -46,7 +46,7 @@ router.post("/", async (req, res, next) => {
   const { name, crustId, userId, sizeId, featured } = req.body;
   const _pizza = await getPizzaByName(name);
 
-  if (_pizza) {
+  if (_pizza && featured) {
     next({
       error: "PizzaAlreadyExists",
       name: "Pizza Already Exists",

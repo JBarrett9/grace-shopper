@@ -12,8 +12,15 @@ const Header = (props) => {
           <h1 className="brand">Sauce Boss</h1>
         </Link>
         <span className="head-links">
-          <Link to="/register">SIGN UP</Link>
-          <Link to="/login">LOG IN</Link>
+          {typeof props.currentUser.email === "string" &&
+          props.currentUser.email.includes("saucebossguest.com") ? (
+            <>
+              <Link to="/register">SIGN UP</Link>
+              <Link to="/login">LOG IN</Link>
+            </>
+          ) : (
+            <a>LOGOUT</a>
+          )}
           <Link
             to="/cart"
             data-num={props.numItems}

@@ -55,3 +55,14 @@ export async function fetchMe(token) {
   const result = await response.json();
   return result;
 }
+
+export async function fetchActiveUserOrder(token, id) {
+  const response = await fetch(`/api/orders/${id}/active`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const result = await response.json();
+  return result;
+}
