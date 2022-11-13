@@ -44,6 +44,7 @@ export default function Login(props) {
             <div className="form-input">
               <label>E-mail Address * </label>
               <input
+                required
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +53,7 @@ export default function Login(props) {
             <div className="form-input">
               <label>Password *</label>
               <input
+                required
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -43,12 +43,14 @@ function App() {
         email: randomEmail,
         password: randomPassword,
         name: "Guest",
+        guest: true,
       };
 
       const result = await registerUser(
         guestUser.email,
         guestUser.password,
-        guestUser.name
+        guestUser.name,
+        guestUser.guest
       );
 
       setCurrentUser(result);
@@ -67,7 +69,6 @@ function App() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
       setToken(localStorageToken);
-      console.log(result);
     }
     if (localStorageToken) {
       getMe();
@@ -87,10 +88,19 @@ function App() {
       {console.log(locations)}
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login setToken={setToken} />}></Route>
+        <Route
+          path="/login"
+          element={<Login currentUser={currentUser} setToken={setToken} />}
+        ></Route>
         <Route
           path="/register"
-          element={<Register setToken={setToken} registerUser={registerUser} />}
+          element={
+            <Register
+              setToken={setToken}
+              currentUser={currentUser}
+              registerUser={registerUser}
+            />
+          }
         ></Route>
         <Route
           path="/:pizzaId/size"

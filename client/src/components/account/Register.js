@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/users";
+
 import "./account.css";
 
 export default function Register(props) {
-  const { setToken, registerUser } = props;
+  const { setToken, registerUser, currentUser } = props;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [name, setName] = useState(`${lastName}, ${firstName}`);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState();
@@ -28,8 +27,11 @@ export default function Register(props) {
             onSubmit={async (e) => {
               try {
                 e.preventDefault();
+                let name = `${lastName}, ${firstName}`;
+                console.log("name:", name);
+                console.log(currentUser);
 
-                const result = await loginUser(email, password);
+                const result = await registerUser(email, name, password);
                 console.log(result);
 
                 if (result.error) {
@@ -59,7 +61,7 @@ export default function Register(props) {
               <input
                 type="text"
                 value={lastName}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setLastName(e.target.value)}
               ></input>
             </div>
             <div className="form-input">
@@ -78,9 +80,17 @@ export default function Register(props) {
                 onChange={(e) => setPassword(e.target.value)}
               ></input>
             </div>
+            <div className="form-input">
+              <label>Reenter Password *</label>
+              <input
+                type="password"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+              ></input>
+            </div>
             <small>{error}</small>
-            <button>LOG IN</button>
-            Don't have an account? <Link to="/register">Sign up</Link>
+            <button>SIGN UP</button>
+            Already have an account? <Link to="/login">Log in</Link>
           </form>
         </div>
       </div>
