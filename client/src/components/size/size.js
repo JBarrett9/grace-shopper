@@ -41,12 +41,6 @@ const Size = (props) => {
     await fetchReviewsByPizzaId(pizzaId, setReviews);
   };
 
-  const getStuff = async () => {
-    if (pizzaId > 0) await fetchPizza(pizzaId, setPizza);
-    await fetchCrusts(setCrusts);
-    await fetchSizes(setSizes);
-  };
-
   const startOrder = async () => {
     console.log(props.user.id);
     await createOrder(props.token, props.user.id, props.setOrderId).then(
