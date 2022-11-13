@@ -10,6 +10,7 @@ import {
   fetchPizza,
   fetchSizes,
 } from "../../api";
+import { fetchReviewsByPizzaId } from "../../api/reviews";
 import pizza_img from "../../images/pizza-ga5506419a_1280.jpg";
 import Button from "./button";
 import "./size.css";
@@ -21,6 +22,7 @@ const Size = (props) => {
   const [crust, setCrust] = useState(1);
   const [size, setSize] = useState(2);
   const [qty, setqty] = useState(1);
+  const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate();
 
@@ -29,10 +31,21 @@ const Size = (props) => {
       await fetchPizza(pizzaId, setPizza);
     };
     if (pizzaId > 0) getPizza();
+    getReviewsByPizza();
     if (!props.orderId) {
       startOrder();
     }
   }, []);
+
+  const getReviewsByPizza = async () => {
+    await fetchReviewsByPizzaId(pizzaId, setReviews);
+  };
+
+  const getStuff = async () => {
+    if (pizzaId > 0) await fetchPizza(pizzaId, setPizza);
+    await fetchCrusts(setCrusts);
+    await fetchSizes(setSizes);
+  };
 
   const startOrder = async () => {
     console.log(props.user.id);
@@ -156,6 +169,7 @@ const Size = (props) => {
           )}
         </span>
       </form>
+      {console.log(reviews)}
     </div>
   );
 };

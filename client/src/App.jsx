@@ -10,6 +10,7 @@ import Register from "./components/account/Register";
 import { fetchCrusts, fetchOrder, fetchSizes, fetchToppings } from "./api";
 import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
+import { fetchLocations } from "./api/location";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -19,6 +20,7 @@ function App() {
   const [sizes, setSizes] = useState([]);
   const [crusts, setCrusts] = useState([]);
   const [toppings, setToppings] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
@@ -47,12 +49,14 @@ function App() {
         email: randomEmail,
         password: randomPassword,
         name: "Guest",
+        guest: true,
       };
 
       const result = await registerUser(
         guestUser.email,
         guestUser.password,
-        guestUser.name
+        guestUser.name,
+        guestUser.guest
       );
 
       setCurrentUser(result);
@@ -80,7 +84,6 @@ function App() {
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
       setToken(localStorageToken);
-      console.log(result);
     }
     if (localStorageToken) {
       getMe();
@@ -109,6 +112,13 @@ function App() {
     return total;
   };
 
+  const getLocations = async () => {
+    await fetchLocations(setLocations);
+  };
+  useEffect(() => {
+    getLocations();
+  }, []);
+
   return (
     <>
       <Header
@@ -117,10 +127,19 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login setToken={setToken} />}></Route>
+        <Route
+          path="/login"
+          element={<Login currentUser={currentUser} setToken={setToken} />}
+        ></Route>
         <Route
           path="/register"
-          element={<Register setToken={setToken} registerUser={registerUser} />}
+          element={
+            <Register
+              setToken={setToken}
+              currentUser={currentUser}
+              registerUser={registerUser}
+            />
+          }
         ></Route>
         <Route
           path="/:pizzaId/size"
