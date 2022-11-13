@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 import pizza_img from "../../images/pizza-g417efaadc_640.png";
 const Header = (props) => {
+  const { currentUser, setCurrentUser, setToken } = props;
   return (
     <>
       <div className="logo">
@@ -19,7 +20,16 @@ const Header = (props) => {
               <Link to="/login">LOG IN</Link>
             </>
           ) : (
-            <a>LOGOUT</a>
+            <Link
+              to="/"
+              onClick={() => {
+                setCurrentUser({});
+                localStorage.clear();
+                setToken("");
+              }}
+            >
+              LOGOUT ({currentUser.email})
+            </Link>
           )}
           <Link
             to="/cart"
@@ -33,5 +43,4 @@ const Header = (props) => {
     </>
   );
 };
-
 export default Header;

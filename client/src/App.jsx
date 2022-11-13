@@ -38,8 +38,6 @@ function App() {
       return result;
     }
 
-    console.log("token:", localStorageToken);
-
     async function createGuest() {
       let randomEmail = randomString(20);
       randomEmail += "@saucebossguest.com";
@@ -62,12 +60,13 @@ function App() {
       setCurrentUser(result);
       setToken(result.token);
       localStorage.setItem("token", result.token);
+      console.log("guest created:", result);
     }
 
     if (!localStorageToken) {
       createGuest();
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const getStuff = async () => {
@@ -97,8 +96,9 @@ function App() {
       setOrderId(id);
 
       const order = await fetchOrder(localStorageToken, id);
-      setOrder(order);
-      console.log(order);
+      if (order) {
+        setOrder(order);
+      }
     }
 
     if (currentUser.id) getOrder();
@@ -124,6 +124,8 @@ function App() {
       <Header
         currentUser={currentUser}
         numItems={order.pizzas ? getNum() : 0}
+        setToken={setToken}
+        setCurrentUser={setCurrentUser}
       />
       <Routes>
         <Route path="/" element={<Home />}></Route>
