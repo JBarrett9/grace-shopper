@@ -366,6 +366,13 @@ const createInitialToppings = async () => {
       quantity: "1000",
       category: "vegetable",
     });
+
+    await createTopping({
+      name: "Tomato",
+      price: 0,
+      quantity: 1000,
+      category: "Sauce",
+    });
   } catch (error) {
     console.log("Error creating toppings!");
     throw error;

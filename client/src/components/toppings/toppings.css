@@ -1,0 +1,9 @@
+.topping-form {
+  margin: auto;
+  margin-top: 4rem;
+  background-color: #fff;
+  width: 60rem;
+  height: 60rem;
+  border: 0.4rem solid var(--color-green);
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+}

@@ -156,6 +156,21 @@ const fetchToppings = async (setToppings) => {
     .catch(console.error);
 };
 
+const fetchToppingsByCategory = async (category) => {
+  try {
+    const response = await fetch(`/api/toppings/${category}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   addPizzaToOrder,
   addToppingToPizza,
@@ -167,4 +182,5 @@ export {
   fetchOrder,
   fetchSizes,
   fetchToppings,
+  fetchToppingsByCategory,
 };

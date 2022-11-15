@@ -157,10 +157,7 @@ function App() {
             />
           }
         ></Route>
-        <Route
-          path="/:pizzaId/toppings"
-          element={<Toppings toppings={toppings} />}
-        />
+        <Route path="/:pizzaId/toppings" element={<Toppings token={token} />} />
         <Route
           path="/cart"
           element={<Cart order={order} sizes={sizes} crusts={crusts} />}
