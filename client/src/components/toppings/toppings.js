@@ -218,7 +218,7 @@ const Toppings = (props) => {
             <input
               type="checkbox"
               value={selectedVegetables[idx].selected}
-              checked={selectedMeats[idx].selected}
+              checked={selectedVegetables[idx].selected}
               data-idx={idx}
               onChange={(e) =>
                 handleVegetableSelect(e.target.getAttribute("data-idx"))
