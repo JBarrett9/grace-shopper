@@ -1,3 +1,5 @@
+// import { response } from "express";
+
 const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
   await fetch(`/api/orders/${orderId}/pizzas`, {
     method: "POST",
@@ -41,7 +43,7 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
 };
 
 const createOrder = async (token, userId, setOrderId) => {
-  await fetch(`/api/orders/${userId}`, {
+  const response = await fetch(`/api/orders/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,15 +52,17 @@ const createOrder = async (token, userId, setOrderId) => {
     body: JSON.stringify({
       userId,
     }),
-  })
-    .then((response) => response.json())
-    .then((result) => {
-      setOrderId(result.id);
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  });
+  // .then((response) => response.json())
+  // .then((result) => {
+  //   setOrderId(result.id);
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+
+  const data = await response.json();
+  return data;
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId) => {
