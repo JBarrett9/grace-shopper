@@ -51,8 +51,6 @@ router.get("/order/:orderId", async (req, res, next) => {
 });
 
 router.post("/:orderId/pizzas", async (req, res, next) => {
-  console.log("creating order");
-  console.log("test this damnit");
   const { orderId } = req.params;
   console.log(req.params);
   const { pizzaId, amount } = req.body;
