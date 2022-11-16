@@ -109,6 +109,7 @@ async function attachPizzaToOrder(order) {
 }
 
 const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
+  console.log("creating pizza");
   try {
     const {
       rows: [pizza],

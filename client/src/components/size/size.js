@@ -84,6 +84,7 @@ const Size = (props) => {
   };
 
   const customize = async () => {
+    console.log("customize running");
     let name = "custom";
     if (pizza.name) name = pizza.name;
     const newPizza = await createPizza(

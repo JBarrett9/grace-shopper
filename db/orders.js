@@ -45,6 +45,7 @@ const getActiverUserOrders = async (id) => {
 };
 
 const createOrder = async ({ userId, active, price, delivery }) => {
+  console.log("creating order");
   if (delivery === undefined) {
     delivery = false;
   }
