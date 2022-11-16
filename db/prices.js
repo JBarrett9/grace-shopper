@@ -5,11 +5,16 @@ const { getPizzaById } = require("./pizzas");
 const { getSizeById } = require("./sizes");
 
 const getPrice = async (pizzaId) => {
+  console.log("getting price");
   const pizza = await getPizzaById(pizzaId);
   const crust = await getCrustById(pizza.crustId);
   const size = await getSizeById(pizza.sizeId);
 
   let crustPrice = crust.price + crust.price * size.pricemod * 0.15;
+
+  crustPrice = Math.round(crustPrice);
+
+  console.log(crustPrice);
   let toppingPrice = 0;
 
   for (let topping of pizza.toppings) {
@@ -19,11 +24,7 @@ const getPrice = async (pizzaId) => {
     toppingPrice = 0;
   }
 
-  function roundToTwo(num) {
-    return +(Math.round(num + "e+2") + "e-2");
-  }
-
-  let price = roundToTwo(crustPrice + toppingPrice);
+  let price = crustPrice + toppingPrice;
 
   return price;
 };

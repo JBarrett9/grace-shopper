@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 import pizza_img from "../../images/pizza-g417efaadc_640.png";
 const Header = (props) => {
-  const { currentUser, setCurrentUser, setToken } = props;
+  const { currentUser, setCurrentUser, setToken, setOrder } = props;
   return (
     <>
       <div className="logo">
@@ -26,6 +26,7 @@ const Header = (props) => {
                 setCurrentUser({});
                 localStorage.clear();
                 setToken("");
+                setOrder([]);
               }}
             >
               LOGOUT ({currentUser.email})

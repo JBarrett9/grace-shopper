@@ -28,7 +28,8 @@ const Size = (props) => {
 
   useEffect(() => {
     const getPizza = async () => {
-      await fetchPizza(pizzaId, setPizza);
+      const pizza = await fetchPizza(pizzaId);
+      setPizza(pizza);
     };
     if (pizzaId > 0) getPizza();
     getReviewsByPizza();
@@ -51,6 +52,7 @@ const Size = (props) => {
   const addToOrder = async () => {
     let name = "custom";
     if (pizza.name) name = pizza.name;
+
     const newPizza = await createPizza(
       props.token,
       name,
@@ -84,8 +86,10 @@ const Size = (props) => {
   };
 
   const customize = async () => {
+    console.log("customize running");
     let name = "custom";
     if (pizza.name) name = pizza.name;
+
     const newPizza = await createPizza(
       props.token,
       name,
@@ -93,6 +97,18 @@ const Size = (props) => {
       props.user.id,
       size
     );
+
+    if (pizza.toppings) {
+      for (let topping of pizza.toppings) {
+        await addToppingToPizza(
+          props.token,
+          newPizza.id,
+          topping.id,
+          "full",
+          false
+        );
+      }
+    }
 
     await addPizzaToOrder(
       props.token,

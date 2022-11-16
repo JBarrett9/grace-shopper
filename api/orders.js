@@ -52,9 +52,10 @@ router.get("/order/:orderId", async (req, res, next) => {
 
 router.post("/:orderId/pizzas", async (req, res, next) => {
   const { orderId } = req.params;
+  console.log(req.params);
   const { pizzaId, amount } = req.body;
   const pizzas = await getPizzasByOrder({ id: orderId });
-
+  console.log(orderId, pizzaId, amount, pizzas);
   if (pizzas) {
     for (let pizza of pizzas) {
       if (pizza.pizzaId === pizzaId) {
@@ -68,6 +69,7 @@ router.post("/:orderId/pizzas", async (req, res, next) => {
   }
   try {
     const response = await addPizzaToOrder({ pizzaId, orderId, amount });
+
     await getOrderPrice(orderId);
 
     res.send(response);

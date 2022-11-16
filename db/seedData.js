@@ -139,7 +139,7 @@ const createTables = async () => {
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         active BOOLEAN DEFAULT true,
-        price DECIMAL,
+        price INTEGER,
         delivery BOOLEAN DEFAULT false
       );
     `);
@@ -224,147 +224,154 @@ const createInitialToppings = async () => {
   try {
     await createTopping({
       name: "Sausage",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Pepperoni",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
     await createTopping({
       name: "Salami",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
     await createTopping({
       name: "Bacon",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Grilled Chicken",
-      price: 1,
+      price: 100,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Canadian Ham",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Meatballs",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Extra Cheese",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "cheese",
     });
 
     await createTopping({
       name: "Cheese",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "cheese",
     });
 
     await createTopping({
       name: "Light Cheese",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "cheese",
     });
 
     await createTopping({
       name: "No Cheese",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "meat",
     });
 
     await createTopping({
       name: "Parmesan",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "cheese",
     });
 
     await createTopping({
       name: "3-Cheese Blend",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "cheese",
     });
 
     await createTopping({
       name: "Black Olives",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Banana Peppers",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Green Peppers",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Fresh Spinach",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Jalapeño Peppers",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Pineapple",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Mushrooms",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
     });
 
     await createTopping({
       name: "Onions",
-      price: 0.5,
+      price: 50,
       quantity: "1000",
       category: "vegetable",
+    });
+
+    await createTopping({
+      name: "Tomato",
+      price: 0,
+      quantity: 1000,
+      category: "Sauce",
     });
   } catch (error) {
     console.log("Error creating toppings!");
@@ -377,27 +384,27 @@ const createInitialCrusts = async () => {
   try {
     createCrust({
       name: "Original Crust",
-      price: "11.99",
+      price: "1199",
       quantity: "1000",
     });
     createCrust({
       name: "Pepperoni-Stuffed Crust",
-      price: "13.99",
+      price: "1399",
       quantity: "500",
     });
     createCrust({
       name: "Thin Crust",
-      price: "11.99",
+      price: "1199",
       quantity: "700",
     });
     createCrust({
       name: "Gluten-Free Crust",
-      price: "12.99",
+      price: "1299",
       quantity: "200",
     });
     createCrust({
       name: "NY Style Crust",
-      price: "12.99",
+      price: "1299",
       quantity: "300",
     });
   } catch (error) {

@@ -1,3 +1,5 @@
+// import { response } from "express";
+
 const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
   await fetch(`/api/orders/${orderId}/pizzas`, {
     method: "POST",
@@ -41,7 +43,7 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
 };
 
 const createOrder = async (token, userId, setOrderId) => {
-  await fetch(`/api/orders/${userId}`, {
+  const response = await fetch(`/api/orders/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,15 +52,17 @@ const createOrder = async (token, userId, setOrderId) => {
     body: JSON.stringify({
       userId,
     }),
-  })
-    .then((response) => response.json())
-    .then((result) => {
-      setOrderId(result.id);
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  });
+  // .then((response) => response.json())
+  // .then((result) => {
+  //   setOrderId(result.id);
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+
+  const data = await response.json();
+  return data;
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId) => {
@@ -97,14 +101,17 @@ const fetchCrusts = async (setCrusts) => {
 };
 
 const fetchPizza = async (pizzaId, setPizza) => {
-  await fetch(`/api/pizzas/${pizzaId}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((result) => setPizza(result))
-    .catch(console.error);
+  try {
+    const response = await fetch(`/api/pizzas/${pizzaId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const pizza = response.json();
+    return pizza;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const fetchFeaturedPizzas = async (setPizzas) => {
@@ -156,6 +163,21 @@ const fetchToppings = async (setToppings) => {
     .catch(console.error);
 };
 
+const fetchToppingsByCategory = async (category) => {
+  try {
+    const response = await fetch(`/api/toppings/${category}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   addPizzaToOrder,
   addToppingToPizza,
@@ -167,4 +189,5 @@ export {
   fetchOrder,
   fetchSizes,
   fetchToppings,
+  fetchToppingsByCategory,
 };

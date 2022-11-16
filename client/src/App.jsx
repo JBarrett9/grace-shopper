@@ -101,7 +101,7 @@ function App() {
         setOrder(order);
       }
     }
-
+    console.log("this is the order:", order);
     if (currentUser.id) getOrder();
   }, [token]);
 
@@ -127,6 +127,7 @@ function App() {
         numItems={order.pizzas ? getNum() : 0}
         setToken={setToken}
         setCurrentUser={setCurrentUser}
+        setOrder={setOrder}
       />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -138,6 +139,11 @@ function App() {
           path="/register"
           element={
             <Register
+              order={order}
+              orderId={orderId}
+              setOrder={setOrder}
+              setCurrentUser={setCurrentUser}
+              setOrderId={setOrderId}
               setToken={setToken}
               currentUser={currentUser}
               registerUser={registerUser}
@@ -160,7 +166,9 @@ function App() {
         ></Route>
         <Route
           path="/:pizzaId/toppings"
-          element={<Toppings toppings={toppings} />}
+          element={
+            <Toppings token={token} orderId={orderId} setOrder={setOrder} />
+          }
         />
         <Route
           path="/cart"

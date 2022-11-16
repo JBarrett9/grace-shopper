@@ -44,6 +44,7 @@ async function getPizzasByOrder({ id }) {
 }
 
 async function updatePizzaOrder({ id, ...fields }) {
+  console.log("updating order");
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
