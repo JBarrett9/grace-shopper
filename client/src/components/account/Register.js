@@ -66,8 +66,8 @@ export default function Register(props) {
                       result.user.email,
                       getOrder
                     );
-                    await setOrder(getOrder);
-                    console.log("this is the order:", order);
+                    setOrder(getOrder);
+                    
                   }
                 }
               } catch (error) {
