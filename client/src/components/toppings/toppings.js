@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addToppingToPizza, fetchToppingsByCategory } from "../../api";
+import {
+  addToppingToPizza,
+  fetchOrder,
+  fetchPizza,
+  fetchToppingsByCategory,
+} from "../../api";
 import "./toppings.css";
 
 const Toppings = (props) => {
   const { pizzaId } = useParams();
   const navigate = useNavigate();
+  const [pizza, setPizza] = useState({});
 
   const [meats, setMeats] = useState([]);
   const [vegetables, setVegetables] = useState([]);
@@ -18,6 +24,12 @@ const Toppings = (props) => {
 
   useEffect(() => {
     async function getToppings() {
+      const pizza = await fetchPizza(pizzaId);
+      let toppings = [];
+      if (pizza.toppings) {
+        toppings = pizza.toppings.map((topping) => topping.toppingId);
+      }
+
       const meats = await fetchToppingsByCategory("meat");
       const vegetables = await fetchToppingsByCategory("vegetable");
       const cheeses = await fetchToppingsByCategory("cheese");
@@ -28,7 +40,14 @@ const Toppings = (props) => {
       setCheeses(cheeses);
       setSauces(sauces);
 
-      const meatArr = meats.map((meat) => ({ id: meat.id, selected: false }));
+      console.log(toppings);
+      const meatArr = meats.map((meat) => {
+        console.log(meat.id);
+        return {
+          id: meat.id,
+          selected: toppings.includes(meat.id),
+        };
+      });
       setSelectedMeats(meatArr);
 
       const vegArr = vegetables.map((vegetable) => ({
@@ -54,6 +73,7 @@ const Toppings = (props) => {
   }, []);
 
   const handleMeatSelect = (idx) => {
+    console.log(selectedMeats);
     if (selectedMeats[idx].selected) {
       let arrCopy = [...selectedMeats];
       arrCopy[idx].selected = false;
@@ -136,6 +156,8 @@ const Toppings = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await addToppingsToPizza();
+    const order = await fetchOrder(props.token, props.orderId);
+    props.setOrder(order);
     navigate("/");
   };
 
@@ -147,7 +169,8 @@ const Toppings = (props) => {
           <span key={sauce.id}>
             <input
               type="checkbox"
-              value={sauces[idx].selected}
+              value={selectedSauces[idx].selected}
+              checked={selectedSauces[idx].selected}
               data-idx={idx}
               onChange={(e) =>
                 handleSauceSelect(e.target.getAttribute("data-idx"))
@@ -162,7 +185,8 @@ const Toppings = (props) => {
           <span key={cheese.id}>
             <input
               type="checkbox"
-              value={cheeses[idx].selected}
+              value={selectedCheeses[idx].selected}
+              checked={selectedCheeses[idx].selected}
               data-idx={idx}
               onChange={(e) =>
                 handleCheeseSelect(e.target.getAttribute("data-idx"))
@@ -177,7 +201,8 @@ const Toppings = (props) => {
           <span key={meat.id}>
             <input
               type="checkbox"
-              value={meats[idx].selected}
+              value={selectedMeats[idx].selected}
+              checked={selectedMeats[idx].selected}
               data-idx={idx}
               onChange={(e) =>
                 handleMeatSelect(e.target.getAttribute("data-idx"))
@@ -192,7 +217,8 @@ const Toppings = (props) => {
           <span key={vegetable.id}>
             <input
               type="checkbox"
-              value={vegetables[idx].selected}
+              value={selectedVegetables[idx].selected}
+              checked={selectedMeats[idx].selected}
               data-idx={idx}
               onChange={(e) =>
                 handleVegetableSelect(e.target.getAttribute("data-idx"))

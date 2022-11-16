@@ -97,14 +97,17 @@ const fetchCrusts = async (setCrusts) => {
 };
 
 const fetchPizza = async (pizzaId, setPizza) => {
-  await fetch(`/api/pizzas/${pizzaId}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((result) => setPizza(result))
-    .catch(console.error);
+  try {
+    const response = await fetch(`/api/pizzas/${pizzaId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const pizza = response.json();
+    return pizza;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const fetchFeaturedPizzas = async (setPizzas) => {
