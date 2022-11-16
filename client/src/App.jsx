@@ -11,6 +11,7 @@ import { fetchCrusts, fetchOrder, fetchSizes, fetchToppings } from "./api";
 import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
+import Admin from "./components/admin/Admin";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -165,9 +166,11 @@ function App() {
           path="/cart"
           element={<Cart order={order} sizes={sizes} crusts={crusts} />}
         ></Route>
+        <Route path="/admin" element={<Admin sizes={sizes} crusts={crusts} />} />
       </Routes>
     </>
   );
 }
+
 
 export default App;

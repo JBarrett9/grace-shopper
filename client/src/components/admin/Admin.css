@@ -1,0 +1,27 @@
+.Admin{
+    background-color: aqua;
+    text-align: center;
+    width: 100vw;
+    height: 50rem;
+    display: flex;
+   
+}
+aside{
+    width: 25%;
+    background-color: red;
+    height: 100%;
+}
+main{
+    width: 75%;
+    
+
+}
+table{
+    background-color: bisque;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+tr,td{
+    border: 1px solid black;
+}
