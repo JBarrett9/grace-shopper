@@ -191,7 +191,7 @@ router.patch("/:pizzaId", async (req, res, next) => {
 router.delete("/:pizzaId", async (req, res, next) => {
   const { pizzaId } = req.params;
   const pizza = await getPizzaById(pizzaId);
-
+  console.log(pizza);
   const user = await getUserByEmail(req.user.email);
 
   if (!pizza) {
@@ -222,7 +222,9 @@ router.delete("/:pizzaId", async (req, res, next) => {
   } else {
     try {
       const removed = await removePizzaToppings(pizzaId);
+      console.log(removed);
       const response = await destroyPizza(pizzaId);
+      console.log(response);
       res.send({
         success: true,
         message: `${pizza.name} has successfully been deleted.`,

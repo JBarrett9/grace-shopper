@@ -164,7 +164,9 @@ function App() {
         />
         <Route
           path="/cart"
-          element={<Cart order={order} sizes={sizes} crusts={crusts} />}
+          element={
+            <Cart order={order} sizes={sizes} crusts={crusts} token={token} />
+          }
         ></Route>
         <Route
           path="/admin/*"
