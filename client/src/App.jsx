@@ -100,7 +100,7 @@ function App() {
         setOrder(order);
       }
     }
-    console.log("this is the order:", order);
+
     if (currentUser.id) getOrder();
   }, [token]);
 
