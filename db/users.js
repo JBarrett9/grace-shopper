@@ -64,7 +64,6 @@ async function getUserById(userId) {
     rows: [user],
   } = await client.query(
     `
-    
     SELECT id, email, guest FROM USERS
     WHERE id=$1;
     `,

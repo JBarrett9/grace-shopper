@@ -11,6 +11,7 @@ import { fetchCrusts, fetchOrder, fetchSizes, fetchToppings } from "./api";
 import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
+import Admin from "./components/admin/Admin";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -80,25 +81,18 @@ function App() {
     const localStorageToken = localStorage.getItem("token");
 
     async function getMe() {
+      setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
-      setToken(localStorageToken);
-    }
-    if (localStorageToken) {
-      getMe();
-    }
 
-    async function getOrder() {
-      const { id } = await fetchActiveUserOrder(
-        localStorageToken,
-        currentUser.id
-      );
+      const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
       setOrderId(id);
 
       const order = await fetchOrder(localStorageToken, id);
-      if (order) {
-        setOrder(order);
-      }
+      setOrder(order);
+    }
+    if (localStorageToken) {
+      getMe();
     }
 
     if (currentUser.id) getOrder();
@@ -118,7 +112,6 @@ function App() {
   useEffect(() => {
     getLocations();
   }, []);
-
   return (
     <>
       <Header
@@ -171,8 +164,14 @@ function App() {
         />
         <Route
           path="/cart"
-          element={<Cart order={order} sizes={sizes} crusts={crusts} />}
+          element={
+            <Cart order={order} sizes={sizes} crusts={crusts} token={token} />
+          }
         ></Route>
+        <Route
+          path="/admin/*"
+          element={<Admin token={token} sizes={sizes} crusts={crusts} />}
+        />
       </Routes>
     </>
   );
