@@ -81,28 +81,21 @@ function App() {
     const localStorageToken = localStorage.getItem("token");
 
     async function getMe() {
+      setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
-      setToken(localStorageToken);
+
+      const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
+      setOrderId(id);
+
+      const order = await fetchOrder(localStorageToken, id);
+      setOrder(order);
     }
     if (localStorageToken) {
       getMe();
     }
 
-    async function getOrder() {
-      const { id } = await fetchActiveUserOrder(
-        localStorageToken,
-        currentUser.id
-      );
-      setOrderId(id);
-
-      const order = await fetchOrder(localStorageToken, id);
-      if (order) {
-        setOrder(order);
-      }
-    }
     console.log("this is the order:", order);
-    if (currentUser.id) getOrder();
   }, [token]);
 
   const getNum = () => {
@@ -173,11 +166,13 @@ function App() {
           path="/cart"
           element={<Cart order={order} sizes={sizes} crusts={crusts} />}
         ></Route>
-        <Route path="/admin/*" element={<Admin token={token} sizes={sizes} crusts={crusts} />} />
+        <Route
+          path="/admin/*"
+          element={<Admin token={token} sizes={sizes} crusts={crusts} />}
+        />
       </Routes>
     </>
   );
 }
-
 
 export default App;

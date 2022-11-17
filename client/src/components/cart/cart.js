@@ -22,9 +22,15 @@ const Cart = (props) => {
           </div>
         ))}
       {props.order && (
-        <p>
-          <strong>Total: </strong>${props.order.price / 100}
-        </p>
+        <div>
+          {props.order.price ? (
+            <p>
+              <strong>Total: </strong>$ {props.order.price / 100}
+            </p>
+          ) : (
+            <p>Cart is Empty</p>
+          )}
+        </div>
       )}
     </div>
   );
