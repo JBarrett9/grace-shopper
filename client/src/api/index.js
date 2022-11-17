@@ -65,7 +65,7 @@ const createOrder = async (token, userId, setOrderId) => {
   return data;
 };
 
-const createPizza = async (token, name, crustId, userId, sizeId) => {
+const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -78,6 +78,7 @@ const createPizza = async (token, name, crustId, userId, sizeId) => {
         crustId,
         userId,
         sizeId,
+        featured,
       }),
     });
     const data = await response.json();

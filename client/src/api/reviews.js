@@ -21,7 +21,7 @@ const fetchReviewsByPizzaId = async (pizzaId, setReviews ) => {
 
 const addReview = async (token, pizzaId, content, stars) => {
     await fetch(`/api/reviews/${pizzaId}`, {
-        method: "PATCH",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

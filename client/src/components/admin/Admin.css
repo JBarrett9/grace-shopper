@@ -1,0 +1,112 @@
+.Admin {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    height: 62rem;
+}
+
+aside {
+    display: flex;
+    grid-column: 1/2;
+    background-color: white;
+    height: 105%;
+    padding: 14rem 0 0 3rem;
+    box-sizing: border-box;
+    border-right: 10px solid #bc4749;
+}
+
+main {
+    padding: 2rem;
+    height: 100%;
+}
+
+table {
+    margin: 0 auto;
+    text-align: center;
+    width: 80%;
+    overflow: scroll;
+}
+
+.Pizzas {
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    overflow: scroll;
+}
+
+th {
+    background-color: #bc4749;
+}
+
+tr,
+td {
+    padding: 1rem;
+    margin: 1px;
+    background-color: white;
+}
+
+form {
+    width: 60%;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-data {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: flex-start;
+    margin: 1rem auto;
+    align-items: center;
+    background-color: #bc4749;
+    padding: 1rem;
+    color: white;
+}
+
+.form-data label {
+    width: 120px;
+    text-align: right;
+}
+
+.form-data input {
+    padding: 0.2rem 0.5rem;
+    border: none;
+}
+
+.form-data select {
+    padding: 0.2rem 0.5rem;
+}
+
+form button {
+    background-color: #bc4749;
+    border: none;
+    color: white;
+    padding: 1rem;
+    width: 10rem;
+}
+/* width  */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* / Track  */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+/* / Handle / */
+::-webkit-scrollbar-thumb {
+  background: transparent; 
+}
+
+/* / Handle on hover / */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
