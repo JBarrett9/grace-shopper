@@ -7,7 +7,13 @@ import Login from "./components/account/Login";
 import Size from "./components/size/size";
 import { fetchActiveUserOrder, fetchMe, registerUser } from "./api/users";
 import Register from "./components/account/Register";
-import { fetchCrusts, fetchOrder, fetchSizes, fetchToppings } from "./api";
+import {
+  createOrder,
+  fetchCrusts,
+  fetchOrder,
+  fetchSizes,
+  fetchToppings,
+} from "./api";
 import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
@@ -134,14 +140,16 @@ function App() {
       setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
-
-      const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
-
-      setOrderId(id);
-
-      const order = await fetchOrder(localStorageToken, id);
-
-      setOrder(order);
+      if (result) {
+        const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
+        if (id) {
+          setOrderId(id);
+          const order = await fetchOrder(localStorageToken, id);
+          if (order) {
+            setOrder(order);
+          }
+        }
+      }
     }
     if (localStorageToken) {
       getMe();
