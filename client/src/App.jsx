@@ -175,7 +175,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/:pizzaId/edit"
+          path="cart/:pizzaId/edit"
           element={
             <EditPizza token={token} orderId={orderId} setOrder={setOrder} />
           }

@@ -13,6 +13,7 @@ const Toppings = (props) => {
   const { pizzaId } = useParams();
   const navigate = useNavigate();
   const [existingToppings, setExistingToppings] = useState([]);
+  const [toppingIds, setToppingIds] = useState([]);
 
   const [meats, setMeats] = useState([]);
   const [vegetables, setVegetables] = useState([]);
@@ -27,11 +28,14 @@ const Toppings = (props) => {
     async function getToppings() {
       const pizza = await fetchPizza(pizzaId);
       let toppings = [];
+      let toppingIds = [];
       if (pizza.toppings) {
         toppings = pizza.toppings.map((topping) => topping.toppingId);
+        toppingIds = pizza.toppings.map((topping) => topping.id);
       }
 
       setExistingToppings(toppings);
+      setToppingIds(toppingIds);
 
       const meats = await fetchToppingsByCategory("meat");
       const vegetables = await fetchToppingsByCategory("vegetable");
@@ -132,7 +136,9 @@ const Toppings = (props) => {
           await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
         }
       } else if (existingToppings.includes(meat.id)) {
-        destroyPizzaTopping();
+        const idx = existingToppings.indexOf(meat.id);
+        console.log(toppingIds[idx]);
+        destroyPizzaTopping(toppingIds[idx]);
       }
     }
 

@@ -19,6 +19,10 @@ const Cart = (props) => {
     setPrice(order.price / 100);
   };
 
+  const handleEdit = async (pizzId) => {
+    navigate(`/cart/${pizzId}/edit`);
+  };
+
   return (
     <div className="cart">
       {props.order.pizzas &&
@@ -30,7 +34,7 @@ const Cart = (props) => {
                 {pizza.amount}
               </h3>
               <span>
-                <a>Edit</a>
+                <a onClick={() => handleEdit(pizza.id)}>Edit</a>
                 <a onClick={() => handleDestroy(pizza.id)}>Destroy</a>
               </span>
             </header>
