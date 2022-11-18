@@ -3,7 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import AddData from './AddData';
 import "./Admin.css"
 import Edit from './Edit'
-import Pizzas from './Pizza';
+import Pizzas from './Pizzas';
 
 const Admin = ({sizes, crusts}) => {
     return (

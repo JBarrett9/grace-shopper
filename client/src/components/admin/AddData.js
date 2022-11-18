@@ -1,6 +1,9 @@
 import React from 'react';
 
-const AddData = ({ handleSubmit, crusts, sizes, fncs }) => {
+const AddData = ({ handleSubmit, crusts, sizes, fncs, data }) => {
+    const{
+        sizeId, crustId, name, featured
+    } = data
 
     const {
         setCrustId, setFeatured, setName, setSizeId
@@ -10,15 +13,15 @@ const AddData = ({ handleSubmit, crusts, sizes, fncs }) => {
         <form onSubmit={(e) => handleSubmit(e)}>
             <div className="form-data">
                 <label>Pizza name:</label>
-                <input onChange={(e) => setName(e.target.value)} type="text" id="name" name={"name"} />
+                <input onChange={(e) => setName(e.target.value)} type="text" id="name" name={"name"} value={name}/>
             </div>
 
             <div className="form-data">
                 <label>featured:</label>
                 <div>
-                    <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" />
+                    <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={true} />
                     <span>true</span>
-                    <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" />
+                    <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={false}/>
                     <span>false</span>
                 </div>
             </div>
@@ -26,11 +29,12 @@ const AddData = ({ handleSubmit, crusts, sizes, fncs }) => {
                 <label>Size:</label>
                 <select
                     onChange={(e) => setSizeId(e.target.value)}
-                    name="sizeId"
+                    name="sizeId" value={sizeId}
                 >
+                    <option value="">Select Size</option>
                     {sizes &&
                         sizes.map((size) => (
-                            <option key={size.id} >
+                            <option key={size.id} value={size.id} >
                                 {size.size}
                             </option>
                         ))}
@@ -40,11 +44,12 @@ const AddData = ({ handleSubmit, crusts, sizes, fncs }) => {
                 <label>Crust:</label>
                 <select
                     onChange={(e) => setCrustId(e.target.value)}
-                    name="crustId"
+                    name="crustId" value={crustId}
                 >
+                    <option selected value="">Select Crust</option>
                     {crusts &&
                         crusts.map((crust) => (
-                            <option key={crust.id} >
+                            <option key={crust.id} value={crust.id} >
                                 {crust.name}
                             </option>
                         ))}

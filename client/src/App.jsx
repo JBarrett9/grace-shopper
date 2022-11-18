@@ -95,7 +95,7 @@ function App() {
       getMe();
     }
 
-    console.log("this is the order:", order);
+    if (currentUser.id) getOrder();
   }, [token]);
 
   const getNum = () => {
