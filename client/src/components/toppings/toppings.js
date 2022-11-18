@@ -126,7 +126,7 @@ const Toppings = (props) => {
 
   const addToppingsToPizza = async () => {
     if (existingToppings.length) {
-      destroyPizzaToppings(pizzaId, props.token);
+      await destroyPizzaToppings(pizzaId, props.token);
     }
 
     for (let meat of selectedMeats) {
