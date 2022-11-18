@@ -44,7 +44,7 @@ router.get("/:pizzaId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body);
   const { name, crustId, userId, sizeId, featured } = req.body;
   const _pizza = await getPizzaByName(name);
 
@@ -113,6 +113,49 @@ router.post("/:pizzaId/toppings", async (req, res, next) => {
     res.send(response);
   } catch (error) {
     next(error);
+  }
+});
+
+router.delete("/:pizzaId/toppings", async (req, res, next) => {
+  const { pizzaId } = req.params;
+  const pizza = await getPizzaById(pizzaId);
+  const user = await getUserByEmail(req.user.email);
+
+  if (!pizza) {
+    next({
+      error: "PizzaNotFound",
+      message: `A pizza with the ID ${pizzaId} does not exist.`,
+      name: "Pizza Not Found",
+    });
+    return;
+  }
+
+  if (!user.admin && pizza.userId !== user.id) {
+    next({
+      error: "NotYourPizza",
+      message: `A pizza with the ID ${pizzaId} does not belong to you.`,
+      name: "Not Your Pizza",
+    });
+  }
+
+  if (pizza.featured && !user.admin) {
+    {
+      next({
+        error: "NotYourPizza",
+        message: `A pizza with the ID ${pizzaId} does not belong to you (ADMIN).`,
+        name: "Not Your Pizza",
+      });
+    }
+  } else {
+    try {
+      const removed = await removePizzaToppings(pizzaId);
+      res.send({
+        success: true,
+        message: `Toppings have been successfully deleted.`,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 });
 
