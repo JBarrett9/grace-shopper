@@ -137,10 +137,10 @@ const fetchPizza = async (pizzaId, setPizza) => {
         "Content-Type": "application/json",
       },
     });
-    const pizza = response.json();
-    return pizza;
+    const pizza = await response.json();
+    setPizza(pizza)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 };
 

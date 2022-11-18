@@ -16,7 +16,7 @@ const Admin = ({sizes, crusts}) => {
                 <Routes>
                     <Route path='/' element={<Pizzas sizes={sizes} crusts={crusts}/>} />
                     <Route path=':addData' element={<AddData/>} />
-                    <Route path='/edit' element={<Edit sizes={sizes} crusts={crusts}/>} />
+                    <Route path='/edit/:id' element={<Edit sizes={sizes} crusts={crusts}/>} />
                 </Routes>
             </main>
         </div>
