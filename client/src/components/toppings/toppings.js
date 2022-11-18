@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addToppingToPizza,
-  destroyPizzaTopping,
+  destroyPizzaToppings,
   fetchOrder,
   fetchPizza,
   fetchToppingsByCategory,
@@ -13,7 +13,6 @@ const Toppings = (props) => {
   const { pizzaId } = useParams();
   const navigate = useNavigate();
   const [existingToppings, setExistingToppings] = useState([]);
-  const [toppingIds, setToppingIds] = useState([]);
 
   const [meats, setMeats] = useState([]);
   const [vegetables, setVegetables] = useState([]);
@@ -31,11 +30,9 @@ const Toppings = (props) => {
       let toppingIds = [];
       if (pizza.toppings) {
         toppings = pizza.toppings.map((topping) => topping.toppingId);
-        toppingIds = pizza.toppings.map((topping) => topping.id);
       }
 
       setExistingToppings(toppings);
-      setToppingIds(toppingIds);
 
       const meats = await fetchToppingsByCategory("meat");
       const vegetables = await fetchToppingsByCategory("vegetable");
@@ -47,7 +44,7 @@ const Toppings = (props) => {
       setCheeses(cheeses);
       setSauces(sauces);
 
-      // console.log(toppings);
+      console.log(toppings);
       const meatArr = meats.map((meat) => {
         return {
           id: meat.id,
@@ -79,7 +76,7 @@ const Toppings = (props) => {
   }, []);
 
   const handleMeatSelect = (idx) => {
-    // console.log(selectedMeats);
+    console.log(selectedMeats);
     if (selectedMeats[idx].selected) {
       let arrCopy = [...selectedMeats];
       arrCopy[idx].selected = false;
@@ -128,17 +125,13 @@ const Toppings = (props) => {
   };
 
   const addToppingsToPizza = async () => {
+    if (existingToppings.length) {
+      destroyPizzaToppings(pizzaId, props.token);
+    }
+
     for (let meat of selectedMeats) {
       if (meat.selected) {
-        if (existingToppings.includes(meat.id)) {
-          continue;
-        } else {
-          await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
-        }
-      } else if (existingToppings.includes(meat.id)) {
-        const idx = existingToppings.indexOf(meat.id);
-        console.log(toppingIds[idx]);
-        destroyPizzaTopping(toppingIds[idx]);
+        await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
       }
     }
 

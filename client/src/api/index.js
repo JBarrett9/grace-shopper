@@ -96,9 +96,9 @@ const destroyPizza = async (token, pizzaId) => {
   }
 };
 
-const destroyPizzaTopping = async (pizzaToppingId, token) => {
+const destroyPizzaToppings = async (pizzaId, token) => {
   try {
-    await fetch(`/api/pizza_toppings/${pizzaToppingId}`, {
+    await fetch(`/api/pizzas/${pizzaId}/toppings`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -222,7 +222,7 @@ export {
   createOrder,
   createPizza,
   destroyPizza,
-  destroyPizzaTopping,
+  destroyPizzaToppings,
   fetchCrusts,
   fetchPizza,
   fetchFeaturedPizzas,

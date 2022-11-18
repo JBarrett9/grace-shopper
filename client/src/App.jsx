@@ -240,7 +240,14 @@ function App() {
         <Route
           path="cart/:pizzaId/edit"
           element={
-            <EditPizza token={token} orderId={orderId} setOrder={setOrder} />
+            <EditPizza
+              token={token}
+              orderId={orderId}
+              setOrder={setOrder}
+              user={currentUser}
+              sizes={sizes}
+              crusts={crusts}
+            />
           }
         ></Route>
         <Route

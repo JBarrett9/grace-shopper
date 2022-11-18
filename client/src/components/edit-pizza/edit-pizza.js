@@ -1,3 +1,5 @@
+import Size from "../size/size";
+
 const { useParams, useNavigate } = require("react-router-dom");
 const { default: Toppings } = require("../toppings/toppings");
 

@@ -43,11 +43,8 @@ const Size = (props) => {
   };
 
   const startOrder = async () => {
-    // console.log(props.user.id);
-    await createOrder(props.token, props.user.id, props.setOrderId)
-      .then
-      // console.log(props.orderId)
-      ();
+    const { id } = await createOrder(props.token, props.user.id);
+    props.setOrderId(id);
   };
 
   const addToOrder = async () => {
