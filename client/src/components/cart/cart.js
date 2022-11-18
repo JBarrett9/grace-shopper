@@ -1,4 +1,4 @@
-import { destroyPizza } from "../../api";
+import { destroyPizza, fetchOrder } from "../../api";
 import "./cart.css";
 
 const Cart = (props) => {
@@ -7,6 +7,8 @@ const Cart = (props) => {
 
   const handleDestroy = async (pizzId) => {
     await destroyPizza(props.token, pizzId);
+    const order = await fetchOrder(props.token, props.orderId);
+    props.setOrder(order);
   };
 
   return (
@@ -33,7 +35,7 @@ const Cart = (props) => {
       {props.order && (
         <div>
           {props.order.price ? (
-            <p>
+            <p style={{ textAlign: "right", marginRight: "1rem" }}>
               <strong>Total: </strong>$ {props.order.price / 100}
             </p>
           ) : (

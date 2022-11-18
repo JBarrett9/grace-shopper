@@ -18,6 +18,7 @@ const {
 } = require("../db/pizza_toppings");
 const { getCrustById } = require("../db/crusts");
 const { getSizeById } = require("../db/sizes");
+const { removePizzaFromOrder } = require("../db/pizza_order");
 
 router.get("/featured", async (req, res, next) => {
   const pizzas = await getAllFeaturedPizzas();
@@ -191,7 +192,6 @@ router.patch("/:pizzaId", async (req, res, next) => {
 router.delete("/:pizzaId", async (req, res, next) => {
   const { pizzaId } = req.params;
   const pizza = await getPizzaById(pizzaId);
-  console.log(pizza);
   const user = await getUserByEmail(req.user.email);
 
   if (!pizza) {
@@ -222,7 +222,7 @@ router.delete("/:pizzaId", async (req, res, next) => {
   } else {
     try {
       const removed = await removePizzaToppings(pizzaId);
-      console.log(removed);
+      const removedPizza = await removePizzaFromOrder(pizzaId);
       const response = await destroyPizza(pizzaId);
       console.log(response);
       res.send({

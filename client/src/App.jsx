@@ -165,7 +165,14 @@ function App() {
         <Route
           path="/cart"
           element={
-            <Cart order={order} sizes={sizes} crusts={crusts} token={token} />
+            <Cart
+              order={order}
+              sizes={sizes}
+              crusts={crusts}
+              token={token}
+              setOrder={setOrder}
+              orderId={orderId}
+            />
           }
         ></Route>
         <Route
