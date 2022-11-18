@@ -94,8 +94,6 @@ function App() {
     if (localStorageToken) {
       getMe();
     }
-
-    if (currentUser.id) getOrder();
   }, [token]);
 
   const getNum = () => {
