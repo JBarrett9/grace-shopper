@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addToppingToPizza,
-  destroyPizzaTopping,
+  destroyPizzaToppings,
   fetchOrder,
   fetchPizza,
   fetchToppingsByCategory,
@@ -27,6 +27,7 @@ const Toppings = (props) => {
     async function getToppings() {
       const pizza = await fetchPizza(pizzaId);
       let toppings = [];
+      let toppingIds = [];
       if (pizza.toppings) {
         toppings = pizza.toppings.map((topping) => topping.toppingId);
       }
@@ -124,15 +125,13 @@ const Toppings = (props) => {
   };
 
   const addToppingsToPizza = async () => {
+    if (existingToppings.length) {
+      await destroyPizzaToppings(pizzaId, props.token);
+    }
+
     for (let meat of selectedMeats) {
       if (meat.selected) {
-        if (existingToppings.includes(meat.id)) {
-          continue;
-        } else {
-          await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
-        }
-      } else if (existingToppings.includes(meat.id)) {
-        destroyPizzaTopping();
+        await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
       }
     }
 

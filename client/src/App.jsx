@@ -7,11 +7,18 @@ import Login from "./components/account/Login";
 import Size from "./components/size/size";
 import { fetchActiveUserOrder, fetchMe, registerUser } from "./api/users";
 import Register from "./components/account/Register";
-import { fetchCrusts, fetchOrder, fetchSizes, fetchToppings } from "./api";
+import {
+  createOrder,
+  fetchCrusts,
+  fetchOrder,
+  fetchSizes,
+  fetchToppings,
+} from "./api";
 import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
 import Admin from "./components/admin/Admin";
+import EditPizza from "./components/edit-pizza/edit-pizza";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -22,6 +29,55 @@ function App() {
   const [crusts, setCrusts] = useState([]);
   const [toppings, setToppings] = useState([]);
   const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+
+    function randomString(length) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    }
+
+    async function createGuest() {
+      let randomEmail = randomString(20);
+      randomEmail += "@saucebossguest.com";
+      let randomPassword = randomString(20);
+
+      let guestUser = {
+        email: randomEmail,
+        password: randomPassword,
+        name: "Guest",
+        guest: true,
+      };
+
+      const result = await registerUser(
+        guestUser.email,
+        guestUser.password,
+        guestUser.name,
+        guestUser.guest
+      );
+
+      setCurrentUser(result);
+      setToken(result.token);
+      localStorage.setItem("token", result.token);
+      console.log("guest created:", result);
+    }
+
+    if (!localStorageToken) {
+      createGuest();
+    }
+    if (order) {
+      console.log("order:", order);
+    }
+  }, []);
 
   useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
@@ -84,18 +140,20 @@ function App() {
       setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
       setCurrentUser(result);
-
-      const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
-      setOrderId(id);
-
-      const order = await fetchOrder(localStorageToken, id);
-      setOrder(order);
+      if (result) {
+        const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
+        if (id) {
+          setOrderId(id);
+          const order = await fetchOrder(localStorageToken, id);
+          if (order) {
+            setOrder(order);
+          }
+        }
+      }
     }
     if (localStorageToken) {
       getMe();
     }
-
-    if (currentUser.id) getOrder();
   }, [token]);
 
   const getNum = () => {
@@ -120,12 +178,24 @@ function App() {
         setToken={setToken}
         setCurrentUser={setCurrentUser}
         setOrder={setOrder}
+        setOrderId={setOrderId}
       />
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
           path="/login"
-          element={<Login currentUser={currentUser} setToken={setToken} />}
+          element={
+            <Login
+              order={order}
+              orderId={orderId}
+              setOrder={setOrder}
+              setCurrentUser={setCurrentUser}
+              setOrderId={setOrderId}
+              setToken={setToken}
+              currentUser={currentUser}
+              registerUser={registerUser}
+            />
+          }
         ></Route>
         <Route
           path="/register"
@@ -165,7 +235,27 @@ function App() {
         <Route
           path="/cart"
           element={
-            <Cart order={order} sizes={sizes} crusts={crusts} token={token} />
+            <Cart
+              order={order}
+              sizes={sizes}
+              crusts={crusts}
+              token={token}
+              setOrder={setOrder}
+              orderId={orderId}
+            />
+          }
+        ></Route>
+        <Route
+          path="cart/:pizzaId/edit"
+          element={
+            <EditPizza
+              token={token}
+              orderId={orderId}
+              setOrder={setOrder}
+              user={currentUser}
+              sizes={sizes}
+              crusts={crusts}
+            />
           }
         ></Route>
         <Route

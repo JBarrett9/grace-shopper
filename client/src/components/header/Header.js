@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./Header.css";
 import pizza_img from "../../images/pizza-g417efaadc_640.png";
 const Header = (props) => {
-  const { currentUser, setCurrentUser, setToken, setOrder } = props;
+  const { currentUser, setCurrentUser, setToken, setOrder, setOrderId } = props;
   return (
     <>
       <div className="logo">
@@ -23,8 +23,8 @@ const Header = (props) => {
             <Link
               to="/"
               onClick={() => {
-                setCurrentUser({});
                 localStorage.clear();
+                setCurrentUser({});
                 setToken("");
                 setOrder([]);
               }}

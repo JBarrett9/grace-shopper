@@ -42,7 +42,7 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
     });
 };
 
-const createOrder = async (token, userId, setOrderId) => {
+const createOrder = async (token, userId) => {
   const response = await fetch(`/api/orders/${userId}`, {
     method: "POST",
     headers: {
@@ -53,20 +53,13 @@ const createOrder = async (token, userId, setOrderId) => {
       userId,
     }),
   });
-  // .then((response) => response.json())
-  // .then((result) => {
-  //   setOrderId(result.id);
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 
   const data = await response.json();
   return data;
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
-  console.log(featured)
+  console.log(featured);
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -103,9 +96,9 @@ const destroyPizza = async (token, pizzaId) => {
   }
 };
 
-const destroyPizzaTopping = async (pizzaToppingId, token) => {
+const destroyPizzaToppings = async (pizzaId, token) => {
   try {
-    await fetch(`/api/pizza_toppings/${pizzaToppingId}`, {
+    await fetch(`/api/pizzas/${pizzaId}/toppings`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -116,6 +109,34 @@ const destroyPizzaTopping = async (pizzaToppingId, token) => {
     console.log(error);
   }
 };
+
+export async function updatePizza({
+  name,
+  crustId,
+  userId,
+  sizeId,
+  featured,
+  token,
+  pizzaId,
+}) {
+  console.log("trying to update pizza:");
+  const response = await fetch(`api/pizzas/${pizzaId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      crustId,
+      userId,
+      sizeId,
+      featured,
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
 
 const fetchCrusts = async (setCrusts) => {
   await fetch("/api/crusts", {
@@ -208,20 +229,20 @@ const fetchToppingsByCategory = async (category) => {
   }
 };
 
-const deletePizzaById= async (token,pizzaId) => {
-  await fetch (`/api/pizzas/${pizzaId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },  
+const deletePizzaById = async (token, pizzaId) => {
+  await fetch(`/api/pizzas/${pizzaId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   })
-  .then((response) => response.json())
-  .then((result) => console.log(result))
-  .catch((error) => {
-    console.log(error);
-  });
-}
+    .then((response) => response.json())
+    .then((result) => console.log(result))
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 export {
   addPizzaToOrder,
@@ -229,7 +250,7 @@ export {
   createOrder,
   createPizza,
   destroyPizza,
-  destroyPizzaTopping,
+  destroyPizzaToppings,
   fetchCrusts,
   fetchPizza,
   fetchFeaturedPizzas,

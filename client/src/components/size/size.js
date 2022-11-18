@@ -43,10 +43,8 @@ const Size = (props) => {
   };
 
   const startOrder = async () => {
-    console.log(props.user.id);
-    await createOrder(props.token, props.user.id, props.setOrderId).then(
-      console.log(props.orderId)
-    );
+    const { id } = await createOrder(props.token, props.user.id);
+    props.setOrderId(id);
   };
 
   const addToOrder = async () => {
@@ -109,7 +107,7 @@ const Size = (props) => {
         );
       }
     }
-
+    console.log("adding pizza to order:");
     await addPizzaToOrder(
       props.token,
       props.orderId,
@@ -179,7 +177,7 @@ const Size = (props) => {
           )}
         </span>
       </form>
-      {console.log(reviews)}
+      {/* {console.log(reviews)} */}
     </div>
   );
 };

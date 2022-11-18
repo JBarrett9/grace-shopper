@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createOrder, fetchOrder } from "../../api";
+import {
+  addPizzaToOrder,
+  createOrder,
+  fetchOrder,
+  updatePizza,
+} from "../../api";
 import { fetchMe, registerUser } from "../../api/users";
 
 import "./account.css";
@@ -46,21 +51,53 @@ export default function Register(props) {
                   if (result.error) {
                     setError(result.message);
                   } else {
+                    let guestPizzas = [];
+                    if (order) {
+                      guestPizzas = order.pizzas;
+                    }
                     console.log(currentUser);
                     console.log("Registered User:", result.user);
-                    setError("");
+
                     localStorage.setItem("token", result.token);
+                    setError("");
                     setToken(result.token);
                     setPassword("");
                     setEmail("");
                     setPassword2("");
+                    console.log("GUEST ORDER:", order);
+
+                    console.log("GUEST PIZZAS:", guestPizzas);
+
                     const _order = await createOrder(
                       result.token,
                       result.user.id,
                       setOrderId
                     );
-                    setOrderId(_order.id);
+
+                    setOrderId("NEW ORDER ID:", _order.id);
                     const getOrder = await fetchOrder(result.token, _order.id);
+                    console.log(getOrder);
+                    if (guestPizzas) {
+                      for (let pizza of guestPizzas) {
+                        await updatePizza({
+                          pizzaId: pizza.id,
+                          userId: result.user.id,
+                          name: pizza.name,
+                          crustId: pizza.crustId,
+                          sizeId: pizza.sizeId,
+                          featured: pizza.featured,
+                        });
+
+                        await addPizzaToOrder(
+                          result.token,
+                          getOrder.id,
+                          pizza.id,
+                          pizza.amount,
+                          navigate
+                        );
+                      }
+                    }
+
                     console.log(
                       "order created for:",
                       result.user.email,

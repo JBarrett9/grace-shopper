@@ -131,9 +131,7 @@ const destroyPizza = async (id) => {
   try {
     const {
       rows: [pizza],
-    } = await client.query(`DELETE FROM pizza WHERE id=($1) RETURNING *;`, [
-      id,
-    ]);
+    } = await client.query(`DELETE FROM pizza WHERE id=$1 RETURNING *;`, [id]);
     return pizza;
   } catch (error) {
     throw error;

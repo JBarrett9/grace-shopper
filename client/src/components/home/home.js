@@ -6,7 +6,7 @@ import { fetchFeaturedPizzas } from "../../api";
 import { fetchAllReviews } from "../../api/reviews";
 const Home = () => {
   const [pizzas, setPizzas] = useState([]);
-  const [reviews, setReviews] = useState ([])
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     getAllFeaturedPizzas();
@@ -14,8 +14,8 @@ const Home = () => {
   }, []);
 
   const getAllReviews = async () => {
-    await fetchAllReviews(setReviews) 
-  }
+    await fetchAllReviews(setReviews);
+  };
 
   const getAllFeaturedPizzas = async () => {
     await fetchFeaturedPizzas(setPizzas);
@@ -28,7 +28,7 @@ const Home = () => {
         <PizzaCard key={pizza.id} img={pizza_img} pizza={pizza} />
       ))}
       <PizzaCard img={pizza_img} pizza={pizza} />
-      {console.log(reviews)}
+      {}
     </div>
   );
 };
