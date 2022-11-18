@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createOrder, fetchOrder } from "../../api";
+import { addPizzaToOrder, createOrder, fetchOrder } from "../../api";
 import { fetchMe, registerUser } from "../../api/users";
 
 import "./account.css";
@@ -54,6 +54,11 @@ export default function Register(props) {
                     setPassword("");
                     setEmail("");
                     setPassword2("");
+                    console.log("guest order:", order);
+
+                    let guestPizzas = order.pizzas;
+                    console.log(guestPizzas);
+
                     const _order = await createOrder(
                       result.token,
                       result.user.id,
@@ -61,6 +66,19 @@ export default function Register(props) {
                     );
                     setOrderId(_order.id);
                     const getOrder = await fetchOrder(result.token, _order.id);
+                    console.log(getOrder);
+                    if (guestPizzas) {
+                      for (let pizza of guestPizzas) {
+                        await addPizzaToOrder(
+                          result.token,
+                          getOrder.id,
+                          pizza.id,
+                          pizza.amount,
+                          navigate
+                        );
+                      }
+                    }
+
                     console.log(
                       "order created for:",
                       result.user.email,

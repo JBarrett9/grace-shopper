@@ -43,7 +43,7 @@ const Toppings = (props) => {
       setCheeses(cheeses);
       setSauces(sauces);
 
-      console.log(toppings);
+      // console.log(toppings);
       const meatArr = meats.map((meat) => {
         return {
           id: meat.id,
@@ -75,7 +75,7 @@ const Toppings = (props) => {
   }, []);
 
   const handleMeatSelect = (idx) => {
-    console.log(selectedMeats);
+    // console.log(selectedMeats);
     if (selectedMeats[idx].selected) {
       let arrCopy = [...selectedMeats];
       arrCopy[idx].selected = false;

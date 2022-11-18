@@ -67,6 +67,55 @@ function App() {
     if (!localStorageToken) {
       createGuest();
     }
+    if (order) {
+      console.log("order:", order);
+    }
+  }, []);
+
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+
+    function randomString(length) {
+      var result = "";
+      var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    }
+
+    async function createGuest() {
+      let randomEmail = randomString(20);
+      randomEmail += "@saucebossguest.com";
+      let randomPassword = randomString(20);
+
+      let guestUser = {
+        email: randomEmail,
+        password: randomPassword,
+        name: "Guest",
+        guest: true,
+      };
+
+      const result = await registerUser(
+        guestUser.email,
+        guestUser.password,
+        guestUser.name,
+        guestUser.guest
+      );
+
+      setCurrentUser(result);
+      setToken(result.token);
+      localStorage.setItem("token", result.token);
+      console.log("guest created:", result);
+    }
+
+    if (!localStorageToken) {
+      createGuest();
+    }
   }, [token]);
 
   useEffect(() => {
@@ -94,8 +143,6 @@ function App() {
     if (localStorageToken) {
       getMe();
     }
-
-    if (currentUser.id) getOrder();
   }, [token]);
 
   const getNum = () => {
@@ -125,7 +172,18 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route
           path="/login"
-          element={<Login currentUser={currentUser} setToken={setToken} />}
+          element={
+            <Login
+              order={order}
+              orderId={orderId}
+              setOrder={setOrder}
+              setCurrentUser={setCurrentUser}
+              setOrderId={setOrderId}
+              setToken={setToken}
+              currentUser={currentUser}
+              registerUser={registerUser}
+            />
+          }
         ></Route>
         <Route
           path="/register"

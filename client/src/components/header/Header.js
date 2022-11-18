@@ -23,8 +23,8 @@ const Header = (props) => {
             <Link
               to="/"
               onClick={() => {
-                setCurrentUser({});
                 localStorage.clear();
+                setCurrentUser({});
                 setToken("");
                 setOrder([]);
               }}
