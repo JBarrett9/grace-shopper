@@ -43,6 +43,7 @@ router.get("/:pizzaId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  console.log(req.body)
   const { name, crustId, userId, sizeId, featured } = req.body;
   const _pizza = await getPizzaByName(name);
 
