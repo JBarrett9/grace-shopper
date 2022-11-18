@@ -135,9 +135,11 @@ function App() {
       setCurrentUser(result);
 
       const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
+
       setOrderId(id);
 
       const order = await fetchOrder(localStorageToken, id);
+
       setOrder(order);
     }
     if (localStorageToken) {
@@ -167,6 +169,7 @@ function App() {
         setToken={setToken}
         setCurrentUser={setCurrentUser}
         setOrder={setOrder}
+        setOrderId={setOrderId}
       />
       <Routes>
         <Route path="/" element={<Home />}></Route>

@@ -42,25 +42,31 @@ export default function Login(props) {
                 if (result.error) {
                   setError(result.message);
                 } else {
+                  let guestPizzas = [];
+                  if (order) {
+                    guestPizzas = order.pizzas;
+                  }
+
                   setError("You're logged in!");
                   localStorage.setItem("token", result.token);
                   setToken(result.token);
                   setPassword("");
                   setEmail("");
 
-                  let guestPizzas = order.pizzas;
-
                   const activeOrder = await fetchActiveUserOrder(
                     result.token,
                     result.user.id
                   );
+
+                  console.log("ACTIVE ORDER:", activeOrder);
+                  console.log("GUEST PIZZAS:", guestPizzas);
                   if (!activeOrder) {
                     const _order = await createOrder(
                       result.token,
                       result.user.id,
                       setOrderId
                     );
-
+                    setOrderId(_order.id);
                     const getOrder = await fetchOrder(result.token, _order.id);
                     console.log(
                       "order created for:",
@@ -77,9 +83,13 @@ export default function Login(props) {
                       );
                     }
                     setOrder(getOrder);
-                    console.log(getOrder);
+                    console.log("ACTIVE ORDER DOES NOT EXISTS:", getOrder);
                   } else {
-                    setOrder(activeOrder);
+                    const getOrder = await fetchOrder(
+                      result.token,
+                      activeOrder.id
+                    );
+
                     if (guestPizzas) {
                       for (let pizza of guestPizzas) {
                         await addPizzaToOrder(
@@ -91,6 +101,8 @@ export default function Login(props) {
                         );
                       }
                     }
+                    setOrder(getOrder);
+                    console.log("ACTIVE ORDER EXISTS:", getOrder);
                   }
                 }
               } catch (error) {
