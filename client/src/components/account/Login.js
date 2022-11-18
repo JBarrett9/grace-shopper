@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchActiveUserOrder, loginUser } from "../../api/users";
-import { addPizzaToOrder, createOrder, fetchOrder } from "../../api";
+import {
+  addPizzaToOrder,
+  createOrder,
+  fetchOrder,
+  updatePizza,
+} from "../../api";
 import { fetchMe, registerUser } from "../../api/users";
 
 import "./account.css";
@@ -99,6 +104,10 @@ export default function Login(props) {
                           pizza.amount,
                           navigate
                         );
+                        const _result = await updatePizza({
+                          userId: result.user.id,
+                        });
+                        console.log(_result);
                       }
                     }
                     setOrder(getOrder);

@@ -107,7 +107,7 @@ const Size = (props) => {
         );
       }
     }
-
+    console.log("adding pizza to order:");
     await addPizzaToOrder(
       props.token,
       props.orderId,

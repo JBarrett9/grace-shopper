@@ -42,7 +42,7 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
     });
 };
 
-const createOrder = async (token, userId, setOrderId) => {
+const createOrder = async (token, userId) => {
   const response = await fetch(`/api/orders/${userId}`, {
     method: "POST",
     headers: {
@@ -109,6 +109,34 @@ const destroyPizzaToppings = async (pizzaId, token) => {
     console.log(error);
   }
 };
+
+export async function updatePizza({
+  name,
+  crustId,
+  userId,
+  sizeId,
+  featured,
+  token,
+  pizzaId,
+}) {
+  console.log("trying to update pizza:");
+  const response = await fetch(`api/pizzas/${pizzaId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      crustId,
+      userId,
+      sizeId,
+      featured,
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
 
 const fetchCrusts = async (setCrusts) => {
   await fetch("/api/crusts", {
