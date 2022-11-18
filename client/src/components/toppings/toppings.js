@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addToppingToPizza,
+  destroyPizzaTopping,
   fetchOrder,
   fetchPizza,
   fetchToppingsByCategory,
@@ -11,7 +12,7 @@ import "./toppings.css";
 const Toppings = (props) => {
   const { pizzaId } = useParams();
   const navigate = useNavigate();
-  const [pizza, setPizza] = useState({});
+  const [existingToppings, setExistingToppings] = useState([]);
 
   const [meats, setMeats] = useState([]);
   const [vegetables, setVegetables] = useState([]);
@@ -30,6 +31,8 @@ const Toppings = (props) => {
         toppings = pizza.toppings.map((topping) => topping.toppingId);
       }
 
+      setExistingToppings(toppings);
+
       const meats = await fetchToppingsByCategory("meat");
       const vegetables = await fetchToppingsByCategory("vegetable");
       const cheeses = await fetchToppingsByCategory("cheese");
@@ -42,7 +45,6 @@ const Toppings = (props) => {
 
       console.log(toppings);
       const meatArr = meats.map((meat) => {
-        console.log(meat.id);
         return {
           id: meat.id,
           selected: toppings.includes(meat.id),
@@ -52,19 +54,19 @@ const Toppings = (props) => {
 
       const vegArr = vegetables.map((vegetable) => ({
         id: vegetable.id,
-        selected: false,
+        selected: toppings.includes(vegetable.id),
       }));
       setSelectedVegetables(vegArr);
 
       const cheeseArr = cheeses.map((cheese) => ({
         id: cheese.id,
-        selected: false,
+        selected: toppings.includes(cheese.id),
       }));
       setSelectedCheeses(cheeseArr);
 
       const sauceArr = sauces.map((sauce) => ({
         id: sauce.id,
-        selected: false,
+        selected: toppings.includes(sauce.id),
       }));
       setSelectedSauces(sauceArr);
     }
@@ -124,7 +126,13 @@ const Toppings = (props) => {
   const addToppingsToPizza = async () => {
     for (let meat of selectedMeats) {
       if (meat.selected) {
-        await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
+        if (existingToppings.includes(meat.id)) {
+          continue;
+        } else {
+          await addToppingToPizza(props.token, pizzaId, meat.id, "full", false);
+        }
+      } else if (existingToppings.includes(meat.id)) {
+        destroyPizzaTopping();
       }
     }
 

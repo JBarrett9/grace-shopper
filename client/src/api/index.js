@@ -89,6 +89,34 @@ const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
   }
 };
 
+const destroyPizza = async (token, pizzaId) => {
+  try {
+    await fetch(`/api/pizzas/${pizzaId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const destroyPizzaTopping = async (pizzaToppingId, token) => {
+  try {
+    await fetch(`/api/pizza_toppings/${pizzaToppingId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const fetchCrusts = async (setCrusts) => {
   await fetch("/api/crusts", {
     headers: {
@@ -200,6 +228,8 @@ export {
   addToppingToPizza,
   createOrder,
   createPizza,
+  destroyPizza,
+  destroyPizzaTopping,
   fetchCrusts,
   fetchPizza,
   fetchFeaturedPizzas,

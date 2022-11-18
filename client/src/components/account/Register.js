@@ -67,7 +67,6 @@ export default function Register(props) {
                       getOrder
                     );
                     setOrder(getOrder);
-                    
                   }
                 }
               } catch (error) {

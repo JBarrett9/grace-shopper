@@ -7,3 +7,26 @@
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
 }
+
+.cart-pizza-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-pizza-head h3 {
+  margin-left: 1rem;
+}
+
+.cart-pizza-head span {
+  margin-right: 1rem;
+}
+
+.cart-pizza-head a:first-child {
+  margin-right: 1rem;
+}
+
+.cart-pizza-ingredients {
+  margin-left: 2rem;
+  margin-top: -3rem;
+}
