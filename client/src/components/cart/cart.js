@@ -1,14 +1,22 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { destroyPizza, fetchOrder } from "../../api";
 import "./cart.css";
 
 const Cart = (props) => {
-  console.log(props.order.pizzas);
-  console.log(props.sizes);
+  const [price, setPrice] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setPrice(props.order.price / 100);
+  }, []);
 
   const handleDestroy = async (pizzId) => {
     await destroyPizza(props.token, pizzId);
     const order = await fetchOrder(props.token, props.orderId);
+    console.log(order);
     props.setOrder(order);
+    setPrice(order.price / 100);
   };
 
   return (
@@ -36,7 +44,7 @@ const Cart = (props) => {
         <div>
           {props.order.price ? (
             <p style={{ textAlign: "right", marginRight: "1rem" }}>
-              <strong>Total: </strong>$ {props.order.price / 100}
+              <strong>Total: </strong>$ {price}
             </p>
           ) : (
             <p>Cart is Empty</p>

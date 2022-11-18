@@ -12,6 +12,7 @@ import Cart from "./components/cart/cart";
 import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
 import Admin from "./components/admin/Admin";
+import EditPizza from "./components/edit-pizza/edit-pizza";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -171,6 +172,12 @@ function App() {
               setOrder={setOrder}
               orderId={orderId}
             />
+          }
+        ></Route>
+        <Route
+          path="/:pizzaId/edit"
+          element={
+            <EditPizza token={token} orderId={orderId} setOrder={setOrder} />
           }
         ></Route>
         <Route
