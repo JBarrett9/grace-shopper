@@ -43,10 +43,11 @@ const Size = (props) => {
   };
 
   const startOrder = async () => {
-    console.log(props.user.id);
-    await createOrder(props.token, props.user.id, props.setOrderId).then(
-      console.log(props.orderId)
-    );
+    // console.log(props.user.id);
+    await createOrder(props.token, props.user.id, props.setOrderId)
+      .then
+      // console.log(props.orderId)
+      ();
   };
 
   const addToOrder = async () => {
@@ -179,7 +180,7 @@ const Size = (props) => {
           )}
         </span>
       </form>
-      {console.log(reviews)}
+      {/* {console.log(reviews)} */}
     </div>
   );
 };

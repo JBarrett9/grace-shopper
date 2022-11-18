@@ -53,20 +53,13 @@ const createOrder = async (token, userId, setOrderId) => {
       userId,
     }),
   });
-  // .then((response) => response.json())
-  // .then((result) => {
-  //   setOrderId(result.id);
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 
   const data = await response.json();
   return data;
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
-  console.log(featured)
+  console.log(featured);
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -208,20 +201,20 @@ const fetchToppingsByCategory = async (category) => {
   }
 };
 
-const deletePizzaById= async (token,pizzaId) => {
-  await fetch (`/api/pizzas/${pizzaId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },  
+const deletePizzaById = async (token, pizzaId) => {
+  await fetch(`/api/pizzas/${pizzaId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   })
-  .then((response) => response.json())
-  .then((result) => console.log(result))
-  .catch((error) => {
-    console.log(error);
-  });
-}
+    .then((response) => response.json())
+    .then((result) => console.log(result))
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 export {
   addPizzaToOrder,

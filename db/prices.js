@@ -7,26 +7,29 @@ const { getSizeById } = require("./sizes");
 const getPrice = async (pizzaId) => {
   console.log("getting price");
   const pizza = await getPizzaById(pizzaId);
-  const crust = await getCrustById(pizza.crustId);
-  const size = await getSizeById(pizza.sizeId);
+  if (pizza) {
+    const crust = await getCrustById(pizza.crustId);
+    const size = await getSizeById(pizza.sizeId);
 
-  let crustPrice = crust.price + crust.price * size.pricemod * 0.15;
+    let crustPrice = crust.price + crust.price * size.pricemod * 0.15;
 
-  crustPrice = Math.round(crustPrice);
+    crustPrice = Math.round(crustPrice);
 
-  console.log(crustPrice);
-  let toppingPrice = 0;
+    console.log(crustPrice);
+    let toppingPrice = 0;
 
-  for (let topping of pizza.toppings) {
-    toppingPrice += topping.price;
+    for (let topping of pizza.toppings) {
+      toppingPrice += topping.price;
+    }
+    if (pizza.toppings.length <= 1) {
+      toppingPrice = 0;
+    }
+
+    let price = crustPrice + toppingPrice;
+
+    return price;
   }
-  if (pizza.toppings.length <= 1) {
-    toppingPrice = 0;
-  }
-
-  let price = crustPrice + toppingPrice;
-
-  return price;
+  return 0;
 };
 
 const getOrderPrice = async (orderId) => {
