@@ -11,6 +11,7 @@ const {
   createUser,
   getUserById,
   updateUser,
+  getAllUsers,
 } = require("../db/users");
 
 router.post("/login", async (req, res, next) => {
@@ -70,7 +71,8 @@ router.post("/register", async (req, res, next) => {
   }
 
   try {
-    await createUser({ email, name, password, guest });
+    let admin = false;
+    await createUser({ email, name, password, guest, admin });
     const user = await getUserByEmail(email);
     let userData = { id: user.id, email: user.email };
     let token = jwt.sign(user, JWT_SECRET);
@@ -152,6 +154,11 @@ router.patch("/:userId/edit/", requireUser, async (req, res, next) => {
 router.get("/me", requireUser, async (req, res) => {
   const user = req.user;
   res.send(user);
+});
+
+router.get("/all", async (req, res, next) => {
+  const users = await getAllUsers();
+  res.send(users);
 });
 
 module.exports = router;

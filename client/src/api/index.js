@@ -59,7 +59,7 @@ const createOrder = async (token, userId) => {
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
-  console.log(featured);
+  console.log(name, crustId, userId, sizeId, featured);
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -152,6 +152,7 @@ const fetchCrusts = async (setCrusts) => {
 };
 
 const fetchPizza = async (pizzaId) => {
+const fetchPizza = async (pizzaId) => {
   try {
     const response = await fetch(`/api/pizzas/${pizzaId}`, {
       headers: {
@@ -160,9 +161,23 @@ const fetchPizza = async (pizzaId) => {
     });
     const pizza = await response.json();
     return pizza;
+    return pizza;
   } catch (error) {
     console.log(error);
+    console.log(error);
   }
+};
+
+const fetchUsers = async () => {
+  try {
+    const response = await fetch(`/api/users/all`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const users = await response.json();
+    return users;
+  } catch (error) {}
 };
 
 const fetchFeaturedPizzas = async (setPizzas) => {
@@ -277,4 +292,5 @@ export {
   fetchToppingsByCategory,
   deletePizzaById,
   updatePizzaById,
+  fetchUsers,
 };

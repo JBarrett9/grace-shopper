@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   addPizzaToOrder,
   createOrder,
+  createPizza,
   fetchOrder,
   updatePizza,
 } from "../../api";
@@ -47,7 +48,13 @@ export default function Register(props) {
                 if (password !== password2) {
                   setError("Passwords don't match!");
                 } else {
-                  const result = await registerUser(email, name, password);
+                  let guest = false;
+                  const result = await registerUser(
+                    email,
+                    name,
+                    password,
+                    guest
+                  );
                   if (result.error) {
                     setError(result.message);
                   } else {
@@ -70,39 +77,42 @@ export default function Register(props) {
 
                     const _order = await createOrder(
                       result.token,
-                      result.user.id,
-                      setOrderId
+                      result.user.id
                     );
 
                     setOrderId("NEW ORDER ID:", _order.id);
-                    const getOrder = await fetchOrder(result.token, _order.id);
-                    console.log(getOrder);
+                    let getOrder = await fetchOrder(result.token, _order.id);
+
                     if (guestPizzas) {
                       for (let pizza of guestPizzas) {
-                        await updatePizza({
-                          pizzaId: pizza.id,
-                          userId: result.user.id,
-                          name: pizza.name,
-                          crustId: pizza.crustId,
-                          sizeId: pizza.sizeId,
-                          featured: pizza.featured,
-                        });
+                        // GRAB GUEST PIZZAS, CREATE NEW PIZZAS, ADD NEW PIZZAS TO THAT ORDER, DELETE GUEST ORDER
+                        let token = result.token;
+                        let name = pizza.name;
+                        let crustId = pizza.crustId;
+                        let userId = result.user.id;
+                        let featured = false;
+                        let size = pizza.sizeId;
+
+                        const _pizza = await createPizza(
+                          token,
+                          name,
+                          crustId,
+                          userId,
+                          size,
+                          featured
+                        );
 
                         await addPizzaToOrder(
                           result.token,
                           getOrder.id,
-                          pizza.id,
+                          _pizza.id,
                           pizza.amount,
                           navigate
                         );
                       }
                     }
+                    getOrder = await fetchOrder(result.token, _order.id);
 
-                    console.log(
-                      "order created for:",
-                      result.user.email,
-                      getOrder
-                    );
                     setOrder(getOrder);
                   }
                 }

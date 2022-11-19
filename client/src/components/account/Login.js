@@ -4,6 +4,8 @@ import { fetchActiveUserOrder, loginUser } from "../../api/users";
 import {
   addPizzaToOrder,
   createOrder,
+  createPizza,
+  destroyPizza,
   fetchOrder,
   updatePizza,
 } from "../../api";
@@ -40,6 +42,13 @@ export default function Login(props) {
             onSubmit={async (e) => {
               try {
                 e.preventDefault();
+                let guestPizzas = [];
+                if (guestPizzas.length > 0) {
+                  guestPizzas = order.pizzas;
+                  for (let pizza of guestPizzas) {
+                    await destroyPizza(currentUser.token, pizza.id);
+                  }
+                }
 
                 const result = await loginUser(email, password);
                 console.log(result);
@@ -47,18 +56,14 @@ export default function Login(props) {
                 if (result.error) {
                   setError(result.message);
                 } else {
-                  let guestPizzas = [];
-                  if (order) {
-                    guestPizzas = order.pizzas;
-                  }
-
                   setError("You're logged in!");
                   localStorage.setItem("token", result.token);
                   setToken(result.token);
                   setPassword("");
                   setEmail("");
+                  guestPizzas = order.pizzas;
 
-                  const activeOrder = await fetchActiveUserOrder(
+                  let activeOrder = await fetchActiveUserOrder(
                     result.token,
                     result.user.id
                   );
@@ -72,46 +77,72 @@ export default function Login(props) {
                       setOrderId
                     );
                     setOrderId(_order.id);
-                    const getOrder = await fetchOrder(result.token, _order.id);
-                    console.log(
-                      "order created for:",
-                      result.user.email,
-                      getOrder
-                    );
+                    let getOrder = await fetchOrder(result.token, _order.id);
+
                     for (let pizza of guestPizzas) {
+                      let token = result.token;
+                      let name = pizza.name;
+                      let crustId = pizza.crustId;
+                      let userId = result.user.id;
+                      let featured = false;
+                      let size = pizza.sizeId;
+
+                      const _pizza = await createPizza(
+                        token,
+                        name,
+                        crustId,
+                        userId,
+                        size,
+                        featured
+                      );
+
                       await addPizzaToOrder(
                         result.token,
                         getOrder.id,
-                        pizza.id,
+                        _pizza.id,
                         pizza.amount,
                         navigate
                       );
                     }
+                    getOrder = await fetchOrder(result.token, activeOrder.id);
                     setOrder(getOrder);
                     console.log("ACTIVE ORDER DOES NOT EXISTS:", getOrder);
                   } else {
-                    const getOrder = await fetchOrder(
-                      result.token,
-                      activeOrder.id
-                    );
+                    setOrder(activeOrder);
 
                     if (guestPizzas) {
                       for (let pizza of guestPizzas) {
+                        let token = result.token;
+                        let name = pizza.name;
+                        let crustId = pizza.crustId;
+                        let userId = result.user.id;
+                        let featured = false;
+                        let size = pizza.sizeId;
+
+                        const _pizza = await createPizza(
+                          token,
+                          name,
+                          crustId,
+                          userId,
+                          size,
+                          featured
+                        );
+
                         await addPizzaToOrder(
                           result.token,
                           activeOrder.id,
-                          pizza.id,
+                          _pizza.id,
                           pizza.amount,
                           navigate
                         );
-                        const _result = await updatePizza({
-                          userId: result.user.id,
-                        });
-                        console.log(_result);
                       }
                     }
-                    setOrder(getOrder);
-                    console.log("ACTIVE ORDER EXISTS:", getOrder);
+                    activeOrder = await fetchOrder(
+                      result.token,
+                      activeOrder.id
+                    );
+                    setOrder(activeOrder);
+                    console.log("ACTIVE ORDER EXISTS:", activeOrder);
                   }
                 }
               } catch (error) {
