@@ -31,6 +31,7 @@ const Size = (props) => {
       const pizza = await fetchPizza(pizzaId);
       setPizza(pizza);
     };
+    if (!pizza.name) setPizza({ ...pizza, name: "Custom" });
     if (pizzaId > 0) getPizza();
     getReviewsByPizza();
     if (!props.orderId) {

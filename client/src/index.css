@@ -6,6 +6,10 @@
   --color-bg: #f2e8cf;
 }
 
+a {
+  cursor: pointer;
+}
+
 html {
   font-size: 62.5%;
 }

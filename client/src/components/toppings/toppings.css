@@ -2,8 +2,28 @@
   margin: auto;
   margin-top: 4rem;
   background-color: #fff;
-  width: 60rem;
-  height: 60rem;
+  width: 48rem;
+  min-height: 48rem;
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  padding-left: 1rem;
+}
+
+.topping-form button {
+  float: right;
+  margin-top: 4rem;
+  margin-right: 2rem;
+  width: 16rem;
+  height: 4.2rem;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 2.5rem;
+  border: 0.1rem solid #fff;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.topping-form input {
+  margin-left: 1.4rem;
 }

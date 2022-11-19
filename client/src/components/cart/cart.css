@@ -2,10 +2,15 @@
   margin: auto;
   margin-top: 4rem;
   background-color: #fff;
-  width: 60rem;
-  min-height: 60rem;
+  width: 48rem;
+  min-height: 48rem;
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
+}
+
+.cart-crust {
+  margin-top: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .cart-pizza-head {
@@ -20,6 +25,17 @@
 
 .cart-pizza-head span {
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 2.6rem;
+}
+
+.cart-pizza-head input {
+  width: 2.6rem;
+  height: 2.6rem;
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 2rem;
 }
 
 .cart-pizza-head a {
@@ -33,4 +49,27 @@
 .cart-pizza-ingredients {
   margin-left: 2rem;
   margin-top: -3rem;
+}
+
+.cart-toppings {
+  display: flex;
+  align-items: center;
+}
+
+.cart-toppings a {
+  margin-left: 0.6rem;
+}
+
+.checkout-btn {
+  float: right;
+  width: 14rem;
+  height: 4rem;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 2.5rem;
+  margin-right: 2rem;
+  border: 0.1rem solid #fff;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  font-size: 1.8rem;
+  cursor: pointer;
 }
