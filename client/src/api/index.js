@@ -243,6 +243,28 @@ const deletePizzaById = async (token, pizzaId) => {
       console.log(error);
     });
 };
+const updatePizzaById = async (token, pizzaId, name, crustId, userId, sizeId, featured, setPizza) => {
+  console.log(sizeId, crustId)
+  await fetch(`/api/pizzas/${pizzaId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body:JSON.stringify({
+      name,
+      crustId,
+      userId,
+      sizeId,
+      featured,
+    })
+  }).then((res) => res.json())
+  .then((result) => {
+    setPizza(result)
+    console.log(result)
+  })
+  .catch((error) => console.log(error))
+}
 
 export {
   addPizzaToOrder,
@@ -259,4 +281,5 @@ export {
   fetchToppings,
   fetchToppingsByCategory,
   deletePizzaById,
+  updatePizzaById,
 };

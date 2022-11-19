@@ -10,7 +10,7 @@ const {
   destroyPizza,
   updatePizza,
 } = require("../db/pizzas");
-const { getUserByEmail } = require("../db/users");
+const { getUserByEmail, getUserById } = require("../db/users");
 const {
   removePizzaToppings,
   getPizzaToppingsByPizza,
@@ -44,7 +44,7 @@ router.get("/:pizzaId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  console.log(req.body);
+ 
   const { name, crustId, userId, sizeId, featured } = req.body;
   const _pizza = await getPizzaByName(name);
 
@@ -160,11 +160,13 @@ router.delete("/:pizzaId/toppings", async (req, res, next) => {
 });
 
 router.patch("/:pizzaId", async (req, res, next) => {
+  console.log(req.body)
+  
   const { pizzaId } = req.params;
   const { name, crustId, userId, sizeId, featured } = req.body;
   const pizza = await getPizzaById(pizzaId);
   const updateFields = {};
-
+  const user = getUserById(userId)
   if (!pizza) {
     next({
       error: "PizzaNotFound",
@@ -226,6 +228,7 @@ router.patch("/:pizzaId", async (req, res, next) => {
         id: pizza.id,
         ...updateFields,
       });
+      console.log(updatedPizza)
       res.send(updatedPizza);
     } catch (error) {
       next(error);

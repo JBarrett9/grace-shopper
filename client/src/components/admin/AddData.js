@@ -55,7 +55,7 @@ const AddData = ({ handleSubmit, crusts, sizes, fncs, data }) => {
                         ))}
                 </select>
             </div>
-            <button type="submit">Add Pizza</button>
+            <button className="btn" type="submit">Add Pizza</button>
         </form>
 
     );

@@ -5,7 +5,7 @@ import "./Admin.css"
 import Edit from './Edit'
 import Pizzas from './Pizzas';
 
-const Admin = ({sizes, crusts}) => {
+const Admin = ({sizes, crusts, user}) => {
     return (
         <div className='Admin'>
             <aside>
@@ -14,10 +14,11 @@ const Admin = ({sizes, crusts}) => {
             </aside>
             <main>
                 <Routes>
-                    <Route path='/' element={<Pizzas sizes={sizes} crusts={crusts}/>} />
+                    <Route path='/' element={<Pizzas sizes={sizes} crusts={crusts} user={user}/>} />
                     <Route path=':addData' element={<AddData/>} />
-                    <Route path='/edit/:id' element={<Edit sizes={sizes} crusts={crusts}/>} />
+                    <Route path='/edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user}/>} />
                 </Routes>
+                {console.log(user)}
             </main>
         </div>
     );

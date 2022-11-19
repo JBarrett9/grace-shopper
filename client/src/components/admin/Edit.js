@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchPizza } from "../../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchPizza, updatePizzaById } from "../../api";
 
-const Edit = ({ sizes, crusts }) => {
+const Edit = ({ sizes, crusts, user }) => {
   const [pizza, setPizza] = useState([]);
   const [name, setName] = useState("");
   const [featured, setFeatured] = useState(true);
   const [crustId, setCrustId] = useState(null);
   const [sizeId, setSizeId] = useState(null);
   const { id } = useParams()
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await updatePizzaById(localStorage.getItem("token"), id, name, crustId, user.Id, sizeId, featured, setPizza )
+    navigate("/admin")
   };
+
+
   const getPizzaById = async () => {
     await fetchPizza(id, setPizza)
 
@@ -38,9 +44,10 @@ useEffect(() =>{
       <div className="form-data">
         <label>featured:</label>
         <div>
-          <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={featured===true} />
+          {console.log(featured)}
+          <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={true} />
           <span>true</span>
-          <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={featured===false} />
+          <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={false} />
           <span>false</span>
         </div>
       </div>
@@ -58,7 +65,7 @@ useEffect(() =>{
             crusts.map((crust) => <option value={crust.id} key={crust.id}>{crust.name}</option>)}
         </select>
       </div>
-      <button type="submit">Edit Pizza</button>
+      <button className="btn" type="submit">Edit Pizza</button>
       {console.log(pizza)}
     </form>
   );

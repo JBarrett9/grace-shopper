@@ -260,7 +260,7 @@ function App() {
         ></Route>
         <Route
           path="/admin/*"
-          element={<Admin token={token} sizes={sizes} crusts={crusts} />}
+          element={<Admin token={token} sizes={sizes} crusts={crusts} user={currentUser} />}
         />
       </Routes>
     </>

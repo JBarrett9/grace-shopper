@@ -110,3 +110,14 @@ td {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.btn{
+  text-decoration: none;
+  background-color: #bc4749;
+  border: none;
+  color: white;
+  padding: 1rem;
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+}
