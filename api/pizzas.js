@@ -44,7 +44,6 @@ router.get("/:pizzaId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
- 
   const { name, crustId, userId, sizeId, featured } = req.body;
   const _pizza = await getPizzaByName(name);
 
@@ -160,13 +159,13 @@ router.delete("/:pizzaId/toppings", async (req, res, next) => {
 });
 
 router.patch("/:pizzaId", async (req, res, next) => {
-  console.log(req.body)
-  
+  console.log(req.body);
+
   const { pizzaId } = req.params;
   const { name, crustId, userId, sizeId, featured } = req.body;
   const pizza = await getPizzaById(pizzaId);
   const updateFields = {};
-  const user = getUserById(userId)
+  const user = getUserById(userId);
   if (!pizza) {
     next({
       error: "PizzaNotFound",
@@ -223,12 +222,13 @@ router.patch("/:pizzaId", async (req, res, next) => {
       }
     }
 
+    console.log(updateFields);
     try {
       const updatedPizza = await updatePizza({
         id: pizza.id,
         ...updateFields,
       });
-      console.log(updatedPizza)
+      console.log(updatedPizza);
       res.send(updatedPizza);
     } catch (error) {
       next(error);

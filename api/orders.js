@@ -4,6 +4,7 @@ const {
   getOrderById,
   createOrder,
   getActiverUserOrders,
+  updateOrder,
 } = require("../db/orders");
 const { getPizzasByOrder, addPizzaToOrder } = require("../db/pizza_order");
 const { getOrderPrice } = require("../db/prices");
@@ -42,10 +43,12 @@ router.get("/:userId/active", requireUser, async (req, res, next) => {
 
 router.get("/order/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  const order = await getOrderById(orderId);
+
   console.log();
+  const price = await getOrderPrice(orderId);
+  await updateOrder({ id: orderId, price });
+  const order = await getOrderById(orderId);
   if (order) {
-    const price = await getOrderPrice(orderId);
     res.send(order);
   }
 });

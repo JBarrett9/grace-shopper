@@ -152,7 +152,6 @@ const fetchCrusts = async (setCrusts) => {
 };
 
 const fetchPizza = async (pizzaId) => {
-const fetchPizza = async (pizzaId) => {
   try {
     const response = await fetch(`/api/pizzas/${pizzaId}`, {
       headers: {
