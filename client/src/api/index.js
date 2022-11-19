@@ -59,7 +59,7 @@ const createOrder = async (token, userId) => {
 };
 
 const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
-  console.log(featured);
+  console.log(name, crustId, userId, sizeId, featured);
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -151,7 +151,7 @@ const fetchCrusts = async (setCrusts) => {
     .catch(console.error);
 };
 
-const fetchPizza = async (pizzaId, setPizza) => {
+const fetchPizza = async (pizzaId) => {
   try {
     const response = await fetch(`/api/pizzas/${pizzaId}`, {
       headers: {
@@ -159,9 +159,9 @@ const fetchPizza = async (pizzaId, setPizza) => {
       },
     });
     const pizza = await response.json();
-    setPizza(pizza)
+    return pizza;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -243,28 +243,38 @@ const deletePizzaById = async (token, pizzaId) => {
       console.log(error);
     });
 };
-const updatePizzaById = async (token, pizzaId, name, crustId, userId, sizeId, featured, setPizza) => {
-  console.log(sizeId, crustId)
+const updatePizzaById = async (
+  token,
+  pizzaId,
+  name,
+  crustId,
+  userId,
+  sizeId,
+  featured,
+  setPizza
+) => {
+  console.log(sizeId, crustId);
   await fetch(`/api/pizzas/${pizzaId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body:JSON.stringify({
+    body: JSON.stringify({
       name,
       crustId,
       userId,
       sizeId,
       featured,
-    })
-  }).then((res) => res.json())
-  .then((result) => {
-    setPizza(result)
-    console.log(result)
+    }),
   })
-  .catch((error) => console.log(error))
-}
+    .then((res) => res.json())
+    .then((result) => {
+      setPizza(result);
+      console.log(result);
+    })
+    .catch((error) => console.log(error));
+};
 
 export {
   addPizzaToOrder,

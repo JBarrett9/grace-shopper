@@ -27,6 +27,7 @@ const Header = (props) => {
                 setCurrentUser({});
                 setToken("");
                 setOrder([]);
+                setOrderId();
               }}
             >
               LOGOUT ({currentUser.email})
