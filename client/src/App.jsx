@@ -77,7 +77,7 @@ function App() {
     if (order) {
       console.log("order:", order);
     }
-  }, []);
+  }, [order]);
 
   useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
@@ -260,7 +260,14 @@ function App() {
         ></Route>
         <Route
           path="/admin/*"
-          element={<Admin token={token} sizes={sizes} crusts={crusts} user={currentUser} />}
+          element={
+            <Admin
+              token={token}
+              sizes={sizes}
+              crusts={crusts}
+              user={currentUser}
+            />
+          }
         />
       </Routes>
     </>

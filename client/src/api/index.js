@@ -165,6 +165,18 @@ const fetchPizza = async (pizzaId) => {
   }
 };
 
+const fetchUsers = async () => {
+  try {
+    const response = await fetch(`/api/users/all`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const users = await response.json();
+    return users;
+  } catch (error) {}
+};
+
 const fetchFeaturedPizzas = async (setPizzas) => {
   await fetch("/api/pizzas/featured", {
     headers: {
@@ -292,4 +304,5 @@ export {
   fetchToppingsByCategory,
   deletePizzaById,
   updatePizzaById,
+  fetchUsers,
 };

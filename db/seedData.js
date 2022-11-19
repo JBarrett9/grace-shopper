@@ -197,12 +197,14 @@ const createInitialUsers = async () => {
       password: "joseph01",
       email: "belicjel@gmail.com",
       admin: true,
+      guest: false,
     });
     await createUser({
       name: "brian01",
       password: "brian01",
       email: "jimmys14205@gmail.com",
       admin: false,
+      guest: false,
     });
 
     await createUser({
@@ -210,6 +212,14 @@ const createInitialUsers = async () => {
       password: "mike01",
       email: "belicmichael@gmail.com",
       admin: true,
+      guest: false,
+    });
+    await createUser({
+      name: "dead01",
+      password: "dead01",
+      email: "dead01@gmail.com",
+      admin: true,
+      guest: false,
     });
     const user001 = await getUserByEmail(user01.email);
     console.log(user001);

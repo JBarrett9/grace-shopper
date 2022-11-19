@@ -48,7 +48,13 @@ export default function Register(props) {
                 if (password !== password2) {
                   setError("Passwords don't match!");
                 } else {
-                  const result = await registerUser(email, name, password);
+                  let guest = false;
+                  const result = await registerUser(
+                    email,
+                    name,
+                    password,
+                    guest
+                  );
                   if (result.error) {
                     setError(result.message);
                   } else {
@@ -95,7 +101,6 @@ export default function Register(props) {
                           size,
                           featured
                         );
-                        console.log(_pizza);
 
                         await addPizzaToOrder(
                           result.token,
@@ -107,11 +112,7 @@ export default function Register(props) {
                       }
                     }
                     getOrder = await fetchOrder(result.token, _order.id);
-                    console.log(
-                      "order created for:",
-                      result.user.email,
-                      getOrder
-                    );
+
                     setOrder(getOrder);
                   }
                 }

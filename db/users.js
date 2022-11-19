@@ -1,6 +1,16 @@
 const client = require("./client");
 const bcrypt = require("bcrypt");
 
+async function getAllUsers() {
+  const { rows: users } = await client.query(
+    `SELECT id, email, name, active, guest, admin, createddate, birthday
+    FROM users
+   ;`
+  );
+
+  return users;
+}
+
 const createUser = async ({
   email,
   name,
@@ -117,4 +127,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   updateUser,
+  getAllUsers,
 };
