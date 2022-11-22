@@ -268,6 +268,8 @@ function App() {
               sizes={sizes}
               crusts={crusts}
               user={currentUser}
+              toppings={toppings}
+              setToppings={setToppings}
             />
           }
         />

@@ -61,13 +61,18 @@ export default function Login(props) {
                   setToken(result.token);
                   setPassword("");
                   setEmail("");
-                  guestPizzas = order.pizzas;
+                  if (order) {
+                    guestPizzas = order.pizzas;
+                  }
+
+                  console.log(guestPizzas);
 
                   let activeOrder = await fetchActiveUserOrder(
                     result.token,
                     result.user.id
                   );
 
+                  console.log(activeOrder);
                   console.log("ACTIVE ORDER:", activeOrder);
                   console.log("GUEST PIZZAS:", guestPizzas);
                   if (!activeOrder) {

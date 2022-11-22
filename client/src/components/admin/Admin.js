@@ -5,10 +5,12 @@ import AddData from "./AddData";
 import "./Admin.css";
 import Edit from "./Edit";
 import Pizzas from "./Pizzas";
+import AdminToppings from "./AdminToppings";
 import Users from "./Users";
 
-const Admin = ({ sizes, crusts, user }) => {
+const Admin = (props) => {
   const [users, setUsers] = useState([]);
+  const { sizes, crusts, user, toppings, setToppings } = props;
 
   const getUsers = async () => {
     const result = await fetchUsers();
@@ -38,6 +40,12 @@ const Admin = ({ sizes, crusts, user }) => {
           <Route
             path="/users"
             element={<Users users={users} setUsers={setUsers} />}
+          />
+          <Route
+            path="/topping"
+            element={
+              <AdminToppings toppings={toppings} setToppings={setToppings} />
+            }
           />
         </Routes>
         {console.log(user)}
