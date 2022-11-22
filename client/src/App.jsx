@@ -19,6 +19,7 @@ import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
 import Admin from "./components/admin/Admin";
 import EditPizza from "./components/edit-pizza/edit-pizza";
+import Location from "./checkout/location";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -258,6 +259,7 @@ function App() {
             />
           }
         ></Route>
+        <Route path="/location" element={<Location />}></Route>
         <Route
           path="/admin/*"
           element={

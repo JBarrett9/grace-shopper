@@ -1,0 +1,70 @@
+.addr-form {
+  margin: auto;
+  margin-top: 4rem;
+  background-color: #fff;
+  width: 64rem;
+  min-height: 28rem;
+  display: flex;
+  flex-direction: column;
+  border: 0.4rem solid var(--color-green);
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+}
+
+.addr-form button {
+  margin-left: auto;
+  margin-top: 2rem;
+  width: 10rem;
+  height: 3.2rem;
+  background-color: var(--color-green);
+  color: #fff;
+  border-radius: 0 50% 50% 0;
+  margin-right: 2rem;
+  border: 0.1rem solid #fff;
+  box-shadow: 0.2rem 0.2rem 0.6rem #444;
+  font-size: 1.8rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.addr-form span {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.addr-form label {
+  margin-right: 0.4rem;
+  margin-left: 2rem;
+}
+
+.addr-form input {
+  border: none;
+  border-bottom: 0.1rem solid var(--color-green);
+}
+
+.addr-form input:focus {
+  outline: 0.2rem solid var(--color-red);
+}
+
+.addr-form input[type="radio"] {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.delivery-toggle {
+  cursor: pointer;
+  padding: 1rem;
+  border: 0.2rem;
+}
+
+.delivery-selection {
+  display: flex;
+  justify-content: center;
+}
+
+.option-selected {
+  border: 0.2rem solid var(--color-red);
+  border-radius: 1rem;
+  padding: 1rem;
+}
