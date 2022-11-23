@@ -141,7 +141,12 @@ function App() {
     async function getMe() {
       setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
-      setCurrentUser(result);
+      if (result && result.active === true) {
+        setCurrentUser(result);
+      } else {
+        return;
+      }
+
       if (result) {
         const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
         if (id) {
