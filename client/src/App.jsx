@@ -272,19 +272,23 @@ function App() {
           element={<Location token={token} user={currentUser} />}
         ></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
-        <Route
-          path="/admin/*"
-          element={
-            <Admin
-              token={token}
-              sizes={sizes}
-              crusts={crusts}
-              user={currentUser}
-              toppings={toppings}
-              setToppings={setToppings}
-            />
-          }
-        />
+        {currentUser.admin ? (
+          <Route
+            path="/admin/*"
+            element={
+              <Admin
+                token={token}
+                sizes={sizes}
+                crusts={crusts}
+                user={currentUser}
+                toppings={toppings}
+                setToppings={setToppings}
+              />
+            }
+          />
+        ) : (
+          <></>
+        )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
