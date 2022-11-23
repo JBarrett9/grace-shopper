@@ -165,7 +165,7 @@ const Toppings = (props) => {
     await addToppingsToPizza();
     const order = await fetchOrder(props.token, props.orderId);
     props.setOrder(order);
-    navigate("/");
+    navigate("/cart");
   };
 
   return (

@@ -50,6 +50,7 @@ const Cart = (props) => {
     updatePizzaById(props.token, pizza.id, { crustId });
     const order = await fetchOrder(props.token, props.orderId);
     props.setOrder(order);
+    setPrice(order.price / 100);
   };
 
   const handleQtyChange = async (amount, idx) => {
@@ -61,6 +62,8 @@ const Cart = (props) => {
     let pizzaId = props.order.pizzas[idx].id;
     updatePizzaById(props.token, pizzaId, { amount });
     const order = await fetchOrder(props.token, props.orderId);
+    setPrice(order.price);
+    console.log(order);
     props.setOrder(order);
   };
 
@@ -118,15 +121,24 @@ const Cart = (props) => {
       {props.order && (
         <div>
           {props.order.price ? (
-            <p style={{ textAlign: "right", marginRight: "1rem" }}>
-              <strong>Total: </strong>${price}
-            </p>
+            <>
+              <p style={{ textAlign: "right", marginRight: "1rem" }}>
+                <strong>Total: </strong>${price}
+              </p>
+              <button
+                onClick={() => {
+                  navigate("/location");
+                }}
+                className="checkout-btn"
+              >
+                Checkout
+              </button>
+            </>
           ) : (
             <p>Cart is Empty</p>
           )}
         </div>
       )}
-      <button className="checkout-btn">Checkout</button>
     </div>
   );
 };
