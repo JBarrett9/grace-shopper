@@ -51,7 +51,6 @@ export default function Login(props) {
                 }
 
                 const result = await loginUser(email, password);
-                console.log(result);
 
                 if (result.error) {
                   setError(result.message);
@@ -61,11 +60,10 @@ export default function Login(props) {
                   setToken(result.token);
                   setPassword("");
                   setEmail("");
+                  navigate("/");
                   if (order) {
                     guestPizzas = order.pizzas;
                   }
-
-                  console.log(guestPizzas);
 
                   let activeOrder = await fetchActiveUserOrder(
                     result.token,
@@ -147,6 +145,7 @@ export default function Login(props) {
                       activeOrder.id
                     );
                     setOrder(activeOrder);
+
                     console.log("ACTIVE ORDER EXISTS:", activeOrder);
                   }
                 }

@@ -46,6 +46,36 @@ export async function loginUser(email, password) {
   }
 }
 
+export async function updateUser(
+  name,
+  email,
+  active,
+  admin,
+  guest,
+  birthday,
+  token,
+  id
+) {
+  const response = await fetch(`/api/users/${id}/admin`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      active,
+      admin,
+      guest,
+      birthday,
+    }),
+  });
+  const result = await response.json();
+  console.log(result);
+  return result;
+}
+
 export async function fetchMe(token) {
   const response = await fetch(`/api/users/me`, {
     headers: {

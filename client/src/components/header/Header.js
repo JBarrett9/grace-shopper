@@ -15,6 +15,7 @@ const Header = (props) => {
           <h1 className="brand">Sauce Boss</h1>
         </Link>
         <span className="head-links">
+          {currentUser.admin ? <Link to="/admin">ADMIN</Link> : <></>}
           {typeof props.currentUser.email === "string" &&
           props.currentUser.email.includes("saucebossguest.com") ? (
             <>
@@ -32,7 +33,7 @@ const Header = (props) => {
                 setOrderId();
               }}
             >
-              LOGOUT ({currentUser.email})
+              LOGOUT
             </Link>
           )}
           <Link

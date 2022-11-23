@@ -140,7 +140,12 @@ function App() {
     async function getMe() {
       setToken(localStorageToken);
       const result = await fetchMe(localStorageToken);
-      setCurrentUser(result);
+      if (result && result.active === true) {
+        setCurrentUser(result);
+      } else {
+        return;
+      }
+
       if (result) {
         const { id } = await fetchActiveUserOrder(localStorageToken, result.id);
         if (id) {
@@ -260,19 +265,23 @@ function App() {
           }
         ></Route>
         <Route path="/location" element={<Location />}></Route>
-        <Route
-          path="/admin/*"
-          element={
-            <Admin
-              token={token}
-              sizes={sizes}
-              crusts={crusts}
-              user={currentUser}
-              toppings={toppings}
-              setToppings={setToppings}
-            />
-          }
-        />
+        {currentUser.admin ? (
+          <Route
+            path="/admin/*"
+            element={
+              <Admin
+                token={token}
+                sizes={sizes}
+                crusts={crusts}
+                user={currentUser}
+                toppings={toppings}
+                setToppings={setToppings}
+              />
+            }
+          />
+        ) : (
+          <></>
+        )}
       </Routes>
     </>
   );

@@ -15,7 +15,6 @@ const {
 } = require("../db/users");
 
 router.post("/login", async (req, res, next) => {
-  console.log("Trying to log in");
   const { email, password } = req.body;
   if (!email || !password) {
     next({
@@ -26,7 +25,13 @@ router.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUserByEmail(email);
-    if (user) {
+    if (user.active === false) {
+      next({
+        error: "AccountDisabled",
+        name: "Account Disabled",
+        message: "Your account has been disabled. Please contact support.",
+      });
+    } else if (user) {
       const hashedPassword = user.password;
       const passwordsMatch = await bcrypt.compare(password, hashedPassword);
       if (passwordsMatch) {
@@ -89,8 +94,8 @@ router.post("/register", async (req, res, next) => {
 
 router.patch("/:userId/admin/", requireAdmin, async (req, res, next) => {
   const { userId } = req.params;
-  const { name, password, admin, birthday, active } = req.body;
-  let updateFields = { name, password, admin, birthday, active };
+  const { name, password, admin, birthday, active, guest } = req.body;
+  let updateFields = { name, password, admin, birthday, active, guest };
 
   Object.keys(updateFields).forEach(function (key, idx) {
     if (updateFields[key] === undefined) {
@@ -153,6 +158,10 @@ router.patch("/:userId/edit/", requireUser, async (req, res, next) => {
 
 router.get("/me", requireUser, async (req, res) => {
   const user = req.user;
+  const _user = await getUserByEmail(user.email);
+  user.active = _user.active;
+  user.guest = _user.guest;
+  user.admin = _user.admin;
   res.send(user);
 });
 
