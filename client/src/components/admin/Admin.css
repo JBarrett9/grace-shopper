@@ -8,33 +8,53 @@
   display: flex;
   grid-column: 1/2;
   background-color: white;
-  height: 105%;
+  height: 62rem;
   padding: 14rem 0 0 3rem;
   box-sizing: border-box;
   border-right: 10px solid #bc4749;
 }
 
 .admin-main {
-  padding: 2rem;
+  padding: 3rem;
   height: 100%;
+ 
 }
 
 .admin-table {
-  margin: 0 auto;
+  margin: 2rem auto;
   text-align: center;
   width: 80%;
   overflow: scroll;
 }
 
-.Pizzas {
+.admin-pizzas {
   box-sizing: border-box;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  height: 100%;
-  overflow: scroll;
+}
+
+.admin-pizzas nav>* {
+  text-decoration: none;
+  background-color: white;
+  color: #bc4749;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.admin-pizzas nav>*:hover {
+  background-color: #bc4749;
+  color: white;
+}
+
+.admin-container {
+  margin: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80%;
+  height: 60rem;
+  
 }
 
 .admin-table th {
@@ -50,7 +70,6 @@ td {
 
 .admin-form {
   width: 60%;
-  height: 200px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -91,27 +110,24 @@ td {
   padding: 1rem;
   width: 10rem;
 }
-/* width  */
+
+
+
+
 ::-webkit-scrollbar {
   width: 10px;
 }
 
-/* / Track  */
+
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* / Handle / */
-::-webkit-scrollbar-thumb {
-  background: transparent;
-}
 
-/* / Handle on hover / */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
-.btn {
+
+.add-btn {
   text-decoration: none;
   background-color: #bc4749;
   border: none;
@@ -147,18 +163,4 @@ td {
 
   overflow: hidden;
   color: #0d0d0d;
-}
-
-.delete-container {
-  color: black;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  width: 400px;
-  overflow: hidden;
-
-  max-width: 100%;
-
-  justify-content: center;
-  align-items: center;
 }

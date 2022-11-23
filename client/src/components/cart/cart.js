@@ -93,7 +93,7 @@ const Cart = (props) => {
                 <input
                   onChange={(e) => handleQtyChange(e.target.value, idx)}
                   value={qtys[idx]}
-                  min={0}
+                  min="1"
                   type="number"
                 ></input>
                 <a
