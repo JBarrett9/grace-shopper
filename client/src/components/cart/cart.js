@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { destroyPizza, fetchOrder, updatePizzaById } from "../../api";
+import {
+  destroyPizza,
+  fetchAmountIds,
+  fetchOrder,
+  updatePizzaAmount,
+  updatePizzaById,
+} from "../../api";
 import "./cart.css";
 
 const Cart = (props) => {
@@ -8,10 +14,19 @@ const Cart = (props) => {
   const navigate = useNavigate();
   const [crusts, setCrusts] = useState([]);
   const [qtys, setQtys] = useState([]);
+  const [amountIds, setAmountIds] = useState([]);
 
   useEffect(() => {
     setPrice(props.order.price / 100);
     console.log(props.order.pizzas);
+
+    async function getAmountIds() {
+      const ids = await fetchAmountIds(props.order.id);
+      setAmountIds(ids);
+    }
+
+    getAmountIds();
+
     if (props.order.pizzas) {
       let pizzaCrusts = [];
       let pizzaQtys = [];
@@ -57,13 +72,10 @@ const Cart = (props) => {
     let temp = qtys;
     temp[idx] = amount;
     setQtys(temp);
-    console.log(props.order.pizzas);
-    console.log(idx);
-    let pizzaId = props.order.pizzas[idx].id;
-    updatePizzaById(props.token, pizzaId, { amount });
+    let amountId = amountIds[idx];
+    await updatePizzaAmount(props.token, amountId, amount);
     const order = await fetchOrder(props.token, props.orderId);
-    setPrice(order.price);
-    console.log(order);
+    setPrice(order.price / 100);
     props.setOrder(order);
   };
 

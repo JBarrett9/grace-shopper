@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchUsers } from "../../api";
 import Datatable from "../datatable";
+import UsersDeletePopup from "./UsersDeletePopup";
 import UsersPopup from "./UsersPopup";
 
 export default function Users(props) {
@@ -11,6 +12,7 @@ export default function Users(props) {
   const [guest, setGuest] = useState(false);
   const [active, setActive] = useState(false);
   const [editUser, setEditUser] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
 
   function userMatches(users, text, admin, guest, active) {
@@ -21,7 +23,8 @@ export default function Users(props) {
         users.email.toLowerCase().includes(`${text}`) ||
         users.name.toLowerCase().includes(`${text}`)) &&
       (users.active === active ||
-        (users.guest === guest && users.admin === admin))
+        users.guest === guest ||
+        users.admin === admin)
     ) {
       return true;
     } else {
@@ -36,6 +39,10 @@ export default function Users(props) {
   const usersToDisplay =
     searchTerm.length || active || guest || admin ? filteredUsers : users;
 
+  usersToDisplay.sort(function (a, b) {
+    return a.id - b.id || a.name.localeCompare(b.name);
+  });
+
   const getUsers = async () => {
     const result = await fetchUsers();
     setUsers(result);
@@ -43,7 +50,7 @@ export default function Users(props) {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [editUser]);
 
   const columns = usersToDisplay[0] && Object.keys(usersToDisplay[0]);
   return (
@@ -113,12 +120,20 @@ export default function Users(props) {
                 ))}
                 <td>
                   <button
-                    onClick={async (e) => {
+                    onClick={(e) => {
                       setEditUser(true);
                       setSelectedUser(row);
                     }}
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      setDeleteUser(true);
+                      setSelectedUser(row);
+                    }}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -132,6 +147,12 @@ export default function Users(props) {
         trigger={editUser}
         setEditUser={setEditUser}
       ></UsersPopup>
+      <UsersDeletePopup
+        selectedUser={selectedUser}
+        token={token}
+        trigger={deleteUser}
+        setDeleteUser={setDeleteUser}
+      ></UsersDeletePopup>
     </>
   );
 }

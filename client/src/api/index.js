@@ -190,6 +190,22 @@ const fetchFeaturedPizzas = async (setPizzas) => {
     .catch(console.error);
 };
 
+const fetchAmountIds = async (orderId) => {
+  try {
+    const response = await fetch(`/api/orders/${orderId}/pizza_orders`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const fetchOrder = async (token, orderId) => {
   try {
     const response = await fetch(`/api/orders/order/${orderId}`, {
@@ -258,6 +274,21 @@ const deletePizzaById = async (token, pizzaId) => {
     });
 };
 
+const updatePizzaAmount = async (token, id, amount) => {
+  try {
+    const response = await fetch(`/api/orders/pizza_order/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updatePizzaById = async (token, pizzaId, fields) => {
   try {
     const response = await fetch(`/api/pizzas/${pizzaId}`, {
@@ -282,6 +313,7 @@ export {
   createPizza,
   destroyPizza,
   destroyPizzaToppings,
+  fetchAmountIds,
   fetchCrusts,
   fetchPizza,
   fetchFeaturedPizzas,
@@ -292,4 +324,5 @@ export {
   deletePizzaById,
   updatePizzaById,
   fetchUsers,
+  updatePizzaAmount,
 };

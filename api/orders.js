@@ -6,7 +6,12 @@ const {
   getActiverUserOrders,
   updateOrder,
 } = require("../db/orders");
-const { getPizzasByOrder, addPizzaToOrder } = require("../db/pizza_order");
+const {
+  getPizzasByOrder,
+  addPizzaToOrder,
+  getPizzaOrderIdsByOrder,
+  updatePizzaOrder,
+} = require("../db/pizza_order");
 const { getOrderPrice } = require("../db/prices");
 const { getToppingById } = require("../db/toppings");
 const router = express.Router();
@@ -50,6 +55,29 @@ router.get("/order/:orderId", async (req, res, next) => {
   const order = await getOrderById(orderId);
   if (order) {
     res.send(order);
+  }
+});
+
+router.get("/:orderId/pizza_orders", async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    const pizzas = await getPizzaOrderIdsByOrder({ id: orderId });
+    const ids = pizzas.map((pizza) => pizza.id);
+    res.send(ids);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/pizza_order/:pizzaOrderId", async (req, res, next) => {
+  const { pizzaOrderId } = req.params;
+  const { amount } = req.body;
+
+  try {
+    const pizzaOrder = await updatePizzaOrder({ id: pizzaOrderId, amount });
+    res.send(pizzaOrder);
+  } catch (error) {
+    next(error);
   }
 });
 

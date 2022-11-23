@@ -21,34 +21,29 @@ const Admin = (props) => {
         getUsers();
     }, []);
 
-    return (
-        <div className="Admin">
-            <aside>
-                <Link to="">Pizzas</Link>
-            </aside>
-            <main>
-                <Routes>
-
-                  
-                        <Route path='pizzas/*' element={<Pizzas sizes={sizes} crusts={crusts} user={user} />} />
-                   
-                    
-                    
-                    <Route
-                        path="/users"
-                        element={<Users token={token} users={users} setUsers={setUsers} />}
-                    />
-                    <Route
-                        path="/topping"
-                        element={
-                            <AdminToppings toppings={toppings} setToppings={setToppings} />
-                        }
-                    />
-                </Routes>
-                {console.log(user)}
-            </main>
-        </div>
-    );
+  return (
+    <div className="Admin">
+      <aside>
+        <Link to="">Pizzas</Link>
+      </aside>
+      <main>
+        <Routes>
+        <Route path='pizzas/*' element={<Pizzas sizes={sizes} crusts={crusts} user={user} />} />
+          <Route
+            path="/users"
+            element={<Users token={token} users={users} setUsers={setUsers} />}
+          />
+          <Route
+            path="/topping"
+            element={
+              <AdminToppings toppings={toppings} setToppings={setToppings} />
+            }
+          />
+        </Routes>
+        {console.log(user)}
+      </main>
+    </div>
+  );
 };
 
 export default Admin;

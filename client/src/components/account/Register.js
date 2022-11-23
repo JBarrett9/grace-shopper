@@ -71,9 +71,7 @@ export default function Register(props) {
                     setPassword("");
                     setEmail("");
                     setPassword2("");
-                    console.log("GUEST ORDER:", order);
-
-                    console.log("GUEST PIZZAS:", guestPizzas);
+                    navigate("/");
 
                     const _order = await createOrder(
                       result.token,
