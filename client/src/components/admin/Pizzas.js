@@ -48,6 +48,9 @@ const Pizzas = ({ sizes, crusts, user }) => {
   return (
     <div className="Pizzas">
       <h1>Pizzas</h1>
+      <h1>
+        <Link to="/admin/users">Users</Link>
+      </h1>
       <AddData
         handleSubmit={handleSubmit}
         crusts={crusts}
@@ -63,7 +66,7 @@ const Pizzas = ({ sizes, crusts, user }) => {
           <th>SizeId</th>
           <th>Actions</th>
         </tr>
-        
+
         {pizzas.map((p) => {
           return (
             <tr className="item">
@@ -72,8 +75,15 @@ const Pizzas = ({ sizes, crusts, user }) => {
               <td>{p.crustId}</td>
               <td>{p.sizeId}</td>
               <td>
-                <button className="btn delete" onClick={() => handleDelete(p.id)}>Delete</button>
-                <Link className="btn edit" to={`edit/${p.id}`}>Edit</Link>
+                <button
+                  className="btn delete"
+                  onClick={() => handleDelete(p.id)}
+                >
+                  Delete
+                </button>
+                <Link className="btn edit" to={`edit/${p.id}`}>
+                  Edit
+                </Link>
               </td>
             </tr>
           );
