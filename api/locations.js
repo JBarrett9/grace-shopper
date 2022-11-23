@@ -24,6 +24,7 @@ router.get("/:userId", async (req, res) => {
 
 router.post("/", requireUser, async (req, res, next) => {
   const { city, state, address, apartment, main, zipcode } = req.body;
+
   const user = await getUserByEmail(req.user.email);
 
   const userLocations = await getUserLocations(user.id);
@@ -39,6 +40,7 @@ router.post("/", requireUser, async (req, res, next) => {
   }
 
   try {
+    console.log("hit the try");
     const location = await createLocation({
       userId: user.id,
       city,
@@ -48,6 +50,7 @@ router.post("/", requireUser, async (req, res, next) => {
       main,
       zipcode,
     });
+
     res.send(location);
   } catch (error) {
     next(error);

@@ -12,7 +12,7 @@ const Header = (props) => {
       </div>
       <nav className="head">
         <Link to="/">
-          <h1 className="brand">Sauce Boss</h1>
+          <h1 className="brand">SAUCE BOSS</h1>
         </Link>
         <span className="head-links">
           {currentUser.admin ? <Link to="/admin">ADMIN</Link> : <></>}

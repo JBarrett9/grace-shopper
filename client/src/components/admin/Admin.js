@@ -22,35 +22,41 @@ const Admin = (props) => {
   }, []);
 
   return (
-    <div className="Admin">
-      <aside>
-        <Link to="">Pizzas</Link>
-      </aside>
-      <main>
-        <Routes>
-          <Route
-            path="/"
-            element={<Pizzas sizes={sizes} crusts={crusts} user={user} />}
-          />
-          <Route path=":addData" element={<AddData />} />
-          <Route
-            path="/edit/:id"
-            element={<Edit sizes={sizes} crusts={crusts} user={user} />}
-          />
-          <Route
-            path="/users"
-            element={<Users token={token} users={users} setUsers={setUsers} />}
-          />
-          <Route
-            path="/topping"
-            element={
-              <AdminToppings toppings={toppings} setToppings={setToppings} />
-            }
-          />
-        </Routes>
-        {console.log(user)}
-      </main>
-    </div>
+    <>
+      {" "}
+      <Link to="/users">Users</Link>
+      <div className="Admin">
+        <aside>
+          <Link to="">Pizzas</Link>
+        </aside>
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={<Pizzas sizes={sizes} crusts={crusts} user={user} />}
+            />
+            <Route path=":addData" element={<AddData />} />
+            <Route
+              path="/edit/:id"
+              element={<Edit sizes={sizes} crusts={crusts} user={user} />}
+            />
+            <Route
+              path="/users"
+              element={
+                <Users token={token} users={users} setUsers={setUsers} />
+              }
+            />
+            <Route
+              path="/topping"
+              element={
+                <AdminToppings toppings={toppings} setToppings={setToppings} />
+              }
+            />
+          </Routes>
+          {console.log(user)}
+        </main>
+      </div>
+    </>
   );
 };
 

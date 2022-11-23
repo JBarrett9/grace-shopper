@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./components/home/home";
 import Header from "./components/header/Header";
@@ -188,6 +188,7 @@ function App() {
         setOrder={setOrder}
         setOrderId={setOrderId}
       />
+
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
@@ -271,19 +272,24 @@ function App() {
           element={<Location token={token} user={currentUser} />}
         ></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
-        <Route
-          path="/admin/*"
-          element={
-            <Admin
-              token={token}
-              sizes={sizes}
-              crusts={crusts}
-              user={currentUser}
-              toppings={toppings}
-              setToppings={setToppings}
-            />
-          }
-        />
+        {currentUser.admin ? (
+          <Route
+            path="/admin/*"
+            element={
+              <Admin
+                token={token}
+                sizes={sizes}
+                crusts={crusts}
+                user={currentUser}
+                toppings={toppings}
+                setToppings={setToppings}
+              />
+            }
+          />
+        ) : (
+          <></>
+        )}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   );
