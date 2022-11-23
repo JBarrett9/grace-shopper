@@ -32,6 +32,17 @@ async function addPizzaToOrder({ pizzaId, orderId, amount }) {
   }
 }
 
+async function getPizzaOrderIdsByOrder({ id }) {
+  const { rows: pizzas } = await client.query(
+    `SELECT id
+        FROM pizza_order
+        WHERE "orderId"=$1;`,
+    [id]
+  );
+
+  return pizzas;
+}
+
 async function getPizzasByOrder({ id }) {
   const { rows: pizzas } = await client.query(
     `SELECT *
@@ -92,6 +103,7 @@ async function destroyPizzaOrder(id) {
 module.exports = {
   getPizzaOrderById,
   addPizzaToOrder,
+  getPizzaOrderIdsByOrder,
   getPizzasByOrder,
   removePizzaFromOrder,
   destroyPizzaOrder,

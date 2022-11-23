@@ -75,7 +75,7 @@ const createTables = async () => {
       city VARCHAR(255) NOT NULL,
       state VARCHAR(255) NOT NULL,
       address VARCHAR(255) NOT NULL,
-      apartment BOOLEAN DEFAULT false,
+      apartment VARCHAR(255),
       main BOOLEAN DEFAULT false,
       zipcode INTEGER NOT NULL
     );`);

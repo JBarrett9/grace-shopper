@@ -20,6 +20,7 @@ import { fetchLocations } from "./api/location";
 import Admin from "./components/admin/Admin";
 import EditPizza from "./components/edit-pizza/edit-pizza";
 import Location from "./checkout/location";
+import Checkout from "./checkout/checkout";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -146,6 +147,7 @@ function App() {
         if (id) {
           setOrderId(id);
           const order = await fetchOrder(localStorageToken, id);
+          console.log(order);
           if (order) {
             setOrder(order);
           }
@@ -259,7 +261,11 @@ function App() {
             />
           }
         ></Route>
-        <Route path="/location" element={<Location />}></Route>
+        <Route
+          path="/location"
+          element={<Location token={token} user={currentUser} />}
+        ></Route>
+        <Route path="/checkout" element={<Checkout />}></Route>
         <Route
           path="/admin/*"
           element={
