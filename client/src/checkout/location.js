@@ -92,21 +92,30 @@ const Location = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userLocation);
-    if (userLocation.Id) {
-      const location = await updateLocation(
-        userLocation.id,
-        props.token,
-        city,
-        state,
-        address,
-        apartment,
-        true,
-        zipcode
-      );
+    if (userLocation.id) {
+      if (
+        userLocation.address == address &&
+        userLocation.apartment == apartment &&
+        userLocation.city == city &&
+        userLocation.state == state &&
+        userLocation.zipcode == zipcode
+      ) {
+        navigate("checkout");
+      } else {
+        const location = await updateLocation(
+          props.token,
+          userLocation.id,
+          city,
+          state,
+          address,
+          apartment,
+          true,
+          zipcode
+        );
 
-      if (location.id) {
-        navigate("/checkout");
+        if (location.id) {
+          navigate("/checkout");
+        }
       }
     } else {
       const location = await addLocation(
