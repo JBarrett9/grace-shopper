@@ -10,7 +10,7 @@ import Users from "./Users";
 
 const Admin = (props) => {
   const [users, setUsers] = useState([]);
-  const { sizes, crusts, user, toppings, setToppings } = props;
+  const { sizes, crusts, user, toppings, setToppings, token } = props;
 
   const getUsers = async () => {
     const result = await fetchUsers();
@@ -39,7 +39,7 @@ const Admin = (props) => {
           />
           <Route
             path="/users"
-            element={<Users users={users} setUsers={setUsers} />}
+            element={<Users token={token} users={users} setUsers={setUsers} />}
           />
           <Route
             path="/topping"
