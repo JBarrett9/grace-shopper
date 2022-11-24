@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchPizza, updatePizzaById } from "../../../api";
 
-const Edit = ({ sizes, crusts, user }) => {
+const Edit = ({ sizes, crusts, user, handleUpdate }) => {
   const [pizza, setPizza] = useState({});
   const [name, setName] = useState("");
   const [featured, setFeatured] = useState(true);
@@ -13,15 +13,18 @@ const Edit = ({ sizes, crusts, user }) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-   let pizza = await updatePizzaById(localStorage.getItem("token"), id, { name, crustId,  userId:user.Id, sizeId, featured } )
+    let userId = user.id
+   let pizza = await updatePizzaById(localStorage.getItem("token"), id, { name, crustId, sizeId, userId,featured } )
    setPizza(pizza)
+   handleUpdate({})
     navigate("/admin/pizzas")
   };
 
 
   const getPizzaById = async () => {
     console.log(id)
-    await fetchPizza(id, setPizza)
+    let res = await fetchPizza(id)
+    setPizza(res)
 
   }
 useEffect(() =>{
@@ -39,7 +42,6 @@ useEffect(() =>{
 
   return (
     <div className="admin-container">
-{console.log(pizza)}
       <form className="admin-form" onSubmit={(e) => handleSubmit(e)}>
         <div className="form-data">
           <label>Pizza name:</label>
@@ -70,7 +72,7 @@ useEffect(() =>{
               crusts.map((crust) => <option value={crust.id} key={crust.id}>{crust.name}</option>)}
           </select>
         </div>
-        <button className="btn" type="submit">Edit Pizza</button>
+        <button className="add-btn" type="submit">Edit Pizza</button>
         {console.log(pizza)}
       </form>
     </div>

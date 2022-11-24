@@ -23,6 +23,7 @@ const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
 };
 
 const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
+  console.log(pizzaId, toppingId, amount, double)
   await fetch(`/api/pizzas/${pizzaId}/toppings`, {
     method: "POST",
     headers: {

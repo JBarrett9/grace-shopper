@@ -23,10 +23,10 @@ const Admin = (props) => {
 
   return (
     <div className="Admin">
-      <aside>
-        <Link to="">Pizzas</Link>
+      <aside className="admin-aside">
+        <Link to="pizzas/">Pizzas</Link>
       </aside>
-      <main>
+      <main className="admin-main">
         <Routes>
         <Route path='pizzas/*' element={<Pizzas sizes={sizes} crusts={crusts} user={user} />} />
           <Route

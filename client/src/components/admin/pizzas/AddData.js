@@ -1,15 +1,11 @@
 import React from 'react';
-import Select from 'react-select'
+
+
 
 const AddData = ({data,sizes, crusts, user}) => {
-    const {name,toppings, crustId,sizeId,setCrustId, setFeatured, setName, setSizeId,handleSubmitAdd, setTopping} = data
+    const {name,toppings, crustId,sizeId,setCrustId, setFeatured, setName, setSizeId,handleSubmitAdd, setTopping, setAmount, setDouble} = data
 
-    const options = toppings.map(top => {
-        return {
-            value: top,
-            label: top.name
-        }
-    })
+    
     return (
         <div className="admin-container">
             <form onSubmit={(e) => handleSubmitAdd(e)} className="admin-form">
@@ -21,9 +17,9 @@ const AddData = ({data,sizes, crusts, user}) => {
                 <div className="form-data">
                     <label>featured:</label>
                     <div>
-                        <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={true} />
+                        <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={true}  />
                         <span>true</span>
-                        <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={false}/>
+                        <input onChange={(e) => setFeatured(e.target.value)} type="radio" id="featured" name="featured" value={false} />
                         <span>false</span>
                     </div>
                 </div>
@@ -58,15 +54,45 @@ const AddData = ({data,sizes, crusts, user}) => {
                     </select>
                 </div>
                 <div className="form-data">
-                    <Select
-                        options={options} 
-                        defaultValue={[options[0], options[3]]}
-                        isMulti
-                        name="colors"
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={(e)=> setTopping(e)}
-                    />
+                    <label>toppings:</label>
+                    {console.log(toppings)}
+                    <select
+                        onChange={(e) => setTopping(JSON.parse(e.target.value))}
+                        name="topping" 
+                    >
+                        <option selected value="">Select Topping</option>
+                        {
+                            toppings.map((t) => (
+                                <option key={t.id} value={JSON.stringify(t)} >
+                                    {t.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+                <div className="form-data">
+                    <label>amount:</label>
+                    
+                    <select
+                        onChange={(e) => setAmount(e.target.value)}
+                        name="amount" 
+                    >
+                         <option selected value="">Select Amount</option>
+                        <option selected value="full">Full</option>
+                        <option selected value="left">Left</option>
+                        <option selected value="right">Right</option>
+                       
+                        
+                    </select>
+                </div>
+            
+                <div className="form-data">
+                    <label>double:</label>
+                    <div>
+                        <input onChange={(e) => setDouble(true)} type="radio" id="double" name="double" value={true}  />
+                        <span>true</span>
+                        <input onChange={(e) => setDouble(false)} type="radio" id="double" name="double" value={false} />
+                        <span>false</span>
+                    </div>
                 </div>
                 <button className="add-btn" type="submit">Add Pizza</button>
             </form>

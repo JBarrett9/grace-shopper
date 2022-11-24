@@ -1,7 +1,7 @@
 import { Link, Outlet,Route ,Routes, useNavigate} from "react-router-dom";
 import "../Admin.css";
 import { useEffect, useState } from "react";
-import { createPizza, fetchFeaturedPizzas, deletePizzaById, fetchToppings } from "../../../api";
+import { createPizza, fetchFeaturedPizzas, deletePizzaById, fetchToppings, addToppingToPizza } from "../../../api";
 import Table from "./Table";
 import Edit from "./Edit";
 import AddData from "./AddData";
@@ -17,7 +17,8 @@ const Pizzas = ({ sizes, crusts, user }) => {
   const [isUpDate, setIsUpDate] = useState({});
   const [toppings, setToppings] = useState([])
   const [topping, setTopping] = useState([])
-
+  const [double, setDouble] = useState(false)
+  const [amount, setAmount] = useState("left")
   const getToppings = async() => {
         await fetchToppings(setToppings)
     }
@@ -41,7 +42,8 @@ const Pizzas = ({ sizes, crusts, user }) => {
       sizeId,
       featured
     );
-
+let result = await addToppingToPizza(localStorage.getItem("token"), res.id, topping.id, amount, double )
+console.log(result)
     setIsUpDate(res);
     setName("");
     setFeatured("");
@@ -56,7 +58,7 @@ const Pizzas = ({ sizes, crusts, user }) => {
 
   const handleSubmitAdd = (e) => {
     e.preventDefault();
-
+console.log(topping, double)
     getCreatePizza();
     navigate("/admin/pizzas")
     
@@ -74,8 +76,8 @@ const Pizzas = ({ sizes, crusts, user }) => {
       </nav>
       <Routes>
         <Route index element={<Table sizes={sizes} crusts={crusts} user={user} pizzas = {pizzas} handleDelete={handleDelete}/>} />
-        <Route path='add' element={<AddData sizes={sizes} crusts={crusts} user={user} data ={{name, crustId,sizeId,setCrustId, setFeatured, setName, setSizeId,handleSubmitAdd,toppings,setTopping}}/>} />
-        <Route path='edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user} data={{pizzas,name, crustId,sizeId,setCrustId, setFeatured, setName, setSizeId,setPizzas}}/>} />
+        <Route path='add' element={<AddData sizes={sizes} crusts={crusts} user={user} data ={{name, crustId,sizeId,setCrustId, setFeatured, featured, setName, setSizeId, setAmount,handleSubmitAdd, toppings,setTopping, double, setDouble}}/>} />
+        <Route path='edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user} handleUpdate={setIsUpDate}/>} />
         <Route path='toppings' element={<AdminToppings toppings={toppings}/>} />
         <Route path='addTopping' element={<AddTopping />} />
       </Routes>
