@@ -25,6 +25,7 @@ const Admin = (props) => {
     <div className="Admin">
       <aside className="admin-aside">
         <Link to="pizzas/">Pizzas</Link>
+        <Link to="users">Users</Link>
       </aside>
       <main className="admin-main">
         <Routes>

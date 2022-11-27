@@ -6,12 +6,13 @@
 
 .admin-aside {
   display: flex;
-  grid-column: 1/2;
+  flex-direction: column;
   background-color: white;
   height: 62rem;
   padding: 14rem 0 0 3rem;
   box-sizing: border-box;
   border-right: 10px solid #bc4749;
+ 
 }
 
 .admin-main {
