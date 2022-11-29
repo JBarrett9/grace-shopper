@@ -1,4 +1,7 @@
 const express = require("express");
+require("dotenv").config();
+const { STRIPE_SECRET } = process.env;
+const stripe = require("stripe")(STRIPE_SECRET);
 const {
   getUserOrders,
   getOrderById,
@@ -16,6 +19,24 @@ const { getOrderPrice } = require("../db/prices");
 const { getToppingById } = require("../db/toppings");
 const router = express.Router();
 const { requireUser } = require("./utils");
+
+router.post("/:orderId/create-payment-intent", async (req, res) => {
+  const { orderId } = req.params;
+
+  const price = await getOrderPrice(orderId);
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: price,
+    currency: "usd",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
 
 router.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;

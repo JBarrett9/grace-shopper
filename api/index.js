@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { getUserById } = require("../db/users");
 
 const { JWT_SECRET } = process.env;
+router.use(express.json());
 
 router.use(async (req, res, next) => {
   const prefix = "Bearer ";
@@ -48,6 +49,7 @@ const reviewsRouter = require("./reviews");
 const pizzaToppingsRouter = require("./pizzaToppings");
 const locationsRouter = require("./locations");
 const ordersRouter = require("./orders");
+const { route } = require("./orders");
 
 router.use("/pizzas", pizzasRouter);
 router.use("/users", usersRouter);

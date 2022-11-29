@@ -18,7 +18,6 @@ const Cart = (props) => {
 
   useEffect(() => {
     setPrice(props.order.price / 100);
-    console.log(props.order.pizzas);
 
     async function getAmountIds() {
       const ids = await fetchAmountIds(props.order.id);

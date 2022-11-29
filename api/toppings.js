@@ -39,7 +39,8 @@ router.post("/", requireAdmin, async (req, res) => {
   if (
     category !== "meat" &&
     category !== "cheese" &&
-    category !== "vegetable"
+    category !== "vegetable" &&
+    category !== "sauce"
   ) {
     next({
       error: "InvalidToppingCategory",

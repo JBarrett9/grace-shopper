@@ -19,8 +19,8 @@ import Toppings from "./components/toppings/toppings";
 import { fetchLocations } from "./api/location";
 import Admin from "./components/admin/Admin";
 import EditPizza from "./components/edit-pizza/edit-pizza";
-import Location from "./checkout/location";
-import Checkout from "./checkout/checkout";
+import Location from "./components/checkout/location";
+import Checkout from "./components/checkout/checkout";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -271,7 +271,7 @@ function App() {
           path="/location"
           element={<Location token={token} user={currentUser} />}
         ></Route>
-        <Route path="/checkout" element={<Checkout />}></Route>
+        <Route path="/checkout" element={<Checkout order={order} />}></Route>
         {currentUser.admin ? (
           <Route
             path="/admin/*"

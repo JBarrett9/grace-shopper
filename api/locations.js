@@ -40,7 +40,6 @@ router.post("/", requireUser, async (req, res, next) => {
   }
 
   try {
-    console.log("hit the try");
     const location = await createLocation({
       userId: user.id,
       city,

@@ -55,16 +55,7 @@ const fetchLocationsByUserID = async (userId) => {
   }
 };
 
-const updateLocation = async (
-  token,
-  locationId,
-  city,
-  state,
-  address,
-  apartment,
-  main,
-  zipcode
-) => {
+const updateLocation = async (token, locationId, fields) => {
   try {
     const response = await fetch(`/api/locations/${locationId}`, {
       method: "PATCH",
@@ -72,14 +63,7 @@ const updateLocation = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        city,
-        state,
-        address,
-        apartment,
-        main,
-        zipcode,
-      }),
+      body: JSON.stringify(fields),
     });
 
     const data = response.json();

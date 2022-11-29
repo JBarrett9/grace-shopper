@@ -4,7 +4,7 @@ import {
   addLocation,
   fetchLocationsByUserID,
   updateLocation,
-} from "../api/location";
+} from "../../api/location";
 import "./location.css";
 
 const Location = (props) => {
@@ -94,24 +94,22 @@ const Location = (props) => {
     e.preventDefault();
     if (userLocation.id) {
       if (
-        userLocation.address == address &&
-        userLocation.apartment == apartment &&
-        userLocation.city == city &&
-        userLocation.state == state &&
-        userLocation.zipcode == zipcode
+        userLocation.address === address &&
+        userLocation.apartment === apartment &&
+        userLocation.city === city &&
+        userLocation.state === state &&
+        userLocation.zipcode === zipcode
       ) {
-        navigate("checkout");
+        navigate("/checkout");
       } else {
-        const location = await updateLocation(
-          props.token,
-          userLocation.id,
+        const location = await updateLocation(props.token, userLocation.id, {
           city,
           state,
           address,
           apartment,
-          true,
-          zipcode
-        );
+          main: true,
+          zipcode,
+        });
 
         if (location.id) {
           navigate("/checkout");
@@ -197,7 +195,9 @@ const Location = (props) => {
                 Select
               </option>
               {states.map((state) => (
-                <option value={state}>{state}</option>
+                <option key={state} value={state}>
+                  {state}
+                </option>
               ))}
             </select>
             <label>Zip: </label>
