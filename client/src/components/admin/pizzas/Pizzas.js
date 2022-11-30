@@ -85,7 +85,7 @@ console.log(toppingData, double)
       <Routes>
         <Route index element={<Table sizes={sizes} crusts={crusts} user={user} pizzas = {pizzas} handleDelete={handleDelete}/>} />
         <Route path='add' element={<AddData sizes={sizes} crusts={crusts} user={user} data ={{name, crustId,sizeId,setCrustId, setFeatured, featured, setName, setSizeId, setAmount,handleSubmitAdd, toppings,setToppingData, double, setDouble}}/>} />
-        <Route path='edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user} handleUpdate={setIsUpDate}/>} />
+        <Route path='edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user} handleUpdate={setIsUpDate} toppings={toppings}/>} />
         <Route path='toppings' element={<AdminToppings toppings={toppings}/>} />
         <Route path='addTopping' element={<AddTopping />} />
       </Routes>
