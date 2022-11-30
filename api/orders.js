@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const { STRIPE_SECRET } = process.env;
+const { STRIPE_SECRET, STRIPE_WHSEC } = process.env;
 const stripe = require("stripe")(STRIPE_SECRET);
 const {
   getUserOrders,
@@ -17,11 +17,29 @@ const {
 } = require("../db/pizza_order");
 const { getOrderPrice } = require("../db/prices");
 const { getToppingById } = require("../db/toppings");
+const { getUserByEmail } = require("../db/users");
 const router = express.Router();
 const { requireUser } = require("./utils");
 
+const handlePaymentIntentSucceeded = async (paymentIntent) => {
+  console.log(paymentIntent);
+  const email = paymentIntent.receipt_email;
+  console.log(`Getting info for ${email}`);
+  const user = getUserByEmail(email);
+
+  console.log(`Getting orders for user: ${user.id}`);
+  const active_orders = await getActiverUserOrders(user.id);
+
+  console.log(`Updating order ${active_orders[0].id}`);
+  const order = await updatePizzaOrder({
+    id: active_orders[0].id,
+    active: false,
+  });
+};
+
 router.post("/:orderId/create-payment-intent", async (req, res) => {
   const { orderId } = req.params;
+  const { email } = req.body;
 
   const price = await getOrderPrice(orderId);
 
@@ -31,12 +49,61 @@ router.post("/:orderId/create-payment-intent", async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
+    receipt_email: email,
   });
 
   res.send({
     clientSecret: paymentIntent.client_secret,
   });
 });
+
+router.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  (request, response) => {
+    const endpointSecret = STRIPE_WHSEC;
+    let event = request.body;
+    // Only verify the event if you have an endpoint secret defined.
+    // Otherwise use the basic event deserialized with JSON.parse
+    if (endpointSecret) {
+      // Get the signature sent by Stripe
+      const signature = request.headers["stripe-signature"];
+      try {
+        event = stripe.webhooks.constructEvent(
+          request.body,
+          signature,
+          endpointSecret
+        );
+      } catch (err) {
+        console.log(`⚠️  Webhook signature verification failed.`, err.message);
+        return response.sendStatus(400);
+      }
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case "payment_intent.succeeded":
+        const paymentIntent = event.data.object;
+        console.log(
+          `PaymentIntent for ${paymentIntent.amount} was successful!`
+        );
+        handlePaymentIntentSucceeded(paymentIntent);
+
+        break;
+      case "payment_method.attached":
+        const paymentMethod = event.data.object;
+        // Then define and call a method to handle the successful attachment of a PaymentMethod.
+        // handlePaymentMethodAttached(paymentMethod);
+        break;
+      default:
+        // Unexpected event type
+        console.log(`Unhandled event type ${event.type}.`);
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  }
+);
 
 router.get("/:userId", requireUser, async (req, res, next) => {
   const { userId } = req.params;
@@ -156,7 +223,7 @@ router.post("/:userId", async (req, res, next) => {
 });
 
 router.patch("/:orderId", requireUser, async (req, res, next) => {
-  const orderId = req.params;
+  const { orderId } = req.params;
   const { active, delivery } = req.body;
 
   try {

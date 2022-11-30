@@ -40,7 +40,7 @@
   width: 100%;
 }
 
-.payment-form button:hover {
+button:hover {
   filter: contrast(115%);
 }
 
@@ -116,6 +116,6 @@
 @media only screen and (max-width: 600px) {
   form {
     width: 80vw;
-    min-width: initial;
+    min-width: 80vw;
   }
 }

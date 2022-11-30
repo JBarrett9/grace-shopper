@@ -2,8 +2,8 @@
   margin: auto;
   margin-top: 4rem;
   background-color: #fff;
-  width: 48rem;
-  min-height: 48rem;
+  width: 94%;
+  min-height: 49rem;
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
   padding-left: 1rem;
@@ -11,7 +11,7 @@
 
 .topping-form button {
   float: right;
-  margin-top: 4rem;
+  margin-top: 1rem;
   margin-right: 2rem;
   width: 16rem;
   height: 4.2rem;
@@ -26,4 +26,15 @@
 
 .topping-form input {
   margin-left: 1.4rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .topping-form {
+    width: 48rem;
+    min-height: 48rem;
+  }
+
+  .topping-form button {
+    margin-top: 4rem;
+  }
 }

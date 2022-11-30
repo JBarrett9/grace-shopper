@@ -21,6 +21,7 @@ import Admin from "./components/admin/Admin";
 import EditPizza from "./components/edit-pizza/edit-pizza";
 import Location from "./components/checkout/location";
 import Checkout from "./components/checkout/checkout";
+import Success from "./components/checkout/success";
 
 function App() {
   const [orderId, setOrderId] = useState();
@@ -271,7 +272,19 @@ function App() {
           path="/location"
           element={<Location token={token} user={currentUser} />}
         ></Route>
-        <Route path="/checkout" element={<Checkout order={order} />}></Route>
+        <Route
+          path="/checkout"
+          element={
+            <Checkout
+              user={currentUser}
+              order={order}
+              setOrder={setOrder}
+              setOrderId={setOrderId}
+              token={token}
+            />
+          }
+        ></Route>
+        <Route path="/:orderId/success" element={<Success />} />
         {currentUser.admin ? (
           <Route
             path="/admin/*"

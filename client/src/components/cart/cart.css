@@ -2,7 +2,7 @@
   margin: auto;
   margin-top: 4rem;
   background-color: #fff;
-  width: 48rem;
+  width: 96%;
   min-height: 48rem;
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
@@ -72,4 +72,10 @@
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
   font-size: 1.8rem;
   cursor: pointer;
+}
+
+@media only screen and (min-width: 600px) {
+  .cart {
+    width: 48rem;
+  }
 }

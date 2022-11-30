@@ -4,7 +4,7 @@
   background: var(--color-green);
   height: 2.8rem;
   top: 1rem;
-  right: 3rem;
+  right: 0.2rem;
   width: 2.8rem;
   text-align: center;
   line-height: 2rem;
@@ -16,14 +16,15 @@
 .brand {
   font-family: "Chilanka", cursive;
   font-weight: normal;
-  font-size: 3.2rem;
-  margin-left: 24rem;
+  font-size: 2rem;
+  margin-left: 1rem;
   color: white;
 }
 
 .head {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 8rem;
   background-color: var(--color-red);
   color: #fff;
@@ -35,8 +36,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 30rem;
-  font-size: 2rem;
+  width: 16rem;
+  font-size: 1.8rem;
 }
 
 .head a {
@@ -48,21 +49,43 @@
   font-size: 3.6rem;
 }
 
-.logo {
-  background-color: #fff;
-  height: 19rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20rem;
-  border-radius: 0 50rem 50rem 0;
-  box-shadow: 0.1rem 0.6rem 0.4rem -0.4rem #444;
-  border: 1rem solid var(--color-red);
-  border-top: none;
-  border-left: none;
+@media only screen and (max-width: 599px) {
+  .logo {
+    display: none;
+  }
 }
 
-.logo-img {
-  width: 30rem;
-  margin-left: -4.4rem;
+@media only screen and (min-width: 600px) {
+  .badge:after {
+    right: 3rem;
+  }
+
+  .brand {
+    margin-left: 24rem;
+    font-size: 3.2rem;
+  }
+
+  .head-links {
+    width: 30rem;
+    font-size: 2rem;
+  }
+
+  .logo {
+    background-color: #fff;
+    height: 19rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20rem;
+    border-radius: 0 50rem 50rem 0;
+    box-shadow: 0.1rem 0.6rem 0.4rem -0.4rem #444;
+    border: 1rem solid var(--color-red);
+    border-top: none;
+    border-left: none;
+  }
+
+  .logo-img {
+    width: 30rem;
+    margin-left: -4.4rem;
+  }
 }

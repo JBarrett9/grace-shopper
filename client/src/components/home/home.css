@@ -7,6 +7,19 @@
   margin-right: 10rem;
 }
 
+.message {
+  padding: 1rem;
+  text-align: center;
+  margin: auto;
+  margin-top: -8rem;
+  width: 40rem;
+  border: 0.1rem solid black;
+  font-size: 1.9rem;
+  color: #fff;
+  background-color: var(--color-green);
+  position: absolute;
+}
+
 .pizza-card {
   background-color: #fff;
   height: 40rem;

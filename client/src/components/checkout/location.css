@@ -2,7 +2,7 @@
   margin: auto;
   margin-top: 4rem;
   background-color: #fff;
-  width: 64rem;
+  width: 94%;
   min-height: 28rem;
   display: flex;
   flex-direction: column;
@@ -17,18 +17,19 @@
   height: 3.2rem;
   background-color: var(--color-green);
   color: #fff;
-  border-radius: 0 50% 50% 0;
   margin-right: 2rem;
   border: 0.1rem solid #fff;
+  border-radius: 2.5rem;
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
   font-size: 1.8rem;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
 }
 
 .addr-form span {
   display: flex;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .addr-form label {
@@ -77,4 +78,11 @@ input[type="number"]::-webkit-inner-spin-button {
   border: 0.2rem solid var(--color-red);
   border-radius: 1rem;
   padding: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .addr-form {
+    width: 64rem;
+    min-height: 28rem;
+  }
 }

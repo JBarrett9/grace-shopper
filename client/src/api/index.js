@@ -23,7 +23,7 @@ const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
 };
 
 const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
-  console.log(pizzaId, toppingId, amount, double)
+  console.log(pizzaId, toppingId, amount, double);
   await fetch(`/api/pizzas/${pizzaId}/toppings`, {
     method: "POST",
     headers: {
@@ -275,6 +275,21 @@ const deletePizzaById = async (token, pizzaId) => {
     });
 };
 
+const updateOrder = async (token, id, active) => {
+  try {
+    const response = await fetch(`/api/orders/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ active }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updatePizzaAmount = async (token, id, amount) => {
   try {
     const response = await fetch(`/api/orders/pizza_order/${id}`, {
@@ -325,5 +340,6 @@ export {
   deletePizzaById,
   updatePizzaById,
   fetchUsers,
+  updateOrder,
   updatePizzaAmount,
 };

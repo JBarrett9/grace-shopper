@@ -4,7 +4,7 @@ import "./home.css";
 import { useEffect, useState } from "react";
 import { fetchFeaturedPizzas } from "../../api";
 import { fetchAllReviews } from "../../api/reviews";
-const Home = () => {
+const Home = (props) => {
   const [pizzas, setPizzas] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -24,6 +24,7 @@ const Home = () => {
   const pizza = { id: 0, name: "Build Your Own" };
   return (
     <div className="home-container">
+      {props.message && <div className="message">{props.message}</div>}
       {pizzas.map((pizza) => (
         <PizzaCard key={pizza.id} img={pizza_img} pizza={pizza} />
       ))}

@@ -15,6 +15,7 @@ const Checkout = (props) => {
     fetch(`/api/orders/${props.order.id}/create-payment-intent`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: [{ email: props.user.email }] }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
@@ -32,7 +33,13 @@ const Checkout = (props) => {
     <div className="App">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm
+            order={props.order}
+            setOrder={props.setOrder}
+            setOrderId={props.setOrderId}
+            token={props.token}
+            user={props.currentUser}
+          />
         </Elements>
       )}
     </div>
