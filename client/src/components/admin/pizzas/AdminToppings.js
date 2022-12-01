@@ -15,11 +15,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import {deleteToppingById} from "../../../api/toppings"
 
-const AdminToppings = ({toppings}) => {
+const AdminToppings = ({toppings, setIsUpDate}) => {
 
 const navigate = useNavigate()
     const handleDeleteTopping = async (id) => {
         await deleteToppingById(localStorage.getItem("token") ,id)
+        setIsUpDate({})
         navigate("/admin/pizzas/toppings")
     }
     
@@ -46,7 +47,7 @@ const navigate = useNavigate()
                             <td>
                                 
                                 <Link className="btn delete" onClick={(e) => handleDeleteTopping(p.id)}>Delete</Link>
-                                <Link className="btn edit" to={`edit/${p.id}`}>Edit</Link>
+                                <Link className="btn edit" to={`editTopping/${p.id}`}>Edit</Link>
                             </td>
                         </tr>
                     );

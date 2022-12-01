@@ -1,25 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { addTopping } from '../../../api/toppings';
 
-const AddTopping = ({categories}) => {
+const AddTopping = ({setIsUpDate}) => {
 
     const [name, setName] = useState("")
     const [price, setPrice] = useState(null)
     const [quantity,setQuantity] = useState(0)
     const [category, setCategory] = useState([]) 
-
-    const fetchCategories = async() => {
-
-    }
-
-    const handleSubmitAddTopping = async () =>{
-        
+    const navigate = useNavigate()
+  
+    const handleSubmitAddTopping = async (e) =>{
+        e.preventDefault()
+        await addTopping(localStorage.getItem("token"), {name,price, quantity, category})
+        setIsUpDate({})
+        navigate("/admin/pizzas/toppings")
     }
 
     return (
 
         <div className='admin-container'>
-           <form onSubmit={(e) => handleSubmitAddTopping(e)} className="admin-form">
+           <form onSubmit={handleSubmitAddTopping} className="admin-form">
                 <div className="form-data">
                     <label>Topping name:</label>
                     <input onChange={(e) => setName(e.target.value)} type="text" id="topping-name" name={"name"} />
@@ -30,7 +32,7 @@ const AddTopping = ({categories}) => {
                 </div>
                 <div className="form-data">
                     <label>Quantity:</label>
-                    <input onChange={(e) => setQuantity(e.target.value)} type="num" id="topping-quantity" name={"quantity"} />
+                    <input onChange={(e) => setQuantity(e.target.value)} type="num" id="topping-quantity" name={"quantity"} min="0" max="20"/>
                 </div>
 
              
@@ -41,12 +43,10 @@ const AddTopping = ({categories}) => {
                         name="sizeId"
                     >
                         <option value="">Select Category</option>
-                        {categories &&
-                            categories.map((size) => (
-                                <option key={size.id} value={size.id} >
-                                    {size.size}
-                                </option>
-                            ))}
+                        <option value="meat">meat</option>
+                        <option value="cheese">Cheese</option>
+                        <option value="vegetable">Vegetable</option>
+                        <option value="sauce">meat</option>
                     </select>
                 </div>
            

@@ -7,6 +7,7 @@ import Edit from "./Edit";
 import AddData from "./AddData";
 import AdminToppings from "./AdminToppings";
 import AddTopping from "./AddTopping";
+import EditTopping from "./EditTopping";
 
 const Pizzas = ({ sizes, crusts, user }) => {
   const [pizzas, setPizzas] = useState([]);
@@ -72,6 +73,7 @@ console.log(toppingData, double)
   };
   useEffect(() => {
     getAllFeaturedPizzas();
+    getToppings();
   }, [isUpDate]);
   return (
     <div className="admin-pizzas">
@@ -86,8 +88,9 @@ console.log(toppingData, double)
         <Route index element={<Table sizes={sizes} crusts={crusts} user={user} pizzas = {pizzas} handleDelete={handleDelete}/>} />
         <Route path='add' element={<AddData sizes={sizes} crusts={crusts} user={user} data ={{name, crustId,sizeId,setCrustId, setFeatured, featured, setName, setSizeId, setAmount,handleSubmitAdd, toppings,setToppingData, double, setDouble}}/>} />
         <Route path='edit/:id' element={<Edit sizes={sizes} crusts={crusts} user={user} handleUpdate={setIsUpDate} toppings={toppings}/>} />
-        <Route path='toppings' element={<AdminToppings toppings={toppings}/>} />
-        <Route path='addTopping' element={<AddTopping />} />
+        <Route path='toppings' element={<AdminToppings toppings={toppings} setIsUpDate={setIsUpDate}/>} />
+        <Route path='addTopping' element={<AddTopping  setIsUpDate={setIsUpDate}/>} />
+        <Route path="/toppings/editTopping/:id" element={<EditTopping setIsUpDate={setIsUpDate}/>}/>
       </Routes>
       <Outlet context={[pizzas, name, crustId,sizeId,featured, setCrustId, setFeatured, setName, setSizeId, handleDelete, handleSubmitAdd]} />
 
