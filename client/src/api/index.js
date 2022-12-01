@@ -59,8 +59,16 @@ const createOrder = async (token, userId) => {
   return data;
 };
 
-const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
-  console.log(name, crustId, userId, sizeId, featured);
+const createPizza = async (
+  token,
+  name,
+  crustId,
+  userId,
+  sizeId,
+  featured,
+  imgUrl
+) => {
+  console.log(name, crustId, userId, sizeId, featured, imgUrl);
   try {
     const response = await fetch("/api/pizzas", {
       method: "POST",
@@ -74,6 +82,7 @@ const createPizza = async (token, name, crustId, userId, sizeId, featured) => {
         userId,
         sizeId,
         featured,
+        imgUrl,
       }),
     });
     const data = await response.json();
@@ -119,6 +128,7 @@ export async function updatePizza({
   featured,
   token,
   pizzaId,
+  imgUrl,
 }) {
   console.log("trying to update pizza:");
   const response = await fetch(`api/pizzas/${pizzaId}`, {
@@ -133,6 +143,7 @@ export async function updatePizza({
       userId,
       sizeId,
       featured,
+      imgUrl,
     }),
   });
   const result = await response.json();
@@ -247,7 +258,7 @@ const fetchToppings = async (setToppings) => {
 
 const fetchToppingsByCategory = async (category) => {
   try {
-    const response = await fetch(`/api/toppings/${category}`, {
+    const response = await fetch(`/api/toppings/category/${category}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

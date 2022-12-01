@@ -108,18 +108,25 @@ async function attachPizzaToOrder(order) {
   return orders;
 }
 
-const createPizza = async ({ name, crustId, userId, sizeId, featured }) => {
+const createPizza = async ({
+  name,
+  crustId,
+  userId,
+  sizeId,
+  featured,
+  imgUrl,
+}) => {
   console.log("creating pizza");
   try {
     const {
       rows: [pizza],
     } = await client.query(
       `
-                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured)
-                    VALUES ($1, $2, $3, $4, $5)
+                    INSERT INTO pizza(name, "crustId", "userId", "sizeId", featured, "imgUrl")
+                    VALUES ($1, $2, $3, $4, $5, $6)
                     RETURNING *;
                 `,
-      [name, crustId, userId, sizeId, featured]
+      [name, crustId, userId, sizeId, featured, imgUrl]
     );
     return pizza;
   } catch (error) {

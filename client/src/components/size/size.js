@@ -125,7 +125,7 @@ const Size = (props) => {
 
   return (
     <div className="size-card">
-      <img src={pizza_img} className="size-card-img" />
+      <img src={pizza.imgUrl} className="size-card-img" />
       <form className="size-form">
         <h2>{pizza.name}</h2>
         <div className="size-form-input-sec">

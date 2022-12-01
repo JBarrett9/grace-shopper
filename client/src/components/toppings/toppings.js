@@ -170,70 +170,78 @@ const Toppings = (props) => {
 
   return (
     <form className="topping-form" onSubmit={(e) => handleSubmit(e)}>
-      <h3>Sauce</h3>
-      {sauces.length &&
-        sauces.map((sauce, idx) => (
-          <span key={sauce.id}>
-            <input
-              type="checkbox"
-              value={selectedSauces[idx].selected}
-              checked={selectedSauces[idx].selected}
-              data-idx={idx}
-              onChange={(e) =>
-                handleSauceSelect(e.target.getAttribute("data-idx"))
-              }
-            />
-            <label>{sauce.name}</label>
-          </span>
-        ))}
-      <h3>Cheeses</h3>
-      {cheeses.length &&
-        cheeses.map((cheese, idx) => (
-          <span key={cheese.id}>
-            <input
-              type="checkbox"
-              value={selectedCheeses[idx].selected}
-              checked={selectedCheeses[idx].selected}
-              data-idx={idx}
-              onChange={(e) =>
-                handleCheeseSelect(e.target.getAttribute("data-idx"))
-              }
-            />
-            <label>{cheese.name}</label>
-          </span>
-        ))}
-      <h3>Meats</h3>
-      {meats.length &&
-        meats.map((meat, idx) => (
-          <span key={meat.id}>
-            <input
-              type="checkbox"
-              value={selectedMeats[idx].selected}
-              checked={selectedMeats[idx].selected}
-              data-idx={idx}
-              onChange={(e) =>
-                handleMeatSelect(e.target.getAttribute("data-idx"))
-              }
-            />
-            <label>{meat.name}</label>
-          </span>
-        ))}
-      <h3>Veggies</h3>
-      {vegetables.length &&
-        vegetables.map((vegetable, idx) => (
-          <span key={vegetable.id}>
-            <input
-              type="checkbox"
-              value={selectedVegetables[idx].selected}
-              checked={selectedVegetables[idx].selected}
-              data-idx={idx}
-              onChange={(e) =>
-                handleVegetableSelect(e.target.getAttribute("data-idx"))
-              }
-            />
-            <label>{vegetable.name}</label>
-          </span>
-        ))}
+      <div>
+        <h3>Sauce</h3>
+        {sauces.length &&
+          sauces.map((sauce, idx) => (
+            <span className="topping" key={sauce.id}>
+              <input
+                type="checkbox"
+                value={selectedSauces[idx].selected}
+                checked={selectedSauces[idx].selected}
+                data-idx={idx}
+                onChange={(e) =>
+                  handleSauceSelect(e.target.getAttribute("data-idx"))
+                }
+              />
+              <label>{sauce.name}</label>
+            </span>
+          ))}
+      </div>
+      <div>
+        <h3>Cheeses</h3>
+        {cheeses.length &&
+          cheeses.map((cheese, idx) => (
+            <span className="topping" key={cheese.id}>
+              <input
+                type="checkbox"
+                value={selectedCheeses[idx].selected}
+                checked={selectedCheeses[idx].selected}
+                data-idx={idx}
+                onChange={(e) =>
+                  handleCheeseSelect(e.target.getAttribute("data-idx"))
+                }
+              />
+              <label>{cheese.name}</label>
+            </span>
+          ))}
+      </div>
+      <div>
+        <h3>Meats</h3>
+        {meats.length &&
+          meats.map((meat, idx) => (
+            <span className="topping" key={meat.id}>
+              <input
+                type="checkbox"
+                value={selectedMeats[idx].selected}
+                checked={selectedMeats[idx].selected}
+                data-idx={idx}
+                onChange={(e) =>
+                  handleMeatSelect(e.target.getAttribute("data-idx"))
+                }
+              />
+              <label>{meat.name}</label>
+            </span>
+          ))}
+      </div>
+      <div>
+        <h3>Veggies</h3>
+        {vegetables.length &&
+          vegetables.map((vegetable, idx) => (
+            <span className="topping" key={vegetable.id}>
+              <input
+                type="checkbox"
+                value={selectedVegetables[idx].selected}
+                checked={selectedVegetables[idx].selected}
+                data-idx={idx}
+                onChange={(e) =>
+                  handleVegetableSelect(e.target.getAttribute("data-idx"))
+                }
+              />
+              <label>{vegetable.name}</label>
+            </span>
+          ))}
+      </div>
 
       <button>Add to Order</button>
     </form>

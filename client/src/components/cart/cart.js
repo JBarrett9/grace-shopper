@@ -134,7 +134,13 @@ const Cart = (props) => {
         <div>
           {props.order.price ? (
             <>
-              <p style={{ textAlign: "right", marginRight: "1rem" }}>
+              <p
+                style={{
+                  textAlign: "right",
+                  marginRight: "1rem",
+                  fontSize: "1.9rem",
+                }}
+              >
                 <strong>Total: </strong>${price}
               </p>
               <button

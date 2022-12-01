@@ -20,13 +20,14 @@ router.get("/", async (req, res) => {
   res.send(toppings);
 });
 
-router.get("/:toppingId",async (req, res) => {
-  const topping = await getToppingById(req.params.toppingId)
-  res.send(topping)
-})
+router.get("/:toppingId", async (req, res) => {
+  const topping = await getToppingById(req.params.toppingId);
+  res.send(topping);
+});
 
-router.get("/:category", async (req, res) => {
+router.get("/category/:category", async (req, res) => {
   const { category } = req.params;
+  console.log(category);
   const toppings = await getToppingsByCategory(category);
   res.send(toppings);
 });

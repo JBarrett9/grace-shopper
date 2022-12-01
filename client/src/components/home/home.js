@@ -1,5 +1,4 @@
 import PizzaCard from "./pizza-card";
-import pizza_img from "../../images/pizza-ga5506419a_1280.jpg";
 import "./home.css";
 import { useEffect, useState } from "react";
 import { fetchFeaturedPizzas } from "../../api";
@@ -26,9 +25,9 @@ const Home = (props) => {
     <div className="home-container">
       {props.message && <div className="message">{props.message}</div>}
       {pizzas.map((pizza) => (
-        <PizzaCard key={pizza.id} img={pizza_img} pizza={pizza} />
+        <PizzaCard key={pizza.id} pizza={pizza} />
       ))}
-      <PizzaCard img={pizza_img} pizza={pizza} />
+      <PizzaCard pizza={pizza} />
       {}
     </div>
   );

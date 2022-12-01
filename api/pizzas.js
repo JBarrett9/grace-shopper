@@ -44,7 +44,7 @@ router.get("/:pizzaId", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const { name, crustId, userId, sizeId, featured } = req.body;
+  const { name, crustId, userId, sizeId, featured, imgUrl } = req.body;
   const _pizza = await getPizzaByName(name);
 
   if (_pizza && featured) {
@@ -77,6 +77,7 @@ router.post("/", async (req, res, next) => {
         userId,
         sizeId,
         featured,
+        imgUrl,
       });
       res.send(pizza);
     } catch (error) {
@@ -86,7 +87,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.post("/:pizzaId/toppings", async (req, res, next) => {
-  console.log(req.body, req.params)
+  console.log(req.body, req.params);
   const { pizzaId } = req.params;
   const { toppingId, amount, double } = req.body;
 
@@ -104,14 +105,13 @@ router.post("/:pizzaId/toppings", async (req, res, next) => {
     }
   }
   try {
-    
     const response = await addToppingToPizza({
       pizzaId,
       toppingId,
       amount,
       double,
     });
-    console.log(response)
+    console.log(response);
     res.send(response);
   } catch (error) {
     next(error);
@@ -119,7 +119,6 @@ router.post("/:pizzaId/toppings", async (req, res, next) => {
 });
 
 router.delete("/:pizzaId/toppings", async (req, res, next) => {
-  
   const { pizzaId } = req.params;
   const pizza = await getPizzaById(pizzaId);
   const user = await getUserByEmail(req.user.email);
@@ -166,11 +165,11 @@ router.patch("/:pizzaId", async (req, res, next) => {
   console.log(req.body);
 
   const { pizzaId } = req.params;
-  const { name, crustId, userId, sizeId, featured } = req.body;
+  const { name, crustId, userId, sizeId, featured, imgUrl } = req.body;
   const pizza = await getPizzaById(pizzaId);
   const updateFields = {};
   const user = await getUserById(userId);
-console.log(user)
+  console.log(user);
   if (!pizza) {
     next({
       error: "PizzaNotFound",
@@ -215,6 +214,10 @@ console.log(user)
       updateFields.featured = pizza.featured;
     } else {
       updateFields.featured = featured;
+    }
+
+    if (imgUrl) {
+      updateFields.imgUrl = imgUrl;
     }
 
     if (pizza.featured && !user.admin) {

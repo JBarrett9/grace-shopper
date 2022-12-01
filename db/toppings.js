@@ -44,7 +44,6 @@ async function getToppingsByCategory(category) {
     `,
     [category]
   );
-
   return toppings;
 }
 

@@ -118,7 +118,8 @@ const createTables = async () => {
         "crustId" INTEGER REFERENCES crusts(id) NOT NULL,
         "userId" INTEGER REFERENCES users(id),
         "sizeId" INTEGER REFERENCES sizes(id),
-        featured BOOLEAN DEFAULT false
+        featured BOOLEAN DEFAULT false,
+        "imgUrl" VARCHAR(255) DEFAULT 'https://cdn.pixabay.com/photo/2021/10/05/12/01/pizza-6682514_960_720.png'
       );
     `);
 
@@ -380,8 +381,8 @@ const createInitialToppings = async () => {
     await createTopping({
       name: "Tomato",
       price: 0,
-      quantity: 1000,
-      category: "Sauce",
+      quantity: "1000",
+      category: "sauce",
     });
   } catch (error) {
     console.log("Error creating toppings!");
@@ -446,6 +447,8 @@ const createInitialPizzas = async () => {
       userId: 1,
       sizeId: 3,
       featured: true,
+      imgUrl:
+        "https://farm66.staticflickr.com/65535/52536422119_d49d5d1af0_b.jpg",
     });
 
     await createPizza({
@@ -454,6 +457,26 @@ const createInitialPizzas = async () => {
       userId: 1,
       sizeId: 3,
       featured: true,
+    });
+
+    await createPizza({
+      name: "Hawaiian",
+      crustId: 1,
+      userId: 1,
+      sizeId: 3,
+      featured: true,
+      imgUrl:
+        "https://farm66.staticflickr.com/65535/52536607165_6b22cf5855_b.jpg",
+    });
+
+    await createPizza({
+      name: "Supreme",
+      crustId: 1,
+      userId: 1,
+      sizeId: 3,
+      featured: true,
+      imgUrl:
+        "https://farm66.staticflickr.com/65535/52536607145_800be7d078_b.jpg",
     });
   } catch (error) {
     console.log("Error creating pizzas!");

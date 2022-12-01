@@ -7,11 +7,13 @@
   border: 0.4rem solid var(--color-green);
   box-shadow: 0.2rem 0.2rem 0.6rem #444;
   padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .topping-form button {
-  float: right;
-  margin-top: 1rem;
+  align-self: flex-end;
+  margin-bottom: 2rem;
   margin-right: 2rem;
   width: 16rem;
   height: 4.2rem;
@@ -26,6 +28,10 @@
 
 .topping-form input {
   margin-left: 1.4rem;
+}
+
+.topping {
+  display: inline-flex;
 }
 
 @media only screen and (min-width: 600px) {
