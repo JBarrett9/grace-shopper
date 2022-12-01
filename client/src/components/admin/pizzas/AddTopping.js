@@ -43,10 +43,10 @@ const AddTopping = ({setIsUpDate}) => {
                         name="sizeId"
                     >
                         <option value="">Select Category</option>
-                        <option value="meat">meat</option>
+                        <option value="meat">Meat</option>
                         <option value="cheese">Cheese</option>
                         <option value="vegetable">Vegetable</option>
-                        <option value="sauce">meat</option>
+                        <option value="sauce">Sauce</option>
                     </select>
                 </div>
            
