@@ -1,4 +1,5 @@
 const client = require("./client");
+const { addPizzaToOrder } = require("./pizza_order");
 const { attachToppingsToPizzas } = require("./toppings");
 const { getUserByEmail } = require("./users");
 
@@ -128,6 +129,7 @@ const createPizza = async ({
                 `,
       [name, crustId, userId, sizeId, featured, imgUrl]
     );
+
     return pizza;
   } catch (error) {
     throw error;

@@ -9,6 +9,7 @@ const {
   createPizza,
   destroyPizza,
   updatePizza,
+  attachPizzaToOrder,
 } = require("../db/pizzas");
 const { getUserByEmail, getUserById } = require("../db/users");
 const {
@@ -18,7 +19,7 @@ const {
 } = require("../db/pizza_toppings");
 const { getCrustById } = require("../db/crusts");
 const { getSizeById } = require("../db/sizes");
-const { removePizzaFromOrder } = require("../db/pizza_order");
+const { removePizzaFromOrder, addPizzaToOrder } = require("../db/pizza_order");
 
 router.get("/featured", async (req, res, next) => {
   const pizzas = await getAllFeaturedPizzas();
@@ -79,6 +80,11 @@ router.post("/", async (req, res, next) => {
         featured,
         imgUrl,
       });
+
+      if (pizza.featured) {
+        await addPizzaToOrder({ pizzaId: pizza.id, orderId: 1, amount: 1 });
+      }
+
       res.send(pizza);
     } catch (error) {
       next(error);
