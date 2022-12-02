@@ -63,8 +63,8 @@ function App() {
 
       const result = await registerUser(
         guestUser.email,
-        guestUser.password,
         guestUser.name,
+        guestUser.password,
         guestUser.guest
       );
 

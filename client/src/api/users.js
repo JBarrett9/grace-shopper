@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3000";
 
-export async function registerUser(email, password, name, guest) {
+export async function registerUser(email, name, password, guest) {
   const url = `/api/users/register`;
   try {
     const response = await fetch(url, {
