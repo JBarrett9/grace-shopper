@@ -458,26 +458,6 @@ const createInitialPizzas = async () => {
       sizeId: 3,
       featured: true,
     });
-
-    await createPizza({
-      name: "Hawaiian",
-      crustId: 1,
-      userId: 1,
-      sizeId: 3,
-      featured: true,
-      imgUrl:
-        "https://farm66.staticflickr.com/65535/52536607165_6b22cf5855_b.jpg",
-    });
-
-    await createPizza({
-      name: "Supreme",
-      crustId: 1,
-      userId: 1,
-      sizeId: 3,
-      featured: true,
-      imgUrl:
-        "https://farm66.staticflickr.com/65535/52536607145_800be7d078_b.jpg",
-    });
   } catch (error) {
     console.log("Error creating pizzas!");
     throw error;

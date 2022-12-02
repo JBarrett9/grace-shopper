@@ -216,19 +216,19 @@ router.patch("/:pizzaId", async (req, res, next) => {
       updateFields.featured = featured;
     }
 
-    if (imgUrl) {
+    if (imgUrl && user.admin) {
       updateFields.imgUrl = imgUrl;
     }
 
-    if (pizza.featured && !user.admin) {
-      {
-        next({
-          error: "NotYourPizza",
-          message: `A pizza with the ID ${pizzaId} does not belong to you (ADMIN).`,
-          name: "Not Your Pizza",
-        });
-      }
-    }
+    // if (pizza.featured && !user.admin) {
+    //   {
+    //     next({
+    //       error: "NotYourPizza",
+    //       message: `A pizza with the ID ${pizzaId} does not belong to you (ADMIN).`,
+    //       name: "Not Your Pizza",
+    //     });
+    //   }
+    // }
 
     console.log(updateFields);
     try {

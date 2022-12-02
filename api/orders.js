@@ -14,6 +14,7 @@ const {
   addPizzaToOrder,
   getPizzaOrderIdsByOrder,
   updatePizzaOrder,
+  getPizzaOrderById,
 } = require("../db/pizza_order");
 const { getOrderPrice } = require("../db/prices");
 const { getToppingById } = require("../db/toppings");
@@ -137,12 +138,21 @@ router.get("/:userId/active", requireUser, async (req, res, next) => {
 router.get("/order/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
 
-  console.log();
   const price = await getOrderPrice(orderId);
   await updateOrder({ id: orderId, price });
   const order = await getOrderById(orderId);
   if (order) {
     res.send(order);
+  }
+});
+
+router.get("/:orderId/pizzas", async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    const pizzas = await getPizzasByOrder({ id: orderId });
+    res.send(pizzas);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -152,6 +162,17 @@ router.get("/:orderId/pizza_orders", async (req, res, next) => {
     const pizzas = await getPizzaOrderIdsByOrder({ id: orderId });
     const ids = pizzas.map((pizza) => pizza.id);
     res.send(ids);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/pizza_order/:pizzaOrderId", async (req, res, next) => {
+  const { pizzaOrderId } = req.params;
+
+  try {
+    const pizzaOrder = await getPizzaOrderById({ id: pizzaOrderId });
+    res.send(pizzaOrder);
   } catch (error) {
     next(error);
   }

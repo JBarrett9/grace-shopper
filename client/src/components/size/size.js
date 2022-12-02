@@ -57,7 +57,8 @@ const Size = (props) => {
       name,
       crust,
       props.user.id,
-      size
+      size,
+      false
     );
 
     if (pizza.toppings) {
@@ -85,7 +86,6 @@ const Size = (props) => {
   };
 
   const customize = async () => {
-    console.log("customize running");
     let name = "custom";
     if (pizza.name) name = pizza.name;
 
@@ -94,7 +94,8 @@ const Size = (props) => {
       name,
       crust,
       props.user.id,
-      size
+      size,
+      false
     );
 
     if (pizza.toppings) {

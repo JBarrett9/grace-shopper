@@ -4,6 +4,8 @@ import {
   destroyPizza,
   fetchAmountIds,
   fetchOrder,
+  fetchPizzaOrder,
+  fetchUserPizzas,
   updatePizzaAmount,
   updatePizzaById,
 } from "../../api";
@@ -34,9 +36,6 @@ const Cart = (props) => {
         pizzaQtys.push(Number(pizza.amount));
       });
 
-      console.log(pizzaCrusts);
-      console.log(pizzaQtys);
-
       setCrusts(pizzaCrusts);
       setQtys(pizzaQtys);
     }
@@ -44,16 +43,16 @@ const Cart = (props) => {
     console.log(crusts);
   }, []);
 
-  const handleDestroy = async (pizzId) => {
-    await destroyPizza(props.token, pizzId);
+  const handleDestroy = async (pizzaId) => {
+    console.log(pizzaId);
+    await destroyPizza(props.token, pizzaId);
     const order = await fetchOrder(props.token, props.orderId);
-    console.log(order);
     props.setOrder(order);
     setPrice(order.price / 100);
   };
 
-  const handleEdit = async (pizzId) => {
-    navigate(`/cart/${pizzId}/edit`);
+  const handleEdit = async (pizzaId) => {
+    navigate(`/cart/${pizzaId}/edit`);
   };
 
   const handleCrustChange = async (crustId, idx) => {
@@ -78,6 +77,7 @@ const Cart = (props) => {
     props.setOrder(order);
   };
 
+  console.log(props.order.pizzas);
   return (
     <div className="cart">
       {props.order.pizzas &&

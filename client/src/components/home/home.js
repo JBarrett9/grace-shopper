@@ -20,7 +20,7 @@ const Home = (props) => {
     await fetchFeaturedPizzas(setPizzas);
   };
 
-  const pizza = { id: 0, name: "Build Your Own" };
+  const pizza = { id: -1, name: "Build Your Own" };
   return (
     <div className="home-container">
       {props.message && <div className="message">{props.message}</div>}
