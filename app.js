@@ -11,5 +11,6 @@ app.use(cors());
 
 const apiRouter = require("./api");
 app.use("/api", apiRouter);
+app.use(express.static("client/build"));
 
 module.exports = app;
