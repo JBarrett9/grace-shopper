@@ -49,6 +49,7 @@ export default function Register(props) {
                   setError("Passwords don't match!");
                 } else {
                   let guest = false;
+                  
                   const result = await registerUser(
                     email,
                     name,

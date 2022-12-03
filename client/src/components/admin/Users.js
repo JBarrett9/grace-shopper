@@ -127,14 +127,6 @@ export default function Users(props) {
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={(e) => {
-                      setDeleteUser(true);
-                      setSelectedUser(row);
-                    }}
-                  >
-                    Delete
-                  </button>
                 </td>
               </tr>
             ))}
@@ -147,12 +139,6 @@ export default function Users(props) {
         trigger={editUser}
         setEditUser={setEditUser}
       ></UsersPopup>
-      <UsersDeletePopup
-        selectedUser={selectedUser}
-        token={token}
-        trigger={deleteUser}
-        setDeleteUser={setDeleteUser}
-      ></UsersDeletePopup>
     </>
   );
 }
