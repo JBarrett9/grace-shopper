@@ -23,7 +23,6 @@ const router = express.Router();
 const { requireUser } = require("./utils");
 
 const handlePaymentIntentSucceeded = async (paymentIntent) => {
-  console.log(paymentIntent);
   const email = paymentIntent.receipt_email;
   console.log(`Getting info for ${email}`);
   const user = getUserByEmail(email);
@@ -192,10 +191,8 @@ router.patch("/pizza_order/:pizzaOrderId", async (req, res, next) => {
 
 router.post("/:orderId/pizzas", async (req, res, next) => {
   const { orderId } = req.params;
-  console.log(req.params);
   const { pizzaId, amount } = req.body;
   const pizzas = await getPizzasByOrder({ id: orderId });
-  console.log(orderId, pizzaId, amount, pizzas);
   if (pizzas) {
     for (let pizza of pizzas) {
       if (pizza.pizzaId === pizzaId) {

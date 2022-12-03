@@ -27,7 +27,7 @@ router.get("/:toppingId", async (req, res) => {
 
 router.get("/category/:category", async (req, res) => {
   const { category } = req.params;
-  console.log(category);
+
   const toppings = await getToppingsByCategory(category);
   res.send(toppings);
 });

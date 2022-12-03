@@ -39,12 +39,9 @@ const Cart = (props) => {
       setCrusts(pizzaCrusts);
       setQtys(pizzaQtys);
     }
-
-    console.log(crusts);
   }, []);
 
   const handleDestroy = async (pizzaId) => {
-    console.log(pizzaId);
     await destroyPizza(props.token, pizzaId);
     const order = await fetchOrder(props.token, props.orderId);
     props.setOrder(order);
@@ -77,7 +74,6 @@ const Cart = (props) => {
     props.setOrder(order);
   };
 
-  console.log(props.order.pizzas);
   return (
     <div className="cart">
       {props.order.pizzas &&

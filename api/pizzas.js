@@ -93,7 +93,6 @@ router.post("/", async (req, res, next) => {
 });
 
 router.post("/:pizzaId/toppings", async (req, res, next) => {
-  console.log(req.body, req.params);
   const { pizzaId } = req.params;
   const { toppingId, amount, double } = req.body;
 
@@ -117,7 +116,6 @@ router.post("/:pizzaId/toppings", async (req, res, next) => {
       amount,
       double,
     });
-    console.log(response);
     res.send(response);
   } catch (error) {
     next(error);
@@ -168,14 +166,11 @@ router.delete("/:pizzaId/toppings", async (req, res, next) => {
 });
 
 router.patch("/:pizzaId", async (req, res, next) => {
-  console.log(req.body);
-
   const { pizzaId } = req.params;
   const { name, crustId, userId, sizeId, featured, imgUrl } = req.body;
   const pizza = await getPizzaById(pizzaId);
   const updateFields = {};
   const user = await getUserById(userId);
-  console.log(user);
   if (!pizza) {
     next({
       error: "PizzaNotFound",
@@ -236,13 +231,11 @@ router.patch("/:pizzaId", async (req, res, next) => {
     //   }
     // }
 
-    console.log(updateFields);
     try {
       const updatedPizza = await updatePizza({
         id: pizza.id,
         ...updateFields,
       });
-      console.log(updatedPizza);
       res.send(updatedPizza);
     } catch (error) {
       next(error);
