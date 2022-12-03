@@ -109,7 +109,7 @@ const Size = (props) => {
         );
       }
     }
-    console.log("adding pizza to order:");
+
     await addPizzaToOrder(
       props.token,
       props.orderId,
@@ -179,7 +179,6 @@ const Size = (props) => {
           )}
         </span>
       </form>
-      {/* {console.log(reviews)} */}
     </div>
   );
 };

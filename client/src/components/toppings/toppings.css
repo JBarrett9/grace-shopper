@@ -1,3 +1,84 @@
+.category-selection {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+  font-size: 2rem;
+  padding-right: 1rem;
+}
+
+.category-selection .delivery-toggle {
+  border-bottom: 0.2rem solid var(--color-red);
+  margin: 0;
+  width: 100%;
+}
+
+.category-selection .option-selected {
+  border: 0.3rem solid var(--color-red);
+  border-bottom: none;
+  border-radius: 0;
+}
+
+.extra {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.position {
+  display: block;
+  position: relative;
+  padding-left: 1.6rem;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.position input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 1rem;
+  transform: translate(-50%, -50%);
+  height: 2.4rem;
+  width: 1.2rem;
+  border-radius: 15rem 0 0 15rem;
+  border: 0.1rem solid var(--color-green);
+}
+
+.middle {
+  width: 2.4rem;
+  border-radius: 50%;
+}
+
+.right {
+  border-radius: 0 15rem 15rem 0;
+}
+
+.position input:checked ~ .checkmark {
+  background-color: var(--color-red);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.position input:checked ~ .checkmark:after {
+  display: block;
+}
+
 .topping-form {
   margin: auto;
   margin-top: 4rem;
@@ -9,6 +90,18 @@
   padding-left: 1rem;
   display: flex;
   flex-direction: column;
+}
+
+.topping-form label {
+  font-size: 1.8rem;
+  margin-left: 1rem;
+}
+
+.topping-form input[type="radio"] {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .topping-form button {
@@ -30,8 +123,16 @@
   margin-left: 1.4rem;
 }
 
+.topping-form input[type="checkbox"] {
+  height: 1.8rem;
+  width: 1.8rem;
+  cursor: pointer;
+}
+
 .topping {
-  display: inline-flex;
+  display: flex;
+  margin-top: 1.4rem;
+  align-items: center;
 }
 
 @media only screen and (min-width: 600px) {

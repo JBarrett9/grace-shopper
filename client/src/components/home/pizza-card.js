@@ -1,7 +1,6 @@
 import Button from "./button";
 
 const PizzaCard = (props) => {
-  console.log(props.pizza.imgUrl);
   return (
     <div className="pizza-card">
       <img

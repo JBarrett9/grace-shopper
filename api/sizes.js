@@ -39,7 +39,6 @@ router.patch("/:sizeId", requireAdmin, async (req, res, next) => {
   const { size, pricemod } = req.body;
   const getSize = await getSizeById(sizeId);
   const updateFields = {};
-  console.log(getSize);
   if (!getSize) {
     next({
       error: "SizeNotFound",

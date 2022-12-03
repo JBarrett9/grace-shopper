@@ -63,8 +63,6 @@ export default function Register(props) {
                     if (order) {
                       guestPizzas = order.pizzas;
                     }
-                    console.log(currentUser);
-                    console.log("Registered User:", result.user);
 
                     localStorage.setItem("token", result.token);
                     setError("");

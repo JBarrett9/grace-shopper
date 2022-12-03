@@ -70,9 +70,6 @@ export default function Login(props) {
                     result.user.id
                   );
 
-                  console.log(activeOrder);
-                  console.log("ACTIVE ORDER:", activeOrder);
-                  console.log("GUEST PIZZAS:", guestPizzas);
                   if (!activeOrder) {
                     const _order = await createOrder(
                       result.token,
@@ -145,8 +142,6 @@ export default function Login(props) {
                       activeOrder.id
                     );
                     setOrder(activeOrder);
-
-                    console.log("ACTIVE ORDER EXISTS:", activeOrder);
                   }
                 }
               } catch (error) {
