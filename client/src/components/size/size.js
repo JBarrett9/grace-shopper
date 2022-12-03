@@ -66,7 +66,7 @@ const Size = (props) => {
         await addToppingToPizza(
           props.token,
           newPizza.id,
-          topping.id,
+          topping.toppingId,
           "full",
           false
         );

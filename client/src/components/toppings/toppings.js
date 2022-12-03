@@ -30,6 +30,7 @@ const Toppings = (props) => {
       let toppings = [];
       if (pizza.toppings) {
         toppings = pizza.toppings.map((topping) => topping.toppingId);
+        console.log(pizza);
       }
 
       setExistingToppings(toppings);
@@ -58,24 +59,24 @@ const Toppings = (props) => {
       const vegArr = vegetables.map((vegetable) => ({
         id: vegetable.id,
         selected: toppings.includes(vegetable.id),
-        amount: toppings.amount || "full",
-        double: toppings.double || false,
+        amount: "full",
+        double: false,
       }));
       setSelectedVegetables(vegArr);
 
       const cheeseArr = cheeses.map((cheese) => ({
         id: cheese.id,
         selected: toppings.includes(cheese.id),
-        amount: toppings.amount || "full",
-        double: toppings.double || false,
+        amount: "full",
+        double: false,
       }));
       setSelectedCheeses(cheeseArr);
 
       const sauceArr = sauces.map((sauce) => ({
         id: sauce.id,
         selected: toppings.includes(sauce.id),
-        amount: sauce.amount || "full",
-        double: sauce.double || false,
+        amount: "full",
+        double: false,
       }));
       setSelectedSauces(sauceArr);
     }
