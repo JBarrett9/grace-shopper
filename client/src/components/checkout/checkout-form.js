@@ -56,7 +56,7 @@ export default function CheckoutForm(props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `https://sauceboss.onrender.com/success`,
+        return_url: `https://sauceboss.onrender.com/${props.order.id}/success`,
       },
     });
 
