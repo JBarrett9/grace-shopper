@@ -1,7 +1,7 @@
-
+const BASE_URL = "https://sauceboss-rf2u.onrender.com/api"
 
 const fetchToppingbyId = async(toppingId, setTopping) => {
-    await fetch(`/api/toppings/${toppingId}`, {
+    await fetch(`${BASE_URL}/toppings/${toppingId}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -15,7 +15,7 @@ const fetchToppingbyId = async(toppingId, setTopping) => {
 
 
 const deleteToppingById = async(token, toppingId) => {
-    await fetch(`/api/toppings/${toppingId}`, {
+    await fetch(`${BASE_URL}/toppings/${toppingId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const deleteToppingById = async(token, toppingId) => {
 
 const addTopping = async(token, fields) => {
 
-  await fetch(`/api/toppings/`, {
+  await fetch(`${BASE_URL}/toppings/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const addTopping = async(token, fields) => {
 }
 const editTopping = async(token,toppingId, fields) => {
 
-  await fetch(`/api/toppings/${toppingId}`, {
+  await fetch(`${BASE_URL}/toppings/${toppingId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
