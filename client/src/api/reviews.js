@@ -1,5 +1,7 @@
+const BASE_URL = "https://sauceboss-rf2u.onrender.com/api"
+
 const fetchAllReviews = async(setReviews) => {
-    await fetch("/api/reviews/", {
+    await fetch(`${BASE_URL}/reviews/`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -9,7 +11,7 @@ const fetchAllReviews = async(setReviews) => {
         .catch(console.error);
 }
 const fetchReviewsByPizzaId = async (pizzaId, setReviews ) => {
-    await fetch(`/api/reviews/${pizzaId}`, {
+    await fetch(`${BASE_URL}/reviews/${pizzaId}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -20,7 +22,7 @@ const fetchReviewsByPizzaId = async (pizzaId, setReviews ) => {
 }
 
 const addReview = async (token, pizzaId, content, stars) => {
-    await fetch(`/api/reviews/${pizzaId}`, {
+    await fetch(`${BASE_URL}/reviews/${pizzaId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
