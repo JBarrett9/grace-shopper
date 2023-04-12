@@ -1,7 +1,7 @@
-// import { response } from "express";
+const BASE_URL = "https://sauceboss-rf2u.onrender.com/api"
 
 const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
-  await fetch(`/api/orders/${orderId}/pizzas`, {
+  await fetch(`${BASE_URL}/orders/${orderId}/pizzas`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ const addPizzaToOrder = async (token, orderId, pizzaId, amount, navigate) => {
 
 const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
   console.log(pizzaId, toppingId, amount, double);
-  await fetch(`/api/pizzas/${pizzaId}/toppings`, {
+  await fetch(`${BASE_URL}/pizzas/${pizzaId}/toppings`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const addToppingToPizza = async (token, pizzaId, toppingId, amount, double) => {
 };
 
 const createOrder = async (token, userId) => {
-  const response = await fetch(`/api/orders/${userId}`, {
+  const response = await fetch(`${BASE_URL}/orders/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const createPizza = async (
 ) => {
   console.log(name, crustId, userId, sizeId, featured, imgUrl);
   try {
-    const response = await fetch("/api/pizzas", {
+    const response = await fetch(`${BASE_URL}/pizzas`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const createPizza = async (
 
 const destroyPizza = async (token, pizzaId) => {
   try {
-    await fetch(`/api/pizzas/${pizzaId}`, {
+    await fetch(`${BASE_URL}/pizzas/${pizzaId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const destroyPizza = async (token, pizzaId) => {
 
 const destroyPizzaToppings = async (pizzaId, token) => {
   try {
-    await fetch(`/api/pizzas/${pizzaId}/toppings`, {
+    await fetch(`${BASE_URL}/pizzas/${pizzaId}/toppings`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export async function updatePizza({
   imgUrl,
 }) {
   console.log("trying to update pizza:");
-  const response = await fetch(`api/pizzas/${pizzaId}`, {
+  const response = await fetch(`${BASE_URL}/pizzas/${pizzaId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export async function updatePizza({
 }
 
 const fetchCrusts = async (setCrusts) => {
-  await fetch("/api/crusts", {
+  await fetch(`${BASE_URL}/crusts`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -165,7 +165,7 @@ const fetchCrusts = async (setCrusts) => {
 
 const fetchPizza = async (pizzaId) => {
   try {
-    const response = await fetch(`/api/pizzas/${pizzaId}`, {
+    const response = await fetch(`${BASE_URL}/pizzas/${pizzaId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -181,7 +181,7 @@ const fetchPizza = async (pizzaId) => {
 
 const fetchUsers = async () => {
   try {
-    const response = await fetch(`/api/users/all`, {
+    const response = await fetch(`${BASE_URL}/users/all`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -192,7 +192,7 @@ const fetchUsers = async () => {
 };
 
 const fetchFeaturedPizzas = async (setPizzas) => {
-  await fetch("/api/pizzas/featured", {
+  await fetch(`${BASE_URL}/pizzas/featured`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -204,7 +204,7 @@ const fetchFeaturedPizzas = async (setPizzas) => {
 
 const fetchAmountIds = async (orderId) => {
   try {
-    const response = await fetch(`/api/orders/${orderId}/pizza_orders`, {
+    const response = await fetch(`${BASE_URL}/orders/${orderId}/pizza_orders`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -220,7 +220,7 @@ const fetchAmountIds = async (orderId) => {
 
 const fetchOrder = async (token, orderId) => {
   try {
-    const response = await fetch(`/api/orders/order/${orderId}`, {
+    const response = await fetch(`${BASE_URL}/orders/order/${orderId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -235,7 +235,7 @@ const fetchOrder = async (token, orderId) => {
 };
 
 const fetchSizes = async (setSizes) => {
-  await fetch("/api/sizes", {
+  await fetch(`${BASE_URL}/sizes`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -246,7 +246,7 @@ const fetchSizes = async (setSizes) => {
 };
 
 const fetchToppings = async (setToppings) => {
-  await fetch("/api/toppings", {
+  await fetch(`${BASE_URL}/toppings`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -258,7 +258,7 @@ const fetchToppings = async (setToppings) => {
 
 const fetchToppingsByCategory = async (category) => {
   try {
-    const response = await fetch(`/api/toppings/category/${category}`, {
+    const response = await fetch(`${BASE_URL}/toppings/category/${category}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -272,7 +272,7 @@ const fetchToppingsByCategory = async (category) => {
 };
 
 const deletePizzaById = async (token, pizzaId) => {
-  await fetch(`/api/pizzas/${pizzaId}`, {
+  await fetch(`${BASE_URL}/pizzas/${pizzaId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -288,7 +288,7 @@ const deletePizzaById = async (token, pizzaId) => {
 
 const updateOrder = async (token, id, active) => {
   try {
-    const response = await fetch(`/api/orders/${id}`, {
+    const response = await fetch(`${BASE_URL}/orders/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -303,7 +303,7 @@ const updateOrder = async (token, id, active) => {
 
 const updatePizzaAmount = async (token, id, amount) => {
   try {
-    const response = await fetch(`/api/orders/pizza_order/${id}`, {
+    const response = await fetch(`${BASE_URL}/orders/pizza_order/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -318,7 +318,7 @@ const updatePizzaAmount = async (token, id, amount) => {
 
 const updatePizzaById = async (token, pizzaId, fields) => {
   try {
-    const response = await fetch(`/api/pizzas/${pizzaId}`, {
+    const response = await fetch(`${BASE_URL}/pizzas/${pizzaId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
