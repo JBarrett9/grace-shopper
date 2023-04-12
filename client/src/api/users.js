@@ -1,7 +1,7 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://sauceboss-rf2u.onrender.com/api"
 
 export async function registerUser(email, name, password, guest) {
-  const url = `/api/users/register`;
+  const url = `${BASE_URL}/users/register`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -25,7 +25,7 @@ export async function registerUser(email, name, password, guest) {
 }
 
 export async function loginUser(email, password) {
-  const url = `/api/users/login`;
+  const url = `${BASE_URL}/users/login`;
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -56,7 +56,7 @@ export async function updateUser(
   token,
   id
 ) {
-  const response = await fetch(`/api/users/${id}/admin`, {
+  const response = await fetch(`${BASE_URL}/users/${id}/admin`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export async function updateUser(
 }
 
 export async function fetchMe(token) {
-  const response = await fetch(`/api/users/me`, {
+  const response = await fetch(`${BASE_URL}/users/me`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ export async function fetchMe(token) {
 }
 
 export async function fetchActiveUserOrder(token, id) {
-  const response = await fetch(`/api/orders/${id}/active`, {
+  const response = await fetch(`${BASE_URL}/orders/${id}/active`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
