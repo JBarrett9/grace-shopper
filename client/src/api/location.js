@@ -1,5 +1,7 @@
+const BASE_URL = "https://sauceboss-rf2u.onrender.com/api"
+
 const fetchLocations = async (setLocations) => {
-  await fetch("/api/locations/", {
+  await fetch(`${BASE_URL}/locations/`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -19,7 +21,7 @@ const addLocation = async (
   zipcode
 ) => {
   try {
-    const response = await fetch("/api/locations", {
+    const response = await fetch(`${BASE_URL}/locations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +45,7 @@ const addLocation = async (
 
 const fetchLocationsByUserID = async (userId) => {
   try {
-    const response = await fetch(`/api/locations/${userId}`, {
+    const response = await fetch(`${BASE_URL}/locations/${userId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -57,7 +59,7 @@ const fetchLocationsByUserID = async (userId) => {
 
 const updateLocation = async (token, locationId, fields) => {
   try {
-    const response = await fetch(`/api/locations/${locationId}`, {
+    const response = await fetch(`${BASE_URL}/locations/${locationId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +76,7 @@ const updateLocation = async (token, locationId, fields) => {
 };
 
 const deleteLocation = async (token, locationId) => {
-  await fetch(`/api/locations/${locationId}`, {
+  await fetch(`${BASE_URL}/locations/${locationId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
